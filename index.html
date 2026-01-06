@@ -12,10 +12,6 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="default" />
     <meta name="apple-mobile-web-app-title" content="iPlanner" />
     <meta name="mobile-web-app-capable" content="yes" />
-    <meta
-      name="description"
-      content="iPlanner - Sua vida organizada em um só lugar."
-    />
 
     <link rel="manifest" href="./manifest.json" />
     <link
@@ -23,7 +19,7 @@
       href="https://api.dicebear.com/7.x/avataaars/svg?seed=iplanner"
     />
 
-    <title>iPlanner - Sua vida organizada em um só lugar</title>
+    <title>iPlanner - Excelência em Organização</title>
 
     <script src="https://cdn.tailwindcss.com"></script>
 
@@ -54,7 +50,7 @@
             boxShadow: {
               premium: "var(--shadow-main)",
               glow: "var(--shadow-glow)",
-              glass: "0 8px 32px 0 rgba(31, 38, 135, 0.07)",
+              glass: "0 8px 32px 0 rgba(31, 38, 135, 0.04)",
             },
             borderRadius: {
               'planner': 'var(--radius-planner)',
@@ -72,18 +68,18 @@
         --text-main: #0f172a;
         --text-muted: #64748b;
         --accent-main: #0f172a;
-        --accent-soft: rgba(15, 23, 42, 0.05);
+        --accent-soft: rgba(15, 23, 42, 0.04);
         --border-color: #f1f5f9;
-        --shadow-main: 0 10px 30px -10px rgba(15, 23, 42, 0.08), 0 4px 6px -4px rgba(15, 23, 42, 0.02);
-        --shadow-glow: 0 0 20px 0 rgba(15, 23, 42, 0.03);
-        --radius-planner: 3rem;
-        --radius-planner-sm: 1.5rem;
+        --shadow-main: 0 12px 40px -12px rgba(15, 23, 42, 0.08);
+        --shadow-glow: 0 0 25px 0 rgba(15, 23, 42, 0.04);
+        --radius-planner: 2.5rem;
+        --radius-planner-sm: 1.25rem;
       }
 
       @media (max-width: 768px) {
         :root {
-          --radius-planner: 2rem;
-          --radius-planner-sm: 1.25rem;
+          --radius-planner: 1.75rem;
+          --radius-planner-sm: 1rem;
         }
       }
 
@@ -95,85 +91,46 @@
         --accent-main: #f8fafc;
         --accent-soft: rgba(248, 250, 252, 0.08);
         --border-color: #1e293b;
-        --shadow-main: 0 20px 50px -12px rgba(0, 0, 0, 0.5);
-        --shadow-glow: 0 0 30px 0 rgba(255, 255, 255, 0.02);
+        --shadow-main: 0 20px 50px -12px rgba(0, 0, 0, 0.4);
       }
       
-      .theme-rosa {
-        --bg-main: #fff1f2;
-        --bg-card: #ffffff;
-        --text-main: #4c0519;
-        --text-muted: #9f1239;
-        --accent-main: #e11d48; 
-        --accent-soft: rgba(225, 29, 72, 0.08);
-        --border-color: #ffe4e6;
-        --shadow-main: 0 20px 40px -12px rgba(225, 29, 72, 0.12);
-        --shadow-glow: 0 0 20px 0 rgba(225, 29, 72, 0.05);
-      }
-      
-      .theme-azul {
-        --bg-main: #f0f9ff;
-        --bg-card: #ffffff;
-        --text-main: #0c4a6e;
-        --text-muted: #075985;
-        --accent-main: #0284c7; 
-        --accent-soft: rgba(2, 132, 199, 0.08);
-        --border-color: #e0f2fe;
-        --shadow-main: 0 20px 40px -12px rgba(2, 132, 199, 0.12);
-        --shadow-glow: 0 0 20px 0 rgba(2, 132, 199, 0.05);
-      }
-
       body {
         font-family: "Plus Jakarta Sans", sans-serif;
         background: var(--bg-main);
         color: var(--text-main);
-        min-height: 100vh;
-        margin: 0;
-        transition: background 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         -webkit-font-smoothing: antialiased;
-        overflow-x: hidden;
+        letter-spacing: -0.01em;
       }
 
-      ::-webkit-scrollbar {
-        width: 6px;
-        background: transparent;
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        display: flex !important;
+        align-items: center;
+        justify-content: center;
       }
 
-      ::-webkit-scrollbar-thumb {
-        background: var(--accent-soft);
-        border-radius: 10px;
-      }
-
-      .no-scrollbar::-webkit-scrollbar {
-        width: 0px;
-        background: transparent;
-      }
+      .no-scrollbar::-webkit-scrollbar { display: none; }
       
       .page-transition {
-        animation: premiumFadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        animation: premiumIn 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
       }
       
-      @keyframes premiumFadeIn {
-        from { opacity: 0; transform: translateY(12px); }
-        to { opacity: 1; transform: translateY(0); }
+      @keyframes premiumIn {
+        from { opacity: 0; transform: translateY(10px) scale(0.99); }
+        to { opacity: 1; transform: translateY(0) scale(1); }
       }
 
       .glass-effect {
-        backdrop-filter: blur(12px);
-        -webkit-backdrop-filter: blur(12px);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
       }
 
       .hover-lift {
-        transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.4s ease;
       }
-
       .hover-lift:hover {
-        transform: translateY(-6px);
-        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.1);
-      }
-
-      input, button, select, textarea {
-        touch-action: manipulation;
+        transform: translateY(-4px);
+        box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.1);
       }
     </style>
   
@@ -191,7 +148,6 @@
 }
 </script>
 </head>
-
   <body>
     <div id="root"></div>
     <script type="module" src="./index.tsx"></script>
