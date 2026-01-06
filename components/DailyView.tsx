@@ -125,22 +125,23 @@ const DailyView: React.FC<DailyViewProps> = ({ date, tasks, onToggle, onSetEnerg
         </div>
 
         <div className="lg:col-span-5 space-y-6 md:space-y-8">
-          <div className="bg-theme-card p-8 md:p-14 rounded-planner border border-theme-border shadow-premium space-y-10 md:space-y-12 lg:sticky lg:top-10">
+          <div className="bg-theme-card p-6 md:p-10 rounded-planner border border-theme-border shadow-premium space-y-8 md:space-y-10 lg:sticky lg:top-10 overflow-hidden">
             <div className="space-y-3 text-center">
-              <h4 className="text-[9px] md:text-[11px] font-black uppercase tracking-[0.4em] text-theme-muted opacity-60">Meu Estado Atual</h4>
-              <div className="h-1 w-12 md:w-16 bg-theme-accent rounded-full mx-auto"></div>
+              <h4 className="text-[10px] md:text-[11px] font-black uppercase tracking-[0.4em] text-theme-muted opacity-60">Meu Estado Atual</h4>
+              <div className="h-1.5 w-12 md:w-14 bg-theme-accent rounded-full mx-auto"></div>
             </div>
 
-            <div className="flex justify-between items-center gap-2">
+            <div className="flex justify-between items-center gap-2 md:gap-4 px-2">
               {[1, 2, 3, 4, 5].map(v => (
                 <button 
                   key={v} 
                   onClick={() => onSetEnergy(v)} 
-                  className={`w-12 h-12 md:w-20 md:h-20 rounded-planner-sm flex items-center justify-center text-2xl md:text-5xl transition-all active:scale-90 relative group ${
+                  className={`flex-1 aspect-square rounded-planner-sm flex items-center justify-center text-xl md:text-4xl transition-all active:scale-95 relative group ${
                     currentEnergy === v 
-                    ? 'bg-theme-accent text-theme-card shadow-premium ring-4 md:ring-8 ring-theme-accent-soft scale-110 z-10' 
+                    ? 'bg-theme-accent text-theme-card shadow-premium ring-2 md:ring-4 ring-theme-accent-soft scale-110 z-10' 
                     : 'bg-theme-bg border border-theme-border grayscale hover:grayscale-0 opacity-40 hover:opacity-100'
                   }`}
+                  style={{ maxWidth: '64px' }}
                 >
                   <span className="flex items-center justify-center leading-none select-none relative z-10">
                     {['😴', '🥱', '😐', '😊', '⚡'][v-1]}
@@ -149,18 +150,18 @@ const DailyView: React.FC<DailyViewProps> = ({ date, tasks, onToggle, onSetEnerg
               ))}
             </div>
 
-            <div className="space-y-4 pt-4 md:pt-6">
+            <div className="space-y-4 pt-2 md:pt-4">
               <button 
                 onClick={onStartFocus} 
                 className={`
-                  w-full py-6 md:py-8 rounded-planner-sm font-black text-sm md:text-xl shadow-premium transition-all active:scale-[0.98] flex items-center justify-center gap-4 uppercase tracking-[0.2em]
-                  ${currentEnergy > 0 ? 'bg-theme-accent text-theme-card hover:opacity-90' : 'bg-theme-border text-theme-muted cursor-not-allowed'}
+                  w-full py-6 md:py-10 rounded-planner-sm font-black text-sm md:text-xl shadow-premium transition-all active:scale-[0.98] flex items-center justify-center gap-4 uppercase tracking-[0.2em]
+                  ${currentEnergy > 0 ? 'bg-theme-accent text-theme-card hover:opacity-95' : 'bg-theme-border text-theme-muted cursor-not-allowed'}
                 `}
               >
-                <span className="material-symbols-outlined !text-2xl md:!text-3xl">timer</span>
+                <span className="material-symbols-outlined !text-2xl md:!text-4xl">timer</span>
                 Foco Profundo
               </button>
-              <p className="text-[8px] md:text-[9px] font-black text-theme-muted text-center uppercase tracking-[0.3em] opacity-40">
+              <p className="text-[9px] font-black text-theme-muted text-center uppercase tracking-[0.3em] opacity-40 leading-relaxed">
                 Gerencie seu tempo com Pomodoro
               </p>
             </div>
