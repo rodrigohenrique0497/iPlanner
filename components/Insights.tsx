@@ -13,42 +13,44 @@ const Insights: React.FC<InsightsProps> = ({ tasks, habits, user }) => {
   const completionRate = tasks.length > 0 ? Math.round((completedTasks / tasks.length) * 100) : 0;
   const totalStreaks = habits.reduce((acc, h) => acc + h.streak, 0);
   
-  // Fix: Explicitly cast to number array and provide types for reduce to avoid 'unknown' operator errors
   const energyValues = Object.values(user.dailyEnergy || {}) as number[];
   const avgEnergy = energyValues.length > 0 ? (energyValues.reduce((a: number, b: number) => a + b, 0) / energyValues.length).toFixed(1) : "0.0";
 
   return (
     <div className="max-w-5xl mx-auto p-6 md:p-10 space-y-12 page-transition">
-      <h2 className="text-5xl font-black text-slate-900 tracking-tighter">Insights do Perfil</h2>
+      <h2 className="text-5xl font-black text-theme-text tracking-tighter">Insights do Perfil</h2>
       
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-        <div className="bg-white p-10 rounded-[3.5rem] border border-slate-100 shadow-sm text-center">
-          <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2">Conclusão de Projetos</p>
-          <p className="text-6xl font-black text-slate-900">{completionRate}%</p>
-          <div className="w-full h-2 bg-slate-50 rounded-full mt-6 overflow-hidden">
-            <div className="h-full bg-rosa-pastel" style={{ width: `${completionRate}%` }}></div>
+        <div className="bg-theme-card p-10 rounded-[3.5rem] border border-theme-border shadow-sm text-center">
+          <p className="text-[10px] font-black uppercase tracking-widest text-theme-muted mb-2">Conclusão de Projetos</p>
+          <p className="text-6xl font-black text-theme-text">{completionRate}%</p>
+          <div className="w-full h-2 bg-theme-bg rounded-full mt-6 overflow-hidden">
+            <div className="h-full bg-theme-accent transition-all duration-1000" style={{ width: `${completionRate}%` }}></div>
           </div>
         </div>
-        <div className="bg-white p-10 rounded-[3.5rem] border border-slate-100 shadow-sm text-center">
-          <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2">Média de Foco (Energia)</p>
-          <p className="text-6xl font-black text-slate-900">{avgEnergy}</p>
-          <p className="text-[10px] font-bold text-slate-300 mt-2">NÍVEL DE 1 A 5</p>
+        <div className="bg-theme-card p-10 rounded-[3.5rem] border border-theme-border shadow-sm text-center">
+          <p className="text-[10px] font-black uppercase tracking-widest text-theme-muted mb-2">Média de Foco (Energia)</p>
+          <p className="text-6xl font-black text-theme-text">{avgEnergy}</p>
+          <p className="text-[10px] font-bold text-theme-muted mt-2 uppercase tracking-widest">NÍVEL DE 1 A 5</p>
         </div>
-        <div className="bg-white p-10 rounded-[3.5rem] border border-slate-100 shadow-sm text-center">
-          <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2">Habit Points</p>
-          <p className="text-6xl font-black text-slate-900">+{totalStreaks * 10}</p>
-          <p className="text-[10px] font-bold text-slate-300 mt-2">PONTOS DE CONSISTÊNCIA</p>
+        <div className="bg-theme-card p-10 rounded-[3.5rem] border border-theme-border shadow-sm text-center">
+          <p className="text-[10px] font-black uppercase tracking-widest text-theme-muted mb-2">Habit Points</p>
+          <p className="text-6xl font-black text-theme-text">+{totalStreaks * 10}</p>
+          <p className="text-[10px] font-bold text-theme-muted mt-2 uppercase tracking-widest">PONTOS DE CONSISTÊNCIA</p>
         </div>
       </div>
 
-      <div className="bg-slate-900 text-white p-12 rounded-[4rem] shadow-2xl relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full -translate-y-1/2 translate-x-1/2"></div>
+      <div className="bg-theme-accent text-theme-card p-12 rounded-[4rem] shadow-2xl relative overflow-hidden group">
+        <div className="absolute top-0 right-0 w-80 h-80 bg-white/10 rounded-full -translate-y-1/2 translate-x-1/2 group-hover:scale-110 transition-transform duration-1000"></div>
         <div className="relative z-10 space-y-6">
-          <h3 className="text-3xl font-black tracking-tight">Análise Pessoal</h3>
-          <p className="text-slate-400 text-lg leading-relaxed max-w-2xl font-medium">
-            Seu perfil está classificado como <b>Mestre da Clareza</b>. Sua consistência nos hábitos de <b>{habits.length}</b> áreas diferentes é o seu maior ponto forte. 
-            Mantenha a média de energia em <b>4.0</b> para maximizar seus ganhos de XP semanal.
+          <h3 className="text-3xl font-black tracking-tight">Análise Estratégica</h3>
+          <p className="text-theme-card/80 text-lg leading-relaxed max-w-2xl font-medium">
+            Seu perfil está classificado como <b className="text-theme-card">Mestre da Clareza</b>. Sua consistência nos hábitos de <b className="text-theme-card">{habits.length}</b> áreas diferentes é o seu maior ponto forte. 
+            Mantenha a média de energia em <b className="text-theme-card">4.0</b> para maximizar seus ganhos de XP semanal.
           </p>
+          <div className="pt-4">
+             <span className="px-6 py-2 bg-white/20 rounded-full text-[10px] font-black uppercase tracking-widest">Próximo Nível: 85% Conclusão</span>
+          </div>
         </div>
       </div>
     </div>

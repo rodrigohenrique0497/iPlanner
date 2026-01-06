@@ -1,3 +1,4 @@
+
 import React, { useState, useMemo } from 'react';
 import { Task, Priority, ViewState } from '../types';
 
@@ -80,7 +81,7 @@ const TaskList: React.FC<TaskListProps> = ({ tasks, onToggle, onDelete, onAdd, u
           </div>
         </div>
 
-        <div className="flex gap-3">
+        <div className="flex items-center gap-4">
           <button 
             onClick={() => setShowCatManager(!showCatManager)}
             className="px-6 py-3 bg-theme-card border border-theme-border rounded-2xl text-[10px] font-black uppercase tracking-widest text-theme-muted hover:text-theme-text transition-all"
@@ -96,11 +97,11 @@ const TaskList: React.FC<TaskListProps> = ({ tasks, onToggle, onDelete, onAdd, u
               transition-all duration-500 shadow-xl
               ${isAdding 
                 ? 'bg-rose-500 text-white rotate-45' 
-                : 'bg-theme-accent text-theme-card hover:scale-110'
+                : 'bg-theme-accent text-theme-card hover:scale-105 active:scale-95'
               }
             `}
           >
-            <span className="material-symbols-outlined !text-4xl leading-none flex items-center justify-center">add</span>
+            <span className="material-symbols-outlined !text-4xl leading-none">add</span>
           </button>
         </div>
       </header>
@@ -113,7 +114,7 @@ const TaskList: React.FC<TaskListProps> = ({ tasks, onToggle, onDelete, onAdd, u
             placeholder="Buscar em todas as tarefas..." 
             value={searchQuery}
             onChange={e => setSearchQuery(e.target.value)}
-            className="w-full pl-14 pr-6 py-5 bg-theme-card rounded-[2rem] border border-theme-border shadow-sm focus:ring-4 focus:ring-theme-accent/5 outline-none font-bold text-sm text-theme-text"
+            className="w-full pl-14 pr-6 py-5 bg-theme-card rounded-[2rem] border border-theme-border shadow-sm focus:ring-4 focus:ring-theme-accent-soft outline-none font-bold text-sm text-theme-text"
           />
           <span className="absolute left-6 top-1/2 -translate-y-1/2 opacity-30">
             <span className="material-symbols-outlined !text-3xl leading-none">search</span>
@@ -159,7 +160,7 @@ const TaskList: React.FC<TaskListProps> = ({ tasks, onToggle, onDelete, onAdd, u
               placeholder="Nome da nova lista..." 
               value={newCatName}
               onChange={e => setNewCatName(e.target.value)}
-              className="flex-1 bg-theme-bg p-5 rounded-2xl outline-none text-xs font-bold border-2 border-transparent focus:border-theme-accent/20" 
+              className="flex-1 bg-theme-bg p-5 rounded-2xl outline-none text-xs font-bold border-2 border-transparent focus:border-theme-accent-soft" 
             />
             <button onClick={handleAddCategory} className="bg-theme-accent text-theme-card px-8 rounded-2xl text-[10px] font-black uppercase shadow-lg active:scale-95 transition-all">Criar</button>
           </div>

@@ -16,11 +16,11 @@ const NotesView: React.FC<NotesViewProps> = ({ notes, onAdd, onUpdate, onDelete 
   const [newContent, setNewContent] = useState('');
 
   const colors = [
-    'bg-[#F6C1CC]', // rosa
-    'bg-[#C9DFF2]', // azul
-    'bg-[#FFF1B8]', // amarelo
-    'bg-[#E2F2D5]', // verde
-    'bg-white'      // branco
+    'bg-rose-100', // rosa
+    'bg-blue-100', // azul
+    'bg-amber-100', // amarelo
+    'bg-emerald-100', // verde
+    'bg-theme-card'   // branco
   ];
 
   const handleAddNote = () => {
@@ -47,35 +47,35 @@ const NotesView: React.FC<NotesViewProps> = ({ notes, onAdd, onUpdate, onDelete 
     <div className="max-w-6xl mx-auto p-6 md:p-10 space-y-12 page-transition pb-24">
       <header className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
         <div>
-          <h2 className="text-5xl font-black text-slate-900 tracking-tighter">Notas</h2>
-          <p className="text-slate-500 font-medium text-lg mt-2 italic">Capture suas ideias antes que elas voem.</p>
+          <h2 className="text-5xl font-black text-theme-text tracking-tighter">Notas</h2>
+          <p className="text-theme-muted font-medium text-lg mt-2 italic">Capture suas ideias antes que elas voem.</p>
         </div>
-        <div className="w-full md:w-auto flex gap-4">
+        <div className="w-full md:w-auto flex gap-4 items-center">
           <div className="relative flex-1 md:w-64">
             <input 
               type="text" 
               placeholder="Buscar notas..." 
               value={search}
               onChange={e => setSearch(e.target.value)}
-              className="w-full pl-12 pr-6 py-4 bg-white rounded-[1.75rem] border border-slate-100 shadow-sm focus:ring-4 focus:ring-azul-pastel/30 outline-none font-bold text-xs"
+              className="w-full pl-12 pr-6 py-4 bg-theme-card rounded-[1.75rem] border border-theme-border shadow-sm focus:ring-4 focus:ring-theme-accent-soft outline-none font-bold text-xs text-theme-text"
             />
-            <span className="absolute left-5 top-1/2 -translate-y-1/2 text-2xl opacity-30 flex items-center justify-center">🔍</span>
+            <span className="absolute left-5 top-1/2 -translate-y-1/2 opacity-30">
+               <span className="material-symbols-outlined !text-2xl leading-none">search</span>
+            </span>
           </div>
           
-          {/* FAB PADRONIZADO PREMIUM */}
           <button 
             onClick={() => setIsCreating(true)}
-            className="bg-slate-900 text-white w-16 h-16 md:w-20 md:h-20 rounded-full flex items-center justify-center shadow-xl hover:scale-105 active:scale-90 transition-all focus:outline-none group relative shrink-0"
+            className="w-14 h-14 md:w-16 md:h-16 bg-theme-accent text-theme-card rounded-full flex items-center justify-center shadow-xl hover:scale-105 active:scale-95 transition-all shrink-0"
           >
-            <span className="text-3xl md:text-5xl font-light leading-none flex items-center justify-center">➕</span>
-            <div className="absolute inset-0 rounded-full border border-white/10 group-hover:scale-105 transition-transform"></div>
+            <span className="material-symbols-outlined !text-4xl leading-none">add</span>
           </button>
         </div>
       </header>
 
       {isCreating && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-6 bg-slate-900/40 backdrop-blur-sm animate-in fade-in duration-300">
-          <div className="bg-white w-full max-w-2xl p-10 rounded-[3.5rem] shadow-2xl space-y-8">
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-6 bg-theme-bg/40 backdrop-blur-sm animate-in fade-in duration-300">
+          <div className="bg-theme-card w-full max-w-2xl p-10 rounded-[3.5rem] shadow-2xl space-y-8 border border-theme-border">
             <div className="space-y-6">
               <input 
                 autoFocus
@@ -83,26 +83,26 @@ const NotesView: React.FC<NotesViewProps> = ({ notes, onAdd, onUpdate, onDelete 
                 placeholder="Título da nota" 
                 value={newTitle}
                 onChange={e => setNewTitle(e.target.value)}
-                className="w-full text-3xl font-black text-slate-900 placeholder:text-slate-200 outline-none bg-transparent"
+                className="w-full text-3xl font-black text-theme-text placeholder:text-theme-muted/20 outline-none bg-transparent"
               />
               <textarea 
                 placeholder="Comece a escrever aqui..." 
                 value={newContent}
                 onChange={e => setNewContent(e.target.value)}
                 rows={8}
-                className="w-full text-lg font-medium text-slate-600 placeholder:text-slate-300 outline-none bg-transparent resize-none"
+                className="w-full text-lg font-medium text-theme-muted placeholder:text-theme-muted/20 outline-none bg-transparent resize-none"
               />
             </div>
             <div className="flex gap-4">
               <button 
                 onClick={handleAddNote}
-                className="flex-1 py-5 bg-slate-900 text-white rounded-[1.75rem] font-black uppercase tracking-widest hover:bg-black transition-all active:scale-[0.98]"
+                className="flex-1 py-5 bg-theme-accent text-theme-card rounded-[1.75rem] font-black uppercase tracking-widest hover:opacity-90 transition-all active:scale-[0.98]"
               >
                 Salvar Nota
               </button>
               <button 
                 onClick={() => setIsCreating(false)}
-                className="px-10 py-5 bg-slate-50 text-slate-400 rounded-[1.75rem] font-black uppercase tracking-widest hover:bg-slate-100 transition-all active:scale-[0.98]"
+                className="px-10 py-5 bg-theme-bg text-theme-muted rounded-[1.75rem] font-black uppercase tracking-widest hover:bg-theme-card transition-all active:scale-[0.98]"
               >
                 Cancelar
               </button>
@@ -119,12 +119,12 @@ const NotesView: React.FC<NotesViewProps> = ({ notes, onAdd, onUpdate, onDelete 
           >
             <button 
               onClick={() => onDelete(note.id)}
-              className="absolute top-6 right-6 w-12 h-12 bg-black/5 rounded-2xl flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all hover:bg-red-500 hover:text-white active:scale-90"
+              className="absolute top-6 right-6 w-12 h-12 bg-black/5 rounded-2xl flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all hover:bg-rose-500 hover:text-white active:scale-90"
             >
-              <span className="text-2xl flex items-center justify-center leading-none">🗑️</span>
+              <span className="material-symbols-outlined !text-2xl leading-none">delete</span>
             </button>
-            <h3 className="text-xl font-black text-slate-900 mb-4 line-clamp-2">{note.title}</h3>
-            <p className="text-slate-700/80 font-medium leading-relaxed flex-1 line-clamp-5 whitespace-pre-wrap">{note.content}</p>
+            <h3 className="text-xl font-black text-theme-text mb-4 line-clamp-2">{note.title}</h3>
+            <p className="text-theme-text/70 font-medium leading-relaxed flex-1 line-clamp-5 whitespace-pre-wrap">{note.content}</p>
           </div>
         ))}
       </div>

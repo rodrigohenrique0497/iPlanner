@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { Task, ViewState, Priority, User, Habit, Goal, Note, FinanceTransaction } from './types';
 import Sidebar from './components/Sidebar';
@@ -148,14 +149,14 @@ const App: React.FC = () => {
   const renderView = () => {
     switch (view) {
       case 'dashboard': return <Dashboard tasks={tasks} habits={habits} goals={goals} user={currentUser} setView={setView} />;
-      case 'daily': return <DailyView date={selectedDate} tasks={tasks.filter(t => t.dueDate === selectedDate)} onToggle={toggleTask} onSetEnergy={(level) => { const currentEnergies = currentUser.dailyEnergy || {}; handleUpdateProfile({ dailyEnergy: { ...currentEnergies, [selectedDate]: level } }); addXP(10); }} currentEnergy={currentUser.dailyEnergy?.[selectedDate] || 0} onStartFocus={() => setActiveTimer(true)} onSchedule={scheduleTask} onAddTask={addTask} />;
+      case 'daily': return <DailyView date={selectedDate} tasks={tasks.filter(t => t.dueDate === selectedDate)} onToggle={toggleTask} onSetEnergy={(level) => { const currentEnergies = currentUser.dailyEnergy || {}; handleUpdateProfile({ dailyEnergy: { ...currentEnergies, [selectedDate]: level } }); addXP(10); }} currentEnergy={currentUser.dailyEnergy?.[selectedDate] || 0} onStartFocus={() => setActiveTimer(true)} onSchedule={scheduleTask} onAddTask={addTask} setView={setView} />;
       case 'tasks': return <TaskList tasks={tasks} onToggle={toggleTask} onDelete={deleteTask} onAdd={addTask} userCategories={currentUser.categories} onUpdateCategories={(cats) => handleUpdateProfile({ categories: cats })} onNavigate={navigateToDate} />;
       case 'habits': return <HabitTracker habits={habits} onToggle={(id) => { const today = new Date().toISOString().split('T')[0]; setHabits(prev => prev.map(h => { if (h.id === id && h.lastCompleted !== today) { addXP(15); return { ...h, streak: h.streak + 1, lastCompleted: today }; } return h; })); }} onAdd={(h) => setHabits(prev => [h, ...prev])} onDelete={(id) => setHabits(prev => prev.filter(h => h.id !== id))} />;
       case 'notes': return <NotesView notes={notes} onAdd={(n) => setNotes(prev => [n, ...prev])} onUpdate={(id, up) => setNotes(prev => prev.map(n => n.id === id ? { ...n, ...up } : n))} onDelete={(id) => setNotes(prev => prev.filter(n => n.id !== id))} />;
       case 'finance': return <FinanceView transactions={transactions} onAdd={(t) => setTransactions(prev => [t, ...prev])} onDelete={(id) => setTransactions(prev => prev.filter(t => t.id !== id))} />;
       case 'ai-assistant': return <AIPlanner onAddTasks={(newTasks) => { newTasks.forEach(t => addTask(t)); setView('tasks'); }} />;
-      case 'calendar': return <CalendarView tasks={tasks} onToggle={toggleTask} onNavigate={navigateToDate} />;
-      case 'weekly': return <WeeklyView tasks={tasks} onToggle={toggleTask} onNavigate={navigateToDate} />;
+      case 'calendar': return <CalendarView tasks={tasks} onToggle={toggleTask} onNavigate={navigateToDate} setView={setView} />;
+      case 'weekly': return <WeeklyView tasks={tasks} onToggle={toggleTask} onNavigate={navigateToDate} setView={setView} />;
       case 'monthly':
       case 'annual': return <GoalView type={view === 'monthly' ? 'monthly' : 'annual'} goals={goals.filter(g => g.type === (view === 'monthly' ? 'monthly' : 'annual'))} onAdd={(g) => setGoals(prev => [g, ...prev])} onUpdate={setGoals} />;
       case 'insights': return <Insights tasks={tasks} habits={habits} user={currentUser} />;

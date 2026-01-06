@@ -5,7 +5,7 @@ export enum Priority {
   HIGH = 'high'
 }
 
-export type ThemeType = 'light' | 'dark' | 'rosa' | 'glass';
+export type ThemeType = 'light' | 'dark' | 'rosa' | 'azul';
 
 export interface Task {
   id: string;

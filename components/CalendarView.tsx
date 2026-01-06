@@ -1,14 +1,15 @@
 
 import React, { useState } from 'react';
-import { Task } from '../types';
+import { Task, ViewState } from '../types';
 
 interface CalendarViewProps {
   tasks: Task[];
   onToggle: (id: string) => void;
   onNavigate: (date: string) => void;
+  setView: (view: ViewState) => void;
 }
 
-const CalendarView: React.FC<CalendarViewProps> = ({ tasks, onToggle, onNavigate }) => {
+const CalendarView: React.FC<CalendarViewProps> = ({ tasks, onToggle, onNavigate, setView }) => {
   const [currentDate, setCurrentDate] = useState(new Date());
 
   const daysInMonth = (year: number, month: number) => new Date(year, month + 1, 0).getDate();
@@ -24,7 +25,6 @@ const CalendarView: React.FC<CalendarViewProps> = ({ tasks, onToggle, onNavigate
   const totalDays = daysInMonth(year, month);
   const startingDay = firstDayOfMonth(year, month);
   
-  // Ajuste para semana começando na Segunda-feira
   const adjustedStartingDay = startingDay === 0 ? 6 : startingDay - 1;
 
   const days = [];
@@ -49,43 +49,55 @@ const CalendarView: React.FC<CalendarViewProps> = ({ tasks, onToggle, onNavigate
 
   const dayNames = ['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab', 'Dom'];
 
-  // Função para retornar cor de destaque baseada na categoria com cores mais sólidas e vibrantes
   const getCategoryStyles = (cat: string) => {
     const c = cat.toLowerCase();
-    if (c === 'trabalho') return 'bg-blue-100 text-blue-700 border-blue-300';
-    if (c === 'pessoal') return 'bg-rose-100 text-rose-700 border-rose-300';
-    if (c === 'geral') return 'bg-emerald-100 text-emerald-700 border-emerald-300';
-    if (c === 'estudo') return 'bg-amber-100 text-amber-700 border-amber-300';
-    return 'bg-slate-100 text-slate-600 border-slate-200';
+    if (c === 'trabalho') return 'bg-blue-500/10 text-blue-400 border-blue-500/20';
+    if (c === 'pessoal') return 'bg-rose-500/10 text-rose-400 border-rose-500/20';
+    return 'bg-theme-accent-soft text-theme-muted border-theme-border';
   };
 
   return (
-    <div className="p-6 md:p-10 max-w-7xl mx-auto space-y-10 page-transition flex flex-col h-full overflow-hidden">
-      <header className="flex flex-col sm:flex-row items-center justify-between gap-6 shrink-0">
+    <div className="p-6 md:p-10 max-w-7xl mx-auto space-y-10 page-transition flex flex-col h-full overflow-hidden pb-32">
+      <header className="flex flex-col lg:flex-row items-center justify-between gap-6 shrink-0">
         <div className="flex items-center gap-6">
-          <div className="w-16 h-16 bg-white rounded-[2rem] flex items-center justify-center text-3xl shadow-sm border border-slate-50">📅</div>
+          <div className="w-16 h-16 bg-theme-card rounded-[2rem] flex items-center justify-center text-3xl shadow-premium border border-theme-border">
+            <span className="material-symbols-outlined !text-3xl text-theme-accent">calendar_month</span>
+          </div>
           <div>
-            <h2 className="text-5xl font-black text-slate-900 tracking-tighter capitalize leading-none">{monthName}</h2>
-            <p className="text-slate-400 font-bold mt-2 tracking-widest uppercase text-xs">{year}</p>
+            <h2 className="text-5xl font-black text-theme-text tracking-tighter capitalize leading-none">{monthName}</h2>
+            <p className="text-theme-muted font-bold mt-2 tracking-widest uppercase text-[10px] ml-1">{year}</p>
           </div>
         </div>
-        <div className="flex items-center gap-3 bg-white p-2 rounded-[2rem] border border-slate-100 shadow-sm">
-          <button onClick={prevMonth} className="w-12 h-12 flex items-center justify-center rounded-2xl hover:bg-slate-50 transition-all text-xl">←</button>
-          <button 
-            onClick={() => setCurrentDate(new Date())} 
-            className="px-6 py-2 text-[10px] font-black uppercase tracking-widest text-slate-400 hover:text-slate-900 transition-all"
-          >
-            Este Mês
-          </button>
-          <button onClick={nextMonth} className="w-12 h-12 flex items-center justify-center rounded-2xl hover:bg-slate-50 transition-all text-xl">→</button>
+        
+        <div className="flex flex-col sm:flex-row items-center gap-4">
+          <div className="bg-theme-card p-1.5 rounded-3xl flex gap-1 border border-theme-border shadow-premium">
+            <button onClick={() => setView('daily')} className="px-6 py-2.5 rounded-2xl text-[10px] font-black uppercase tracking-widest text-theme-muted hover:text-theme-text transition-all">Dia</button>
+            <button onClick={() => setView('weekly')} className="px-6 py-2.5 rounded-2xl text-[10px] font-black uppercase tracking-widest text-theme-muted hover:text-theme-text transition-all">Semana</button>
+            <button onClick={() => setView('calendar')} className="px-6 py-2.5 bg-theme-accent text-theme-card rounded-2xl shadow-glow text-[10px] font-black uppercase tracking-widest transition-all active:scale-95">Mês</button>
+          </div>
+
+          <div className="flex items-center gap-2 bg-theme-card p-2 rounded-[2.5rem] border border-theme-border shadow-premium">
+            <button onClick={prevMonth} className="w-12 h-12 flex items-center justify-center rounded-2xl hover:bg-theme-accent-soft transition-all text-theme-text">
+               <span className="material-symbols-outlined">chevron_left</span>
+            </button>
+            <button 
+              onClick={() => setCurrentDate(new Date())} 
+              className="px-6 py-2 text-[10px] font-black uppercase tracking-[0.2em] text-theme-muted hover:text-theme-accent transition-all"
+            >
+              Hoje
+            </button>
+            <button onClick={nextMonth} className="w-12 h-12 flex items-center justify-center rounded-2xl hover:bg-theme-accent-soft transition-all text-theme-text">
+               <span className="material-symbols-outlined">chevron_right</span>
+            </button>
+          </div>
         </div>
       </header>
 
-      <div className="bg-white rounded-[3.5rem] border border-slate-100 shadow-xl overflow-hidden flex flex-col flex-1 min-h-0">
+      <div className="bg-theme-card rounded-[4rem] border border-theme-border shadow-premium overflow-hidden flex flex-col flex-1 min-h-[600px]">
         {/* Dias da Semana */}
-        <div className="grid grid-cols-7 border-b border-slate-50 bg-slate-50/30">
+        <div className="grid grid-cols-7 border-b border-theme-border bg-theme-bg/30">
           {dayNames.map(d => (
-            <div key={d} className="py-6 text-center text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">
+            <div key={d} className="py-6 text-center text-[10px] font-black uppercase tracking-[0.3em] text-theme-muted opacity-60">
               {d}
             </div>
           ))}
@@ -94,7 +106,7 @@ const CalendarView: React.FC<CalendarViewProps> = ({ tasks, onToggle, onNavigate
         {/* Grid de Dias */}
         <div className="grid grid-cols-7 flex-1 overflow-y-auto no-scrollbar">
           {days.map((date, idx) => {
-            if (!date) return <div key={`empty-${idx}`} className="bg-slate-50/10 border-r border-b border-slate-50"></div>;
+            if (!date) return <div key={`empty-${idx}`} className="bg-theme-bg/10 border-r border-b border-theme-border"></div>;
             
             const dayTasks = getTasksForDate(date);
             const today = isToday(date);
@@ -104,39 +116,36 @@ const CalendarView: React.FC<CalendarViewProps> = ({ tasks, onToggle, onNavigate
               <div 
                 key={idx} 
                 onClick={() => onNavigate(dateStr)}
-                className={`min-h-[160px] p-4 border-r border-b border-slate-50 group hover:bg-slate-50/80 transition-all relative cursor-pointer flex flex-col ${
-                  today ? 'bg-blue-50/20' : ''
+                className={`min-h-[160px] p-5 border-r border-b border-theme-border group hover:bg-theme-accent-soft transition-all relative cursor-pointer flex flex-col ${
+                  today ? 'bg-theme-accent-soft/30' : ''
                 }`}
               >
-                {/* Cabeçalho do Dia */}
-                <div className="flex justify-between items-start mb-3">
-                  <span className={`w-9 h-9 flex items-center justify-center rounded-2xl text-xs font-black transition-all ${
+                <div className="flex justify-between items-start mb-4">
+                  <span className={`w-10 h-10 flex items-center justify-center rounded-2xl text-xs font-black transition-all ${
                     today 
-                    ? 'bg-slate-900 text-white shadow-lg shadow-slate-200 ring-4 ring-blue-100' 
-                    : 'text-slate-400 group-hover:text-slate-900 bg-slate-50 group-hover:bg-white'
+                    ? 'bg-theme-accent text-theme-card shadow-premium scale-110' 
+                    : 'text-theme-muted group-hover:text-theme-text'
                   }`}>
                     {date.getDate()}
                   </span>
                   {dayTasks.length > 0 && (
                     <div className="flex -space-x-1">
                        {dayTasks.slice(0, 3).map((t, i) => (
-                         <div key={i} className={`w-2 h-2 rounded-full border border-white ${
-                           t.completed ? 'bg-slate-300' : 'bg-blue-500'
+                         <div key={i} className={`w-2.5 h-2.5 rounded-full border border-theme-card ${
+                           t.completed ? 'bg-theme-muted opacity-40' : 'bg-theme-accent'
                          }`} />
                        ))}
-                       {dayTasks.length > 3 && <span className="text-[8px] font-black ml-1 text-slate-300">+{dayTasks.length - 3}</span>}
                     </div>
                   )}
                 </div>
 
-                {/* Lista de Tarefas no Dia */}
-                <div className="space-y-1.5 overflow-hidden flex-1">
-                  {dayTasks.slice(0, 4).map(task => (
+                <div className="space-y-1.5 flex-1 overflow-hidden">
+                  {dayTasks.slice(0, 3).map(task => (
                     <div 
                       key={task.id} 
-                      className={`px-3 py-1.5 rounded-xl border text-[9px] font-bold leading-tight transition-all truncate ${
+                      className={`px-3 py-2 rounded-xl border text-[9px] font-black leading-tight transition-all truncate ${
                         task.completed 
-                        ? 'bg-slate-50 border-transparent text-slate-300 line-through opacity-60' 
+                        ? 'bg-theme-bg border-transparent text-theme-muted line-through opacity-30' 
                         : `${getCategoryStyles(task.category)} shadow-sm`
                       }`}
                     >
@@ -144,21 +153,12 @@ const CalendarView: React.FC<CalendarViewProps> = ({ tasks, onToggle, onNavigate
                     </div>
                   ))}
                   
-                  {dayTasks.length > 4 && (
-                    <div className="text-[8px] font-black text-slate-300 uppercase tracking-widest text-center mt-1">
-                      Mais {dayTasks.length - 4} itens
-                    </div>
-                  )}
-
-                  {dayTasks.length === 0 && (
-                    <div className="flex-1 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                      <span className="text-[8px] font-black text-slate-300 uppercase tracking-[0.2em]">Planejar</span>
+                  {dayTasks.length > 3 && (
+                    <div className="text-[8px] font-black text-theme-muted uppercase tracking-widest text-center mt-2 opacity-50">
+                      + {dayTasks.length - 3} itens
                     </div>
                   )}
                 </div>
-
-                {/* Efeito de Hover de Fundo */}
-                <div className="absolute inset-0 bg-blue-500/0 group-hover:bg-blue-500/5 transition-colors pointer-events-none" />
               </div>
             );
           })}
