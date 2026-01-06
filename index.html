@@ -15,10 +15,9 @@
 
     <link rel="manifest" href="./manifest.json" />
     <link
-  rel="apple-touch-icon"
-  href="https://api.dicebear.com/7.x/avataaars/svg?seed=iplanner"
-/>
-
+      rel="apple-touch-icon"
+      href="https://api.dicebear.com/7.x/avataaars/svg?seed=iplanner"
+    />
 
     <title>iPlanner - Excelência em Organização</title>
 
@@ -64,15 +63,15 @@
 
     <style>
       :root {
-        --bg-main: #f8fafc;
+        --bg-main: #f1f5f9;
         --bg-card: #ffffff;
         --text-main: #0f172a;
-        --text-muted: #64748b;
+        --text-muted: #475569; /* Contraste aumentado de 64748b */
         --accent-main: #0f172a;
-        --accent-soft: rgba(15, 23, 42, 0.04);
-        --border-color: #f1f5f9;
-        --shadow-main: 0 12px 40px -12px rgba(15, 23, 42, 0.08);
-        --shadow-glow: 0 0 25px 0 rgba(15, 23, 42, 0.04);
+        --accent-soft: rgba(15, 23, 42, 0.06);
+        --border-color: #e2e8f0; /* Borda mais visível */
+        --shadow-main: 0 12px 30px -10px rgba(15, 23, 42, 0.12);
+        --shadow-glow: 0 0 20px 0 rgba(15, 23, 42, 0.06);
         --radius-planner: 2.5rem;
         --radius-planner-sm: 1.25rem;
       }
@@ -87,37 +86,37 @@
       .theme-dark {
         --bg-main: #020617;
         --bg-card: #0f172a;
-        --text-main: #f8fafc;
+        --text-main: #f1f5f9;
         --text-muted: #94a3b8;
         --accent-main: #f8fafc;
-        --accent-soft: rgba(248, 250, 252, 0.12);
+        --accent-soft: rgba(248, 250, 252, 0.08);
         --border-color: #1e293b;
         --shadow-main: 0 20px 50px -12px rgba(0, 0, 0, 0.6);
-        --shadow-glow: 0 0 30px 0 rgba(255, 255, 255, 0.02);
+        --shadow-glow: 0 0 30px 0 rgba(255, 255, 255, 0.01);
       }
 
       .theme-rosa {
         --bg-main: #fff1f2;
         --bg-card: #ffffff;
         --text-main: #4c0519;
-        --text-muted: #be123c;
-        --accent-main: #e11d48;
-        --accent-soft: rgba(225, 29, 72, 0.1);
-        --border-color: #ffe4e6;
-        --shadow-main: 0 12px 40px -12px rgba(225, 29, 72, 0.15);
-        --shadow-glow: 0 0 25px 0 rgba(225, 29, 72, 0.08);
+        --text-muted: #9f1239; /* Rosa mais escuro para leitura */
+        --accent-main: #be123c;
+        --accent-soft: rgba(190, 18, 60, 0.08);
+        --border-color: #fecdd3;
+        --shadow-main: 0 12px 30px -10px rgba(190, 18, 60, 0.12);
+        --shadow-glow: 0 0 20px 0 rgba(190, 18, 60, 0.04);
       }
 
       .theme-azul {
         --bg-main: #f0f9ff;
         --bg-card: #ffffff;
         --text-main: #0c4a6e;
-        --text-muted: #0369a1;
+        --text-muted: #0369a1; /* Azul mais escuro para leitura */
         --accent-main: #0284c7;
-        --accent-soft: rgba(2, 132, 199, 0.1);
-        --border-color: #e0f2fe;
-        --shadow-main: 0 12px 40px -12px rgba(2, 132, 199, 0.15);
-        --shadow-glow: 0 0 25px 0 rgba(2, 132, 199, 0.08);
+        --accent-soft: rgba(2, 132, 199, 0.08);
+        --border-color: #bae6fd;
+        --shadow-main: 0 12px 30px -10px rgba(2, 132, 199, 0.12);
+        --shadow-glow: 0 0 20px 0 rgba(2, 132, 199, 0.04);
       }
       
       body {
@@ -126,39 +125,29 @@
         color: var(--text-main);
         -webkit-font-smoothing: antialiased;
         letter-spacing: -0.01em;
-        transition: background 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        transition: background 0.4s ease;
         user-select: none;
         -webkit-tap-highlight-color: transparent;
       }
 
       .material-symbols-outlined {
-        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
-        display: flex !important;
-        align-items: center;
-        justify-content: center;
+        font-variation-settings: 'FILL' 0, 'wght' 500, 'GRAD' 0, 'opsz' 24;
       }
 
       .no-scrollbar::-webkit-scrollbar { display: none; }
       
       .page-transition {
-        animation: premiumIn 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+        animation: premiumIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
       }
       
       @keyframes premiumIn {
-        from { opacity: 0; transform: translateY(20px); }
+        from { opacity: 0; transform: translateY(10px); }
         to { opacity: 1; transform: translateY(0); }
       }
 
       .glass-effect {
-        backdrop-filter: blur(16px);
-        -webkit-backdrop-filter: blur(16px);
-      }
-
-      .hover-lift {
-        transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.4s ease;
-      }
-      .hover-lift:active {
-        transform: scale(0.96);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
       }
     </style>
   
