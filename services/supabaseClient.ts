@@ -1,12 +1,14 @@
-
 import { createClient } from '@supabase/supabase-js';
 
-// Credenciais fornecidas pelo usuário
-const supabaseUrl = 'https://qzhmybrfxwiocrzdhuet.supabase.co';
-const supabaseAnonKey = 'sb_publishable_F-w651vMJsA3bdfIN6lsng_Af0U59Fy';
+// Credenciais fornecidas para o projeto iPlanner
+const SUPABASE_URL = 'https://qzhmybrfxwiocrzdhuet.supabase.co';
+const SUPABASE_ANON_KEY = 'sb_publishable_F-w651vMJsA3bdfIN6lsng_Af0U59Fy';
 
-// Inicializa o cliente apenas se as credenciais existirem para evitar o erro "supabaseUrl is required"
-// O uso de 'createClient' exige que os parâmetros não sejam nulos ou vazios.
-export const supabase = (supabaseUrl && supabaseAnonKey) 
-  ? createClient(supabaseUrl, supabaseAnonKey) 
+/**
+ * Inicializa o cliente do Supabase.
+ * Nota: No ambiente de navegador direto (ESM), usamos as constantes 
+ * para garantir que o cliente seja criado sem depender de variáveis de processo.
+ */
+export const supabase = (SUPABASE_URL && SUPABASE_ANON_KEY) 
+  ? createClient(SUPABASE_URL, SUPABASE_ANON_KEY) 
   : null;
