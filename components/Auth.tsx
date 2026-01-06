@@ -110,7 +110,7 @@ const Auth: React.FC<AuthProps> = ({ onLogin }) => {
 
           <div className="space-y-10">
             <h3 className="text-center font-black text-theme-text text-xl uppercase tracking-[0.3em] transition-colors">
-              {isRegistering ? 'Nova Experiência' : 'Acesse seu Plano'}
+              {isRegistering ? 'Acesse Agora'}
             </h3>
 
             <form onSubmit={handleAction} className="space-y-8">
