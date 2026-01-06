@@ -60,28 +60,37 @@ const Settings: React.FC<SettingsProps> = ({ user, onUpdate, onLogout, onExport 
         
         // Validação básica de estrutura
         if (json.user && (json.tasks || json.habits || json.notes)) {
-          const confirmImport = window.confirm("Isso irá sobrescrever seus dados atuais com os do arquivo. Deseja continuar?");
+          const confirmImport = window.confirm("Atenção: Restaurar este backup substituirá todos os seus dados atuais. Deseja prosseguir?");
           if (!confirmImport) return;
 
           // Restaurar para o localStorage
           const uid = user.id;
-          if (json.user) localStorage.setItem(`iplanner_local_profile_${uid}`, JSON.stringify(json.user));
+          // Ao importar, forçamos o ID do usuário atual no perfil importado para garantir consistência da sessão
+          const importedUser = { ...json.user, id: uid }; 
+
+          localStorage.setItem(`iplanner_local_profile_${uid}`, JSON.stringify(importedUser));
           if (json.tasks) localStorage.setItem(`iplanner_local_tasks_${uid}`, JSON.stringify(json.tasks));
           if (json.habits) localStorage.setItem(`iplanner_local_habits_${uid}`, JSON.stringify(json.habits));
           if (json.goals) localStorage.setItem(`iplanner_local_goals_${uid}`, JSON.stringify(json.goals));
           if (json.notes) localStorage.setItem(`iplanner_local_notes_${uid}`, JSON.stringify(json.notes));
           if (json.finance) localStorage.setItem(`iplanner_local_finance_${uid}`, JSON.stringify(json.finance));
 
-          alert("Backup restaurado com sucesso! O iPlanner será atualizado.");
+          // Atualiza sessão e tema global para o que está no backup
+          db.setSession(importedUser);
+          db.setGlobalTheme(importedUser.theme);
+
+          alert("Backup restaurado com sucesso! Reiniciando o iPlanner...");
           window.location.reload();
         } else {
-          alert("Arquivo inválido ou corrompido. Certifique-se de que é um backup do iPlanner.");
+          alert("Erro: O arquivo selecionado não parece ser um backup válido do iPlanner.");
         }
       } catch (err) {
-        alert("Erro ao ler o arquivo. Verifique se é um arquivo JSON válido.");
+        alert("Erro ao ler o arquivo JSON. Certifique-se de que o arquivo não está corrompido.");
       }
     };
     reader.readAsText(file);
+    // Limpa o input para permitir selecionar o mesmo arquivo novamente se necessário
+    if (event.target) event.target.value = '';
   };
 
   return (
@@ -102,7 +111,10 @@ const Settings: React.FC<SettingsProps> = ({ user, onUpdate, onLogout, onExport 
           {themes.map(t => (
             <button
               key={t.id}
-              onClick={() => onUpdate({ theme: t.id })}
+              onClick={() => {
+                onUpdate({ theme: t.id });
+                db.setGlobalTheme(t.id);
+              }}
               className={`p-8 rounded-[3.5rem] border-2 transition-all text-left flex items-center gap-6 active:scale-95 ${
                 user.theme === t.id 
                 ? 'border-theme-accent bg-theme-card shadow-premium' 
@@ -164,50 +176,51 @@ const Settings: React.FC<SettingsProps> = ({ user, onUpdate, onLogout, onExport 
         </button>
       </div>
 
-      <div className="bg-theme-card p-10 rounded-[3.5rem] border border-theme-border space-y-6 shadow-premium">
+      {/* Seção de Dados e Backup - Refinada visualmente conforme solicitado */}
+      <div className="bg-theme-card p-10 rounded-[4rem] border border-theme-border space-y-8 shadow-premium">
         <h3 className="text-xl font-black uppercase tracking-widest text-theme-muted opacity-50 px-4">Dados & Backup</h3>
         
-        <div className="grid grid-cols-1 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
           <button 
             onClick={handleExportData}
-            className="w-full flex items-center gap-6 p-8 bg-theme-bg rounded-3xl border border-theme-border hover:border-theme-accent transition-all group"
+            className="flex items-center gap-6 p-8 bg-theme-bg rounded-[2.5rem] border border-theme-border hover:border-theme-accent transition-all group shadow-sm"
           >
-            <div className="w-14 h-14 bg-theme-accent-soft rounded-2xl flex items-center justify-center">
-              <span className="material-symbols-outlined !text-3xl text-theme-accent">download</span>
+            <div className="w-14 h-14 bg-theme-card rounded-2xl flex items-center justify-center border border-theme-border group-hover:bg-theme-accent group-hover:text-theme-card transition-all">
+              <span className="material-symbols-outlined !text-3xl">download</span>
             </div>
             <div className="text-left">
-              <span className="font-black text-theme-text uppercase text-[10px] tracking-widest block">Baixar Cópia (.json)</span>
-              <p className="text-[10px] text-theme-muted mt-1 font-bold">Exporta todas as suas informações com segurança.</p>
+              <span className="font-black text-theme-text uppercase text-[11px] tracking-widest block">Baixar Cópia (.json)</span>
+              <p className="text-[9px] text-theme-muted mt-1 font-bold">Exporta suas informações.</p>
             </div>
           </button>
 
-          <input 
-            type="file" 
-            ref={fileInputRef} 
-            onChange={handleFileChange} 
-            accept=".json" 
-            className="hidden" 
-          />
-          
           <button 
             onClick={handleImportClick}
-            className="w-full flex items-center gap-6 p-8 bg-theme-bg rounded-3xl border border-theme-border hover:border-theme-accent transition-all group"
+            className="flex items-center gap-6 p-8 bg-theme-bg rounded-[2.5rem] border border-theme-border hover:border-theme-accent transition-all group shadow-sm"
           >
-            <div className="w-14 h-14 bg-emerald-100 rounded-2xl flex items-center justify-center">
-              <span className="material-symbols-outlined !text-3xl text-emerald-600">backup_restore</span>
+            <div className="w-14 h-14 bg-theme-card rounded-2xl flex items-center justify-center border border-theme-border group-hover:bg-emerald-500 group-hover:text-white transition-all">
+              <span className="material-symbols-outlined !text-3xl">upload</span>
             </div>
             <div className="text-left">
-              <span className="font-black text-theme-text uppercase text-[10px] tracking-widest block">Restaurar Backup (.json)</span>
-              <p className="text-[10px] text-theme-muted mt-1 font-bold">Faça o Upload do seu arquivo para recuperar suas informações.</p>
+              <span className="font-black text-theme-text uppercase text-[11px] tracking-widest block">Subir Backup (.json)</span>
+              <p className="text-[9px] text-theme-muted mt-1 font-bold">Restaura seus dados salvos.</p>
             </div>
           </button>
         </div>
+        
+        <input 
+          type="file" 
+          ref={fileInputRef} 
+          onChange={handleFileChange} 
+          accept=".json" 
+          className="hidden" 
+        />
       </div>
 
       <div className="bg-rose-500/10 p-10 rounded-[3.5rem] border border-rose-500/20 flex flex-col md:flex-row items-center justify-between gap-6">
         <div>
           <p className="font-black text-rose-600 text-xl tracking-tight">Encerrar Sessão</p>
-          <p className="text-rose-400 text-[10px] font-black uppercase tracking-widest mt-1">Sua conta permanecerá segura.</p>
+          <p className="text-rose-400 text-[10px] font-black uppercase tracking-widest mt-1">Sua conta permanecerá segura no dispositivo.</p>
         </div>
         <button 
           onClick={onLogout} 

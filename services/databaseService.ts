@@ -1,6 +1,8 @@
-import { Task, Habit, Goal, Note, FinanceTransaction, User } from '../types';
+
+import { Task, Habit, Goal, Note, FinanceTransaction, User, ThemeType } from '../types';
 
 const STORAGE_PREFIX = 'iplanner_local_';
+const GLOBAL_THEME_KEY = 'iplanner_global_theme';
 
 export const db = {
   // Simulação de autenticação local
@@ -26,8 +28,12 @@ export const db = {
   },
 
   setSession: (user: User | null) => {
-    if (user) localStorage.setItem('iplanner_current_session', JSON.stringify(user));
-    else localStorage.removeItem('iplanner_current_session');
+    if (user) {
+      localStorage.setItem('iplanner_current_session', JSON.stringify(user));
+      db.setGlobalTheme(user.theme);
+    } else {
+      localStorage.removeItem('iplanner_current_session');
+    }
   },
 
   getSession: (): User | null => {
@@ -37,6 +43,7 @@ export const db = {
 
   saveUser: async (user: User) => {
     localStorage.setItem(`${STORAGE_PREFIX}profile_${user.id}`, JSON.stringify(user));
+    db.setGlobalTheme(user.theme);
   },
 
   loadProfile: async (userId: string): Promise<User | null> => {
@@ -51,6 +58,14 @@ export const db = {
   loadData: async (userId: string, table: string, defaultValue: any) => {
     const data = localStorage.getItem(`${STORAGE_PREFIX}${table}_${userId}`);
     return data ? JSON.parse(data) : defaultValue;
+  },
+
+  setGlobalTheme: (theme: ThemeType) => {
+    localStorage.setItem(GLOBAL_THEME_KEY, theme);
+  },
+
+  getGlobalTheme: (): ThemeType => {
+    return (localStorage.getItem(GLOBAL_THEME_KEY) as ThemeType) || 'light';
   },
 
   getStorageUsage: () => "Local (Navegador)"

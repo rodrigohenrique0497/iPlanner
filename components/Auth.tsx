@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { User, ThemeType } from '../types';
 import { db } from '../services/databaseService';
 
@@ -12,8 +12,13 @@ const Auth: React.FC<AuthProps> = ({ onLogin }) => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [selectedTheme, setSelectedTheme] = useState<ThemeType>('light');
+  const [selectedTheme, setSelectedTheme] = useState<ThemeType>(db.getGlobalTheme());
   const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    // Sincroniza o body com o tema atual
+    document.body.className = `theme-${isRegistering ? selectedTheme : db.getGlobalTheme()}`;
+  }, [isRegistering, selectedTheme]);
 
   const themes: { id: ThemeType; label: string; icon: string; bg: string; text: string }[] = [
     { id: 'light', label: 'Claro', icon: 'light_mode', bg: 'bg-white', text: 'text-slate-900' },
@@ -60,7 +65,7 @@ const Auth: React.FC<AuthProps> = ({ onLogin }) => {
     }
   };
 
-  const currentThemeClass = isRegistering ? selectedTheme : 'light';
+  const currentThemeClass = isRegistering ? selectedTheme : db.getGlobalTheme();
 
   return (
     <div className={`min-h-screen transition-all duration-1000 flex items-center justify-center p-6 theme-${currentThemeClass} bg-theme-bg`}>

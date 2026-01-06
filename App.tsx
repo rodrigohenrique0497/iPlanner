@@ -61,6 +61,9 @@ const App: React.FC = () => {
       setCurrentUser(savedUser);
       loadUserContent(savedUser.id);
       document.body.className = `theme-${savedUser.theme}`;
+    } else {
+      // Se não houver sessão, aplica o tema global salvo para a tela de Auth
+      document.body.className = `theme-${db.getGlobalTheme()}`;
     }
     setIsReady(true);
   }, [loadUserContent]);
@@ -84,7 +87,7 @@ const App: React.FC = () => {
   }, [tasks, habits, goals, notes, transactions, currentUser, isReady]);
 
   useEffect(() => {
-    document.body.className = `theme-${currentUser?.theme || 'light'}`;
+    document.body.className = `theme-${currentUser?.theme || db.getGlobalTheme()}`;
   }, [currentUser?.theme]);
 
   const addXP = (amount: number) => {
