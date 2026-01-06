@@ -8,11 +8,18 @@ export const db = {
   signUp: async (email: string, pass: string, name: string) => {
     // Simula um delay de rede
     await new Promise(resolve => setTimeout(resolve, 500));
-    const userId = Math.random().toString(36).substr(2, 9);
-    const user = { id: userId, email, name };
     
-    // Salva na lista de usuários locais para permitir "login" futuro
+    const sanitizedEmail = email.trim().toLowerCase();
+    const userId = Math.random().toString(36).substr(2, 9);
+    
     const users = JSON.parse(localStorage.getItem(`${STORAGE_PREFIX}registered_users`) || '[]');
+    
+    // Verifica duplicidade
+    if (users.find((u: any) => u.email === sanitizedEmail)) {
+      throw new Error("Este e-mail já está cadastrado.");
+    }
+
+    const user = { id: userId, email: sanitizedEmail, name: name.trim() };
     users.push({ ...user, password: pass });
     localStorage.setItem(`${STORAGE_PREFIX}registered_users`, JSON.stringify(users));
     
@@ -21,8 +28,10 @@ export const db = {
 
   signIn: async (email: string, pass: string) => {
     await new Promise(resolve => setTimeout(resolve, 500));
+    
+    const sanitizedEmail = email.trim().toLowerCase();
     const users = JSON.parse(localStorage.getItem(`${STORAGE_PREFIX}registered_users`) || '[]');
-    const user = users.find((u: any) => u.email === email && u.password === pass);
+    const user = users.find((u: any) => u.email === sanitizedEmail && u.password === pass);
     
     if (!user) throw new Error("E-mail ou senha incorretos.");
     return user;
