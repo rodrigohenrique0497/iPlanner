@@ -53,7 +53,8 @@ const Auth: React.FC<AuthProps> = ({ onLogin }) => {
       } else {
         const authUser = await db.signIn(email, password);
         if (authUser) {
-          const profile = await db.loadProfile(authUser.id);
+          // db.loadProfile does not expect any arguments as it retrieves the user internally
+          const profile = await db.loadProfile();
           if (profile) {
             db.setSession(profile);
             onLogin(profile);

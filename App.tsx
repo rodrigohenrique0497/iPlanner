@@ -36,15 +36,17 @@ const App: React.FC = () => {
 
   const loadUserContent = useCallback(async (userId: string) => {
     try {
-      const profile = await db.loadProfile(userId);
+      // db.loadProfile does not expect any arguments
+      const profile = await db.loadProfile();
       if (profile) setCurrentUser(profile);
 
+      // db.loadData expects only (type, defaultValue)
       const [t, h, g, n, f] = await Promise.all([
-        db.loadData(userId, 'tasks', []),
-        db.loadData(userId, 'habits', []),
-        db.loadData(userId, 'goals', []),
-        db.loadData(userId, 'notes', []),
-        db.loadData(userId, 'finance', [])
+        db.loadData('tasks', []),
+        db.loadData('habits', []),
+        db.loadData('goals', []),
+        db.loadData('notes', []),
+        db.loadData('finance', [])
       ]);
       setTasks(t);
       setHabits(h);
@@ -85,12 +87,13 @@ const App: React.FC = () => {
 
     // Sincronização automática em background
     const sync = async () => {
+      // db.saveData expects only (type, payload)
       await Promise.all([
-        db.saveData(currentUser.id, 'tasks', tasks),
-        db.saveData(currentUser.id, 'habits', habits),
-        db.saveData(currentUser.id, 'goals', goals),
-        db.saveData(currentUser.id, 'notes', notes),
-        db.saveData(currentUser.id, 'finance', transactions),
+        db.saveData('tasks', tasks),
+        db.saveData('habits', habits),
+        db.saveData('goals', goals),
+        db.saveData('notes', notes),
+        db.saveData('finance', transactions),
         db.saveUser(currentUser)
       ]);
       db.setSession(currentUser);
