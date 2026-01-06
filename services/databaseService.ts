@@ -1,34 +1,34 @@
 
 import { Task, Habit, Goal, Note, FinanceTransaction, User } from '../types';
-import { supabase } from './supabaseClient';
 
-const STORAGE_PREFIX = 'iplanner_v1_';
+const STORAGE_PREFIX = 'iplanner_local_';
 
 export const db = {
-  // Autenticação Supabase
+  // Autenticação Local (Simulada para persistência de perfil)
   signUp: async (email: string, pass: string, name: string) => {
-    const { data, error } = await supabase.auth.signUp({
-      email,
-      password: pass,
-      options: {
-        data: { full_name: name }
-      }
-    });
-    if (error) throw error;
-    return data.user;
+    // Simula um delay de rede
+    await new Promise(resolve => setTimeout(resolve, 500));
+    const userId = Math.random().toString(36).substr(2, 9);
+    const user = { id: userId, email, name };
+    
+    // Salva na lista de usuários locais para permitir "login" futuro
+    const users = JSON.parse(localStorage.getItem(`${STORAGE_PREFIX}registered_users`) || '[]');
+    users.push({ ...user, password: pass });
+    localStorage.setItem(`${STORAGE_PREFIX}registered_users`, JSON.stringify(users));
+    
+    return user;
   },
 
   signIn: async (email: string, pass: string) => {
-    const { data, error } = await supabase.auth.signInWithPassword({
-      email,
-      password: pass
-    });
-    if (error) throw error;
-    return data.user;
+    await new Promise(resolve => setTimeout(resolve, 500));
+    const users = JSON.parse(localStorage.getItem(`${STORAGE_PREFIX}registered_users`) || '[]');
+    const user = users.find((u: any) => u.email === email && u.password === pass);
+    
+    if (!user) throw new Error("E-mail ou senha incorretos.");
+    return user;
   },
 
   signOut: async () => {
-    await supabase.auth.signOut();
     localStorage.removeItem(`${STORAGE_PREFIX}session`);
   },
 
@@ -52,73 +52,22 @@ export const db = {
 
   // Perfil do Usuário
   saveUser: async (user: User) => {
-    const { error } = await supabase
-      .from('profiles')
-      .upsert({
-        id: user.id,
-        name: user.name,
-        email: user.email,
-        avatar: user.avatar,
-        xp: user.xp,
-        level: user.level,
-        focus_goal: user.focusGoal,
-        theme: user.theme,
-        categories: user.categories,
-        daily_energy: user.dailyEnergy
-      });
-    if (error) console.error("Erro ao salvar perfil no Cloud:", error);
+    localStorage.setItem(`${STORAGE_PREFIX}profile_${user.id}`, JSON.stringify(user));
   },
 
   loadProfile: async (userId: string): Promise<User | null> => {
-    const { data, error } = await supabase
-      .from('profiles')
-      .select('*')
-      .eq('id', userId)
-      .single();
-    
-    if (error || !data) return null;
-    
-    return {
-      id: data.id,
-      name: data.name,
-      email: data.email,
-      avatar: data.avatar,
-      xp: data.xp,
-      level: data.level,
-      joinedAt: data.created_at,
-      focusGoal: data.focus_goal,
-      theme: data.theme,
-      categories: data.categories,
-      dailyEnergy: data.daily_energy
-    };
+    const data = localStorage.getItem(`${STORAGE_PREFIX}profile_${userId}`);
+    return data ? JSON.parse(data) : null;
   },
 
-  // Dados Genéricos (Tasks, Habits, etc)
+  // Dados Genéricos
   saveData: async (userId: string, table: string, data: any[]) => {
-    // Sincronização em lote: Remove antigos e insere novos (estratégia simples)
-    // Em produção real, o ideal é usar upsert por ID individual
-    const { error } = await supabase
-      .from(table)
-      .upsert(data.map(item => ({ ...item, user_id: userId })));
-    
-    if (error) console.error(`Erro ao sincronizar ${table}:`, error);
-    
-    // Fallback Local
     localStorage.setItem(`${STORAGE_PREFIX}${table}_${userId}`, JSON.stringify(data));
   },
 
   loadData: async (userId: string, table: string, defaultValue: any) => {
-    const { data, error } = await supabase
-      .from(table)
-      .select('*')
-      .eq('user_id', userId);
-
-    if (error) {
-      // Se falhar a nuvem, tenta local
-      const local = localStorage.getItem(`${STORAGE_PREFIX}${table}_${userId}`);
-      return local ? JSON.parse(local) : defaultValue;
-    }
-    return data || defaultValue;
+    const local = localStorage.getItem(`${STORAGE_PREFIX}${table}_${userId}`);
+    return local ? JSON.parse(local) : defaultValue;
   },
 
   getStorageUsage: () => {

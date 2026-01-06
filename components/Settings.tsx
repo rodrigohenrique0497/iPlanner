@@ -24,24 +24,24 @@ const Settings: React.FC<SettingsProps> = ({ user, onUpdate, onLogout, onExport 
     { id: 'dark', label: 'Dark Pro', icon: '🌙', description: 'Minimalista e focado.', colorClass: 'bg-slate-900' },
     { id: 'glass', label: 'Glass Luxury', icon: '💎', description: 'Efeitos translúcidos.', colorClass: 'bg-gradient-to-br from-blue-100 to-white' },
     { id: 'sweet-pastel', label: 'Tons Pasteis', icon: '🌸', description: 'Visual em tons suaves e coloridos.', colorClass: 'bg-pink-100' },
-    { id: 'midnight-slate', label: 'Tons Escuros', icon: '⚓', description: 'Visual profundo, sóbrio e moderno.', colorClass: 'bg-indigo-950' },
+    { id: 'midnight-slate', label: 'Midnight Slate', icon: '⚓', description: 'Visual profundo, sóbrio e moderno.', colorClass: 'bg-indigo-950' },
   ];
 
   const handleExportData = () => {
     const allData = {
       user,
-      tasks: db.loadData(user.id, 'tasks', []),
-      habits: db.loadData(user.id, 'habits', []),
-      goals: db.loadData(user.id, 'goals', []),
-      notes: db.loadData(user.id, 'notes', []),
-      finance: db.loadData(user.id, 'finance', [])
+      tasks: JSON.parse(localStorage.getItem(`iplanner_local_tasks_${user.id}`) || '[]'),
+      habits: JSON.parse(localStorage.getItem(`iplanner_local_habits_${user.id}`) || '[]'),
+      goals: JSON.parse(localStorage.getItem(`iplanner_local_goals_${user.id}`) || '[]'),
+      notes: JSON.parse(localStorage.getItem(`iplanner_local_notes_${user.id}`) || '[]'),
+      finance: JSON.parse(localStorage.getItem(`iplanner_local_finance_${user.id}`) || '[]')
     };
 
     const blob = new Blob([JSON.stringify(allData, null, 2)], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `iplanner_cloud_backup_${new Date().toISOString().split('T')[0]}.json`;
+    a.download = `iplanner_backup_${new Date().toISOString().split('T')[0]}.json`;
     a.click();
   };
 
@@ -50,11 +50,11 @@ const Settings: React.FC<SettingsProps> = ({ user, onUpdate, onLogout, onExport 
       <div className="space-y-4">
         <h2 className="text-5xl font-black tracking-tighter text-theme-text">Configurações</h2>
         <div className="flex items-center gap-2">
-          <div className="px-3 py-1 bg-blue-500/10 rounded-lg border border-blue-500/20">
-             <span className="text-[10px] font-black uppercase text-blue-600">Cloud Sync: Ativo (Supabase)</span>
+          <div className="px-3 py-1 bg-slate-500/10 rounded-lg border border-slate-500/20">
+             <span className="text-[10px] font-black uppercase text-slate-600">Armazenamento: Local</span>
           </div>
           <div className="px-3 py-1 bg-emerald-500/10 rounded-lg">
-             <span className="text-[10px] font-black uppercase text-emerald-600">Servidor: Netlify</span>
+             <span className="text-[10px] font-black uppercase text-emerald-600">Espaço: {storageUsage} KB</span>
           </div>
         </div>
       </div>
@@ -91,30 +91,24 @@ const Settings: React.FC<SettingsProps> = ({ user, onUpdate, onLogout, onExport 
       {/* Backup & Migração */}
       <div className="bg-theme-card p-10 rounded-[3.5rem] border border-theme-border space-y-8 shadow-sm">
         <div className="flex justify-between items-center">
-          <h3 className="text-xl font-black uppercase tracking-widest text-theme-muted opacity-50">Cloud Sincronização</h3>
-          <div className="text-right">
-            <p className="text-[10px] font-black uppercase text-theme-muted">Status</p>
-            <p className="text-xs font-bold text-emerald-500">Sincronizado na Nuvem</p>
-          </div>
+          <h3 className="text-xl font-black uppercase tracking-widest text-theme-muted opacity-50">Dados & Backup</h3>
         </div>
 
-        <div className="p-8 bg-blue-500/5 rounded-3xl border border-blue-500/10 space-y-4">
-          <p className="text-xs font-bold text-blue-700">🚀 Nuvem Ativada</p>
-          <p className="text-[11px] text-blue-600 leading-relaxed font-medium">
-            Seus dados estão sendo salvos automaticamente no **Supabase**. Você pode acessar sua conta de qualquer lugar. Use o botão abaixo apenas se quiser uma cópia offline por segurança.
+        <div className="p-8 bg-slate-500/5 rounded-3xl border border-slate-500/10 space-y-4">
+          <p className="text-xs font-bold text-slate-700">💾 Modo Local Ativo</p>
+          <p className="text-[11px] text-slate-600 leading-relaxed font-medium">
+            Seus dados estão sendo salvos apenas no seu navegador. Para evitar perdas ao limpar o cache ou trocar de dispositivo, recomendamos baixar uma cópia de segurança periodicamente.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-1 gap-6">
-          <button 
-            onClick={handleExportData}
-            className="flex flex-col items-start p-8 bg-theme-bg rounded-3xl border border-theme-border hover:border-theme-accent transition-all group"
-          >
-            <span className="text-2xl mb-2 group-hover:scale-110 transition-transform">📥</span>
-            <span className="font-black text-theme-text uppercase text-[10px] tracking-widest">Download da Cópia de Segurança</span>
-            <p className="text-[10px] text-theme-muted mt-1">Gera um arquivo JSON com todos os dados da nuvem.</p>
-          </button>
-        </div>
+        <button 
+          onClick={handleExportData}
+          className="w-full flex flex-col items-start p-8 bg-theme-bg rounded-3xl border border-theme-border hover:border-theme-accent transition-all group"
+        >
+          <span className="text-2xl mb-2 group-hover:scale-110 transition-transform">📥</span>
+          <span className="font-black text-theme-text uppercase text-[10px] tracking-widest">Baixar Cópia de Segurança (.json)</span>
+          <p className="text-[10px] text-theme-muted mt-1">Exporta todas as tarefas, hábitos e notas salvos localmente.</p>
+        </button>
       </div>
 
       {/* Dados do Perfil */}
@@ -144,20 +138,20 @@ const Settings: React.FC<SettingsProps> = ({ user, onUpdate, onLogout, onExport 
           onClick={() => onUpdate({ name, focusGoal: goal })} 
           className="bg-theme-accent text-theme-card w-full py-6 rounded-3xl font-black text-lg shadow-xl hover:opacity-90 active:scale-95 transition-all"
         >
-          Salvar Perfil na Nuvem
+          Salvar Alterações
         </button>
       </div>
 
       <div className="bg-rose-500/10 p-10 rounded-[3.5rem] border border-rose-500/20 flex flex-col md:flex-row items-center justify-between gap-6">
         <div>
-          <p className="font-black text-rose-600 text-xl">Encerrar Sessão</p>
-          <p className="text-rose-400 text-[10px] font-black uppercase">Você precisará logar novamente para acessar seus dados.</p>
+          <p className="font-black text-rose-600 text-xl">Sair do iPlanner</p>
+          <p className="text-rose-400 text-[10px] font-black uppercase">Sua sessão local será encerrada.</p>
         </div>
         <button 
           onClick={onLogout} 
           className="bg-rose-600 text-white px-10 py-5 rounded-3xl font-black shadow-lg hover:bg-rose-700 transition-all active:scale-95 w-full md:w-auto"
         >
-          Sair do iPlanner
+          Encerrar Sessão
         </button>
       </div>
     </div>

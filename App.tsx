@@ -31,7 +31,6 @@ const App: React.FC = () => {
   
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isReady, setIsReady] = useState(false);
-  const [isSyncing, setIsSyncing] = useState(false);
   const [activeTimer, setActiveTimer] = useState<boolean>(false);
 
   // Inicializa a sessão
@@ -43,9 +42,8 @@ const App: React.FC = () => {
     setIsReady(true);
   }, []);
 
-  // Carrega dados de forma assíncrona ao logar
+  // Carrega dados locais ao logar
   const loadUserContent = useCallback(async (userId: string) => {
-    setIsSyncing(true);
     const [t, h, g, n, f] = await Promise.all([
       db.loadData(userId, 'tasks', []),
       db.loadData(userId, 'habits', []),
@@ -58,7 +56,6 @@ const App: React.FC = () => {
     setGoals(g);
     setNotes(n);
     setTransactions(f);
-    setIsSyncing(false);
   }, []);
 
   useEffect(() => {
@@ -67,11 +64,10 @@ const App: React.FC = () => {
     }
   }, [currentUser?.id, loadUserContent]);
 
-  // Sincronização automática para o "Backend" local
+  // Persistência local automática
   useEffect(() => {
     const syncData = async () => {
       if (currentUser && isReady) {
-        setIsSyncing(true);
         try {
           await Promise.all([
             db.saveData(currentUser.id, 'tasks', tasks),
@@ -83,18 +79,16 @@ const App: React.FC = () => {
           ]);
           db.setSession(currentUser);
         } catch (e) {
-          console.error("Erro na sincronização", e);
-        } finally {
-          setTimeout(() => setIsSyncing(false), 500);
+          console.error("Erro ao salvar dados localmente", e);
         }
       }
     };
 
-    const timer = setTimeout(syncData, 1000); 
+    const timer = setTimeout(syncData, 500); 
     return () => clearTimeout(timer);
   }, [tasks, habits, goals, notes, transactions, currentUser, isReady]);
 
-  // Sincroniza o tema com o DOM
+  // Sincroniza o tema
   useEffect(() => {
     if (currentUser) {
       document.body.className = `theme-${currentUser.theme}`;
@@ -263,14 +257,6 @@ const App: React.FC = () => {
 
   return (
     <div className="flex min-h-screen bg-theme-bg overflow-hidden relative">
-      {/* Indicador de Sync Global */}
-      <div className={`fixed top-6 right-10 z-[100] transition-all duration-500 ${isSyncing ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
-        <div className="bg-theme-accent/90 backdrop-blur-md px-4 py-2 rounded-full flex items-center gap-3 shadow-2xl border border-white/10">
-          <div className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></div>
-          <span className="text-[10px] font-black uppercase tracking-widest text-white">Sincronizando...</span>
-        </div>
-      </div>
-
       <Sidebar 
         currentView={view} 
         setView={setView} 

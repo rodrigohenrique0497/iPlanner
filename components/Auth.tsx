@@ -48,13 +48,13 @@ const Auth: React.FC<AuthProps> = ({ onLogin }) => {
           } else {
             const fallback: User = {
               id: authUser.id,
-              name: authUser.email?.split('@')[0] || 'Usuário',
+              name: authUser.name || authUser.email?.split('@')[0] || 'Usuário',
               email: authUser.email || '',
               avatar: `https://api.dicebear.com/7.x/avataaars/svg?seed=${authUser.id}`,
               xp: 0,
               level: 1,
               joinedAt: new Date().toISOString(),
-              focusGoal: 'Recuperando conta...',
+              focusGoal: 'Seja bem-vindo!',
               theme: 'light',
               categories: ['Geral']
             };
@@ -85,13 +85,13 @@ const Auth: React.FC<AuthProps> = ({ onLogin }) => {
           {isLoading && (
             <div className="absolute inset-0 bg-white/80 backdrop-blur-md z-50 flex flex-col items-center justify-center space-y-4">
               <div className="w-12 h-12 border-4 border-slate-100 border-t-slate-900 rounded-full animate-spin"></div>
-              <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">Sincronizando...</p>
+              <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">Acessando...</p>
             </div>
           )}
 
           <div className="space-y-6">
             <h3 className="text-center font-black text-slate-800 text-lg uppercase tracking-widest">
-              {isRegistering ? 'Criar Conta' : 'Acessar iPlanner'}
+              {isRegistering ? 'Criar Conta' : 'Entrar no iPlanner'}
             </h3>
 
             <form onSubmit={handleAction} className="space-y-4">
@@ -161,7 +161,7 @@ const Auth: React.FC<AuthProps> = ({ onLogin }) => {
         </div>
         
         <p className="text-center text-[10px] font-medium text-slate-400 opacity-60">
-          Infraestrutura segura provida por Supabase.
+          Dados armazenados com segurança no seu navegador.
         </p>
       </div>
     </div>
