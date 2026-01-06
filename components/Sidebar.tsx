@@ -52,7 +52,7 @@ const Sidebar: React.FC<SidebarProps> = ({ currentView, setView, user, onLogout,
         <div className="p-10 flex items-center justify-between shrink-0">
           <h1 className="text-3xl font-black tracking-tighter flex items-center gap-4 text-theme-text group cursor-pointer" onClick={() => handleNavClick('dashboard')}>
             <span className="w-14 h-14 rounded-[1.75rem] bg-theme-accent flex items-center justify-center shadow-glow group-hover:scale-110 transition-transform">
-              <span className="material-symbols-outlined !text-4xl text-theme-card leading-none">all_inclusive</span>
+              <span className="material-symbols-outlined !text-4xl text-theme-card leading-none">menu_book</span>
             </span>
             iPlanner
           </h1>
