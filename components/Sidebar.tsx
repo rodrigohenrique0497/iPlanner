@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { ViewState, User } from '../types';
 
@@ -23,6 +22,7 @@ const Sidebar: React.FC<SidebarProps> = ({ currentView, setView, user, onLogout,
     { id: 'weekly', label: 'Semana', icon: 'date_range' },
     { id: 'monthly', label: 'Metas (Mês)', icon: 'track_changes' },
     { id: 'annual', label: 'Metas (Ano)', icon: 'public' },
+    { id: 'ai-planner', label: 'iCoach (IA)', icon: 'auto_awesome' }, // Added AI Coach option
     { id: 'insights', label: 'Insights', icon: 'insights' },
     { id: 'settings', label: 'Configurações', icon: 'settings' },
   ];

@@ -1,7 +1,48 @@
-
 import React, { useState } from 'react';
-import { generateSmartPlan } from '../services/geminiService';
-import { AIPlanResponse, Task } from '../types';
+// Import corrected and Priority added for casting
+import { AIPlanResponse, Task, Priority } from '../types';
+import { GoogleGenAI, Type } from "@google/genai";
+
+// Implemented local generation logic following Gemini SDK guidelines to avoid missing service dependency
+const generateSmartPlan = async (prompt: string): Promise<AIPlanResponse> => {
+  const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+  const response = await ai.models.generateContent({
+    model: 'gemini-3-flash-preview',
+    contents: `Aja como um coach de produtividade e crie um plano para o seguinte objetivo: "${prompt}".`,
+    config: {
+      systemInstruction: "Você é um coach de produtividade altamente eficiente chamado iCoach. Sua missão é transformar objetivos vagos em planos de ação claros e motivadores. Forneça um insight estratégico curto e uma lista de 3 a 5 tarefas concretas.",
+      responseMimeType: "application/json",
+      responseSchema: {
+        type: Type.OBJECT,
+        properties: {
+          insight: {
+            type: Type.STRING,
+            description: "Um insight motivador e estratégico sobre o objetivo do usuário."
+          },
+          tasks: {
+            type: Type.ARRAY,
+            items: {
+              type: Type.OBJECT,
+              properties: {
+                title: { type: Type.STRING, description: "Título claro da tarefa." },
+                description: { type: Type.STRING, description: "Breve explicação de como realizar a tarefa." },
+                priority: { type: Type.STRING, enum: ['low', 'medium', 'high'], description: "Prioridade da tarefa." },
+                category: { type: Type.STRING, description: "Categoria da tarefa (ex: Trabalho, Saúde, Pessoal)." },
+                estimatedDuration: { type: Type.STRING, description: "Tempo estimado (ex: 30min, 2h)." },
+              },
+              required: ['title', 'description', 'priority', 'category', 'estimatedDuration']
+            }
+          }
+        },
+        required: ['insight', 'tasks']
+      }
+    }
+  });
+
+  const text = response.text;
+  if (!text) throw new Error("IA retornou uma resposta vazia.");
+  return JSON.parse(text.trim());
+};
 
 interface AIPlannerProps {
   onAddTasks: (tasks: Omit<Task, 'id'>[]) => void;
@@ -33,7 +74,7 @@ const AIPlanner: React.FC<AIPlannerProps> = ({ onAddTasks }) => {
     const newTasks: Omit<Task, 'id'>[] = suggestion.tasks.map(t => ({
       title: t.title,
       description: t.description,
-      priority: t.priority,
+      priority: t.priority as Priority, // Casted to ensure type safety with Priority enum
       category: t.category,
       completed: false,
       dueDate: todayStr

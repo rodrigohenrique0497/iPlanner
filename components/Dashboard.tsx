@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Task, User, Habit, Goal, ViewState } from '../types';
 
@@ -81,6 +80,10 @@ const Dashboard: React.FC<DashboardProps> = ({ tasks, habits, goals, user, setVi
                 <div className="flex flex-wrap gap-4 pt-6">
                   <button onClick={() => setView('insights')} className="px-10 py-5 text-theme-text bg-theme-bg rounded-[2rem] font-black text-xs flex items-center gap-3 border border-theme-border hover:bg-theme-card transition-all uppercase tracking-widest">
                     <span className="material-symbols-outlined !text-xl">bar_chart</span> Insights do Perfil
+                  </button>
+                  {/* Integrated iCoach button for easy access to AI planning */}
+                  <button onClick={() => setView('ai-planner')} className="px-10 py-5 text-theme-card bg-theme-accent rounded-[2rem] font-black text-xs flex items-center gap-3 border border-theme-accent hover:opacity-90 transition-all shadow-glow uppercase tracking-widest">
+                    <span className="material-symbols-outlined !text-xl">auto_awesome</span> iCoach IA
                   </button>
                 </div>
              </div>
