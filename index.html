@@ -83,7 +83,6 @@
         }
       }
 
-      /* TEMA DARK - Foco e Profundidade */
       .theme-dark {
         --bg-main: #020617;
         --bg-card: #0f172a;
@@ -96,27 +95,25 @@
         --shadow-glow: 0 0 30px 0 rgba(255, 255, 255, 0.02);
       }
 
-      /* TEMA ROSA - Criatividade e Suavidade */
       .theme-rosa {
         --bg-main: #fff1f2;
         --bg-card: #ffffff;
         --text-main: #4c0519;
-        --text-muted: #9f1239;
+        --text-muted: #be123c;
         --accent-main: #e11d48;
-        --accent-soft: rgba(225, 29, 72, 0.08);
+        --accent-soft: rgba(225, 29, 72, 0.1);
         --border-color: #ffe4e6;
         --shadow-main: 0 12px 40px -12px rgba(225, 29, 72, 0.15);
         --shadow-glow: 0 0 25px 0 rgba(225, 29, 72, 0.08);
       }
 
-      /* TEMA AZUL - Serenidade e Inteligência */
       .theme-azul {
         --bg-main: #f0f9ff;
         --bg-card: #ffffff;
         --text-main: #0c4a6e;
-        --text-muted: #075985;
+        --text-muted: #0369a1;
         --accent-main: #0284c7;
-        --accent-soft: rgba(2, 132, 199, 0.08);
+        --accent-soft: rgba(2, 132, 199, 0.1);
         --border-color: #e0f2fe;
         --shadow-main: 0 12px 40px -12px rgba(2, 132, 199, 0.15);
         --shadow-glow: 0 0 25px 0 rgba(2, 132, 199, 0.08);
@@ -129,6 +126,8 @@
         -webkit-font-smoothing: antialiased;
         letter-spacing: -0.01em;
         transition: background 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        user-select: none;
+        -webkit-tap-highlight-color: transparent;
       }
 
       .material-symbols-outlined {
@@ -145,8 +144,8 @@
       }
       
       @keyframes premiumIn {
-        from { opacity: 0; transform: translateY(10px) scale(0.99); }
-        to { opacity: 1; transform: translateY(0) scale(1); }
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
       }
 
       .glass-effect {
@@ -157,9 +156,8 @@
       .hover-lift {
         transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.4s ease;
       }
-      .hover-lift:hover {
-        transform: translateY(-4px);
-        box-shadow: var(--shadow-main);
+      .hover-lift:active {
+        transform: scale(0.96);
       }
     </style>
   

@@ -13,33 +13,26 @@ const MobileNav: React.FC<MobileNavProps> = ({ currentView, setView }) => {
     { id: 'daily', label: 'Planner', icon: 'today' },
     { id: 'calendar', label: 'Calend.', icon: 'calendar_month' },
     { id: 'tasks', label: 'Tarefas', icon: 'task_alt' },
-    { id: 'notes', label: 'Notas', icon: 'description' },
+    { id: 'finance', label: 'Dinheiro', icon: 'account_balance_wallet' },
   ];
 
   return (
-    <nav className="md:hidden fixed bottom-4 left-4 right-4 glass-effect bg-theme-card/80 border border-theme-border flex justify-around items-center px-1 py-2 z-[60] rounded-planner shadow-premium">
+    <nav className="md:hidden fixed bottom-6 left-6 right-6 glass-effect bg-theme-card/80 border border-theme-border flex justify-between items-center px-4 py-3 z-[60] rounded-full shadow-premium transition-all">
       {navItems.map((item) => {
         const isActive = currentView === item.id;
         return (
           <button
             key={item.id}
             onClick={() => setView(item.id as ViewState)}
-            className={`flex flex-col items-center justify-center gap-1 p-2 rounded-planner-sm transition-all duration-300 min-w-[56px] ${
-              isActive
-                ? 'text-theme-text scale-105 bg-theme-accent-soft'
-                : 'text-theme-muted'
-            }`}
+            className={`flex flex-col items-center justify-center gap-1 p-2 transition-all active:scale-75 ${isActive ? 'text-theme-accent' : 'text-theme-muted opacity-60'}`}
           >
-            <span className={`material-symbols-outlined !text-2xl flex items-center justify-center leading-none transition-transform ${
-              isActive ? 'scale-110 font-black' : 'opacity-60'
-            }`}>
+            <span className={`material-symbols-outlined !text-2xl transition-transform ${isActive ? 'font-black scale-110' : ''}`}>
               {item.icon}
             </span>
-            <span className={`text-[8px] font-black uppercase tracking-tighter transition-colors ${
-              isActive ? 'text-theme-text' : 'text-theme-muted opacity-60'
-            }`}>
+            <span className={`text-[7px] font-black uppercase tracking-widest ${isActive ? 'opacity-100' : 'opacity-60'}`}>
               {item.label}
             </span>
+            {isActive && <span className="w-1 h-1 bg-theme-accent rounded-full mt-0.5 animate-pulse"></span>}
           </button>
         );
       })}
