@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Task, User, Habit, Goal, ViewState } from '../types';
 
@@ -19,129 +20,123 @@ const Dashboard: React.FC<DashboardProps> = ({ tasks, habits, goals, user, setVi
   const fullDate = today.toLocaleDateString('pt-BR', { day: 'numeric', month: 'long', year: 'numeric' });
 
   return (
-    <div className="p-6 md:p-10 space-y-8 page-transition max-w-[1600px] mx-auto">
-      {/* Header com Navegação */}
-      <header className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
-        <div className="flex items-center gap-6">
-          <div className="flex gap-2">
-            <button className="w-12 h-12 flex items-center justify-center rounded-2xl bg-theme-card border border-theme-border text-theme-muted hover:text-theme-text transition-all">❮</button>
-            <button className="w-12 h-12 flex items-center justify-center rounded-2xl bg-theme-card border border-theme-border text-theme-muted hover:text-theme-text transition-all">❯</button>
-          </div>
-          <div>
-            <h2 className="text-4xl font-black text-theme-text tracking-tight capitalize leading-none">{dayName}</h2>
-            <p className="text-theme-muted font-bold text-xs uppercase tracking-widest mt-2">{fullDate}</p>
-          </div>
+    <div className="p-6 md:p-12 space-y-12 page-transition max-w-[1600px] mx-auto pb-32">
+      {/* Header Premium */}
+      <header className="flex flex-col md:flex-row justify-between items-start md:items-center gap-8">
+        <div>
+          <h2 className="text-5xl font-extrabold text-theme-text tracking-tighter capitalize leading-none drop-shadow-sm">
+            {dayName}
+          </h2>
+          <p className="text-theme-muted font-bold text-sm uppercase tracking-[0.3em] mt-3 opacity-60">
+            {fullDate}
+          </p>
         </div>
 
-        <div className="bg-theme-card p-1.5 rounded-3xl flex gap-1 border border-theme-border shadow-premium">
-          <button onClick={() => setView('daily')} className="px-6 py-2.5 bg-theme-accent text-theme-card rounded-2xl shadow-glow text-[10px] font-black uppercase tracking-widest transition-all active:scale-95">Dia</button>
-          <button onClick={() => setView('weekly')} className="px-6 py-2.5 rounded-2xl text-[10px] font-black uppercase tracking-widest text-theme-muted hover:text-theme-text transition-all">Semana</button>
-          <button onClick={() => setView('calendar')} className="px-6 py-2.5 rounded-2xl text-[10px] font-black uppercase tracking-widest text-theme-muted hover:text-theme-text transition-all">Mês</button>
+        <div className="bg-theme-card/50 glass-effect p-2 rounded-[2rem] flex gap-1 border border-theme-border shadow-premium">
+          <button onClick={() => setView('daily')} className="px-8 py-3 bg-theme-accent text-theme-card rounded-2xl shadow-glow text-[11px] font-extrabold uppercase tracking-widest transition-all">Hoje</button>
+          <button onClick={() => setView('weekly')} className="px-8 py-3 rounded-2xl text-[11px] font-extrabold uppercase tracking-widest text-theme-muted hover:text-theme-text transition-all">Semana</button>
+          <button onClick={() => setView('calendar')} className="px-8 py-3 rounded-2xl text-[11px] font-extrabold uppercase tracking-widest text-theme-muted hover:text-theme-text transition-all">Calendário</button>
         </div>
       </header>
 
-      {/* Grid de Estatísticas Superiores */}
+      {/* Estatísticas com Efeito Lift */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         {[
-          { label: 'Produtividade', val: `${productivity}%`, icon: 'trending_up', bg: 'bg-theme-accent-soft', view: 'tasks', color: 'text-theme-accent' },
-          { label: 'Tarefas', val: tasks.length, icon: 'check_circle', bg: 'bg-theme-accent-soft', view: 'tasks', color: 'text-theme-accent' },
-          { label: 'Streak Total', val: totalStreak, icon: 'local_fire_department', bg: 'bg-amber-100/10', view: 'habits', color: 'text-amber-500' },
-          { label: 'Metas Ativas', val: goals.length, icon: 'track_changes', bg: 'bg-emerald-100/10', view: 'monthly', color: 'text-emerald-500' }
+          { label: 'Produtividade', val: `${productivity}%`, icon: 'insights', bg: 'bg-indigo-500/10', view: 'tasks', color: 'text-indigo-500' },
+          { label: 'Tarefas', val: tasks.length, icon: 'list_alt', bg: 'bg-theme-accent-soft', view: 'tasks', color: 'text-theme-accent' },
+          { label: 'Hábito Ativo', val: totalStreak, icon: 'bolt', bg: 'bg-amber-500/10', view: 'habits', color: 'text-amber-500' },
+          { label: 'Metas', val: goals.length, icon: 'flag', bg: 'bg-emerald-500/10', view: 'monthly', color: 'text-emerald-500' }
         ].map((item, i) => (
           <button 
             key={i}
             onClick={() => setView(item.view as ViewState)}
-            className={`p-10 rounded-[3rem] border border-theme-border flex flex-col justify-between h-48 relative overflow-hidden group hover:scale-[1.02] hover:shadow-premium transition-all text-left bg-theme-card shadow-premium`}
+            className="p-10 rounded-[3rem] border border-theme-border flex flex-col justify-between h-52 hover-lift bg-theme-card shadow-premium group text-left transition-all"
           >
-            <div className="flex justify-between items-start relative z-10">
-              <span className="text-[10px] font-black text-theme-muted uppercase tracking-widest">{item.label}</span>
-              <div className={`w-12 h-12 ${item.bg} rounded-2xl flex items-center justify-center ${item.color} group-hover:scale-110 transition-transform`}>
+            <div className="flex justify-between items-start">
+              <span className="text-[10px] font-black text-theme-muted uppercase tracking-[0.2em] opacity-50">{item.label}</span>
+              <div className={`w-12 h-12 ${item.bg} rounded-[1.25rem] flex items-center justify-center ${item.color} group-hover:scale-110 transition-transform`}>
                 <span className="material-symbols-outlined !text-2xl">{item.icon}</span>
               </div>
             </div>
-            <div className="relative z-10">
+            <div>
               <span className="text-5xl font-black text-theme-text tracking-tighter">{item.val}</span>
-              <p className="text-[9px] font-black text-theme-muted mt-2 uppercase tracking-widest opacity-40 group-hover:opacity-100 transition-opacity">Detalhes →</p>
+              <div className="mt-2 h-1 w-8 bg-theme-accent/20 rounded-full group-hover:w-full transition-all duration-500"></div>
             </div>
           </button>
         ))}
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-        <div className="lg:col-span-8 space-y-8">
-          <div className="bg-theme-card p-12 rounded-[4rem] border border-theme-border shadow-premium relative overflow-hidden flex flex-col md:flex-row gap-10 items-start">
-             <div className="w-20 h-20 bg-theme-accent rounded-[2rem] flex items-center justify-center text-theme-card shrink-0 shadow-glow">
-                <span className="material-symbols-outlined !text-4xl">emoji_events</span>
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
+        {/* Banner de Boas Vindas */}
+        <div className="lg:col-span-8 space-y-10">
+          <div className="bg-theme-card p-14 rounded-[4rem] border border-theme-border shadow-premium relative overflow-hidden flex flex-col md:flex-row gap-12 items-start group">
+             <div className="w-24 h-24 bg-theme-accent rounded-[2.5rem] flex items-center justify-center text-theme-card shrink-0 shadow-glow group-hover:rotate-6 transition-transform duration-500">
+                <span className="material-symbols-outlined !text-5xl">auto_awesome</span>
              </div>
-             <div className="space-y-4">
-                <span className="px-5 py-2 bg-theme-accent-soft text-theme-accent rounded-full text-[10px] font-black uppercase tracking-widest border border-theme-accent/10">Perfil Verificado</span>
-                <h3 className="text-4xl font-black text-theme-text tracking-tighter">👋 Olá, {user.name.split(' ')[0]}!</h3>
-                <p className="text-theme-muted font-bold text-lg leading-relaxed opacity-80">Seu iPlanner está configurado no modo <b className="text-theme-accent">{user.theme.toUpperCase()}</b>. Foque no que realmente importa.</p>
-                <div className="flex flex-wrap gap-4 pt-6">
-                  <button onClick={() => setView('insights')} className="px-10 py-5 text-theme-text bg-theme-bg rounded-[2rem] font-black text-xs flex items-center gap-3 border border-theme-border hover:bg-theme-card transition-all uppercase tracking-widest">
-                    <span className="material-symbols-outlined !text-xl">bar_chart</span> Insights do Perfil
+             <div className="space-y-6 relative z-10">
+                <span className="px-6 py-2.5 bg-theme-accent-soft text-theme-accent rounded-full text-[10px] font-black uppercase tracking-[0.3em] border border-theme-accent/5">Foco Máximo Ativado</span>
+                <h3 className="text-5xl font-black text-theme-text tracking-tighter">Bom dia, {user.name.split(' ')[0]}!</h3>
+                <p className="text-theme-muted font-medium text-xl leading-relaxed max-w-xl">
+                  Seu iPlanner está pronto. Hoje é um excelente dia para <b className="text-theme-accent underline underline-offset-8">vencer suas metas</b>.
+                </p>
+                <div className="flex flex-wrap gap-4 pt-4">
+                  <button onClick={() => setView('ai-planner')} className="px-10 py-5 text-theme-card bg-theme-accent rounded-[2rem] font-extrabold text-xs flex items-center gap-3 shadow-glow hover:opacity-90 transition-all uppercase tracking-widest">
+                    <span className="material-symbols-outlined !text-xl">psychology</span> iCoach IA
                   </button>
-                  {/* Integrated iCoach button for easy access to AI planning */}
-                  <button onClick={() => setView('ai-planner')} className="px-10 py-5 text-theme-card bg-theme-accent rounded-[2rem] font-black text-xs flex items-center gap-3 border border-theme-accent hover:opacity-90 transition-all shadow-glow uppercase tracking-widest">
-                    <span className="material-symbols-outlined !text-xl">auto_awesome</span> iCoach IA
+                  <button onClick={() => setView('insights')} className="px-10 py-5 text-theme-text bg-theme-bg rounded-[2rem] font-extrabold text-xs flex items-center gap-3 border border-theme-border hover:bg-theme-card transition-all uppercase tracking-widest">
+                    <span className="material-symbols-outlined !text-xl">analytics</span> Performance
                   </button>
                 </div>
              </div>
-             <div className="absolute top-0 right-0 w-80 h-80 bg-theme-accent/5 rounded-full blur-[120px] -z-10"></div>
+             {/* Efeito Visual de Fundo */}
+             <div className="absolute -top-20 -right-20 w-96 h-96 bg-theme-accent/5 rounded-full blur-[100px] pointer-events-none"></div>
           </div>
 
           <button 
             onClick={() => setView('daily')}
-            className="w-full text-left bg-theme-card p-12 rounded-[4rem] border border-theme-border hover:border-theme-accent/40 transition-all group shadow-premium"
+            className="w-full text-left bg-theme-card/60 p-12 rounded-[4rem] border border-theme-border hover:border-theme-accent/30 transition-all group shadow-premium glass-effect"
           >
-             <h3 className="text-2xl font-black text-theme-text tracking-tighter flex items-center justify-between">
-               Foco de Hoje
-               <span className="text-xs opacity-0 group-hover:opacity-100 transition-all text-theme-accent font-black uppercase tracking-widest">Ir para o Planner →</span>
-             </h3>
-             <p className="text-theme-muted font-bold mt-3 text-lg opacity-80 leading-relaxed">
+             <div className="flex items-center justify-between mb-2">
+                <h3 className="text-2xl font-black text-theme-text tracking-tighter">O Próximo Passo</h3>
+                <span className="material-symbols-outlined text-theme-accent opacity-0 group-hover:opacity-100 transition-all translate-x-4 group-hover:translate-x-0">arrow_forward</span>
+             </div>
+             <p className="text-theme-muted font-bold text-lg opacity-80 leading-relaxed">
                {tasks.filter(t => !t.completed).length > 0 
-                ? `Existem ${tasks.filter(t => !t.completed).length} pendências aguardando sua ação imediata.` 
-                : 'Você completou todo o planejamento de hoje. Tempo livre garantido!'}
+                ? `Você tem ${tasks.filter(t => !t.completed).length} tarefas aguardando. Vamos começar pela mais urgente?` 
+                : 'Mente limpa, agenda vazia. Aproveite seu tempo ou planeje o amanhã.'}
              </p>
           </button>
         </div>
 
-        <div className="lg:col-span-4 bg-theme-card p-12 rounded-[4rem] border border-theme-border shadow-premium space-y-10 flex flex-col h-full">
-           <div className="flex items-center gap-4">
-              <div className="w-12 h-12 bg-theme-accent-soft text-theme-accent rounded-2xl flex items-center justify-center shadow-glow">
-                <span className="material-symbols-outlined !text-2xl">autorenew</span>
+        {/* Card Lateral de Rotina */}
+        <div className="lg:col-span-4 bg-theme-card p-12 rounded-[4rem] border border-theme-border shadow-premium flex flex-col">
+           <div className="flex items-center gap-5 mb-10">
+              <div className="w-12 h-12 bg-theme-accent-soft text-theme-accent rounded-2xl flex items-center justify-center">
+                <span className="material-symbols-outlined !text-2xl">sync_alt</span>
               </div>
-              <h3 className="text-xl font-black text-theme-text tracking-tighter uppercase">Rotina</h3>
+              <h3 className="text-xl font-black text-theme-text tracking-tight uppercase tracking-[0.1em]">Sua Rotina</h3>
            </div>
            
-           <div className="flex-1 flex flex-col items-center justify-center text-center space-y-6">
+           <div className="flex-1 space-y-5">
               {habits.length > 0 ? (
-                <div className="w-full space-y-4 text-left">
-                  {habits.slice(0, 4).map(h => (
-                    <button 
-                      key={h.id} 
-                      onClick={() => setView('habits')}
-                      className="w-full flex items-center justify-between p-6 bg-theme-bg rounded-[2rem] border border-theme-border hover:border-theme-accent/30 hover:bg-theme-card transition-all group shadow-glow"
-                    >
-                      <span className="text-sm font-black text-theme-text tracking-tight">{h.title}</span>
-                      <span className="text-[10px] font-black text-theme-accent bg-theme-accent-soft px-4 py-2 rounded-xl border border-theme-accent/10">
-                        {h.streak} 🔥
-                      </span>
-                    </button>
-                  ))}
-                  <button onClick={() => setView('habits')} className="w-full text-center text-[10px] font-black uppercase text-theme-muted py-6 hover:text-theme-text transition-all tracking-[0.3em] opacity-50">Explorar Rotinas</button>
-                </div>
-              ) : (
-                <>
-                  <div className="w-24 h-24 bg-theme-bg rounded-[3rem] border border-theme-border flex items-center justify-center text-4xl text-theme-muted opacity-30 shadow-glow">✨</div>
-                  <div className="space-y-3">
-                    <p className="font-black text-theme-text text-xl">Arquitetura de Hábitos</p>
-                    <p className="text-xs text-theme-muted font-bold leading-relaxed px-6 opacity-60">Consolide comportamentos de alta performance.</p>
+                habits.slice(0, 5).map(h => (
+                  <div key={h.id} className="flex items-center justify-between p-6 bg-theme-bg rounded-[2.5rem] border border-theme-border group hover:border-theme-accent/20 transition-all">
+                    <span className="text-sm font-extrabold text-theme-text">{h.title}</span>
+                    <span className="text-[10px] font-black text-theme-accent bg-theme-accent/5 px-4 py-2 rounded-xl">
+                      {h.streak} 🔥
+                    </span>
                   </div>
-                  <button onClick={() => setView('habits')} className="w-full py-6 bg-theme-accent text-theme-card rounded-[2rem] font-black text-xs uppercase tracking-widest hover:opacity-90 transition-all shadow-premium">
-                    + Iniciar Hábito
+                ))
+              ) : (
+                <div className="text-center py-10 space-y-6">
+                  <div className="w-20 h-20 bg-theme-bg rounded-[2.5rem] mx-auto flex items-center justify-center opacity-20">
+                    <span className="material-symbols-outlined !text-4xl">add_task</span>
+                  </div>
+                  <p className="text-sm font-bold text-theme-muted px-4 leading-relaxed">Cultive novos hábitos para transformar sua jornada.</p>
+                  <button onClick={() => setView('habits')} className="w-full py-5 bg-theme-accent/5 text-theme-accent rounded-3xl font-black text-[10px] uppercase tracking-widest hover:bg-theme-accent hover:text-theme-card transition-all">
+                    Configurar Hábitos
                   </button>
-                </>
+                </div>
               )}
            </div>
         </div>

@@ -54,6 +54,7 @@
             boxShadow: {
               premium: "var(--shadow-main)",
               glow: "var(--shadow-glow)",
+              glass: "0 8px 32px 0 rgba(31, 38, 135, 0.07)",
             },
           },
         },
@@ -62,51 +63,51 @@
 
     <style>
       :root {
-        --bg-main: #fafafa;
+        --bg-main: #f8fafc;
         --bg-card: #ffffff;
         --text-main: #0f172a;
         --text-muted: #64748b;
         --accent-main: #0f172a;
-        --accent-soft: rgba(15, 23, 42, 0.08);
+        --accent-soft: rgba(15, 23, 42, 0.05);
         --border-color: #f1f5f9;
-        --shadow-main: 0 20px 40px -12px rgba(15, 23, 42, 0.12);
-        --shadow-glow: 0 0 20px 0 rgba(15, 23, 42, 0.05);
+        --shadow-main: 0 10px 30px -10px rgba(15, 23, 42, 0.08);
+        --shadow-glow: 0 0 20px 0 rgba(15, 23, 42, 0.03);
       }
 
       .theme-dark {
-        --bg-main: #050505;
-        --bg-card: #121212;
-        --text-main: #ffffff;
-        --text-muted: #a1a1aa;
-        --accent-main: #ffffff;
-        --accent-soft: rgba(255, 255, 255, 0.12);
-        --border-color: #1f1f1f;
-        --shadow-main: 0 10px 40px -10px rgba(255, 255, 255, 0.15);
-        --shadow-glow: 0 0 25px 0 rgba(255, 255, 255, 0.1);
+        --bg-main: #020617;
+        --bg-card: #0f172a;
+        --text-main: #f8fafc;
+        --text-muted: #94a3b8;
+        --accent-main: #f8fafc;
+        --accent-soft: rgba(248, 250, 252, 0.08);
+        --border-color: #1e293b;
+        --shadow-main: 0 20px 50px -12px rgba(0, 0, 0, 0.5);
+        --shadow-glow: 0 0 30px 0 rgba(255, 255, 255, 0.02);
       }
       
       .theme-rosa {
-        --bg-main: #FFF5F7;
-        --bg-card: #FFFFFF;
-        --text-main: #4C0519;
-        --text-muted: #9F1239;
-        --accent-main: #F43F5E; 
-        --accent-soft: rgba(244, 63, 94, 0.15);
-        --border-color: #FFE4E6;
-        --shadow-main: 0 20px 40px -12px rgba(244, 63, 94, 0.2);
-        --shadow-glow: 0 0 20px 0 rgba(244, 63, 94, 0.1);
+        --bg-main: #fff1f2;
+        --bg-card: #ffffff;
+        --text-main: #4c0519;
+        --text-muted: #9f1239;
+        --accent-main: #e11d48; 
+        --accent-soft: rgba(225, 29, 72, 0.08);
+        --border-color: #ffe4e6;
+        --shadow-main: 0 20px 40px -12px rgba(225, 29, 72, 0.12);
+        --shadow-glow: 0 0 20px 0 rgba(225, 29, 72, 0.05);
       }
       
       .theme-azul {
-        --bg-main: #F0F7FF;
-        --bg-card: #FFFFFF;
-        --text-main: #0F172A;
-        --text-muted: #475569;
-        --accent-main: #007AFF; 
-        --accent-soft: rgba(0, 122, 255, 0.15);
-        --border-color: #E0F2FE;
-        --shadow-main: 0 20px 40px -12px rgba(0, 122, 255, 0.2);
-        --shadow-glow: 0 0 20px 0 rgba(0, 122, 255, 0.1);
+        --bg-main: #f0f9ff;
+        --bg-card: #ffffff;
+        --text-main: #0c4a6e;
+        --text-muted: #075985;
+        --accent-main: #0284c7; 
+        --accent-soft: rgba(2, 132, 199, 0.08);
+        --border-color: #e0f2fe;
+        --shadow-main: 0 20px 40px -12px rgba(2, 132, 199, 0.12);
+        --shadow-glow: 0 0 20px 0 rgba(2, 132, 199, 0.05);
       }
 
       body {
@@ -115,20 +116,40 @@
         color: var(--text-main);
         min-height: 100vh;
         margin: 0;
-        transition: background 0.3s ease, color 0.3s ease;
+        transition: background 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        -webkit-font-smoothing: antialiased;
       }
 
-      button:active {
-        transform: scale(0.96);
+      ::-webkit-scrollbar {
+        width: 0px;
+        background: transparent;
+      }
+
+      .no-scrollbar {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
       }
       
       .page-transition {
-        animation: fadeIn 0.5s ease-out;
+        animation: premiumFadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1);
       }
       
-      @keyframes fadeIn {
-        from { opacity: 0; transform: translateY(10px); }
-        to { opacity: 1; transform: translateY(0); }
+      @keyframes premiumFadeIn {
+        from { opacity: 0; transform: translateY(20px) scale(0.98); }
+        to { opacity: 1; transform: translateY(0) scale(1); }
+      }
+
+      .glass-effect {
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+      }
+
+      .hover-lift {
+        transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      }
+
+      .hover-lift:hover {
+        transform: translateY(-4px);
       }
     </style>
   
