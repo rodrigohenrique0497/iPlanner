@@ -1,0 +1,91 @@
+
+import React, { useState } from 'react';
+import { Habit } from '../types';
+
+interface HabitTrackerProps {
+  habits: Habit[];
+  onToggle: (id: string) => void;
+  onAdd: (habit: Habit) => void;
+  onDelete: (id: string) => void;
+}
+
+const HabitTracker: React.FC<HabitTrackerProps> = ({ habits, onToggle, onAdd, onDelete }) => {
+  const [newTitle, setNewTitle] = useState('');
+  const today = new Date().toISOString().split('T')[0];
+
+  const handleAdd = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!newTitle.trim()) return;
+    const colors = ['bg-rosa-pastel', 'bg-azul-pastel', 'bg-amarelo-pastel', 'bg-emerald-100', 'bg-indigo-100'];
+    onAdd({
+      id: Math.random().toString(36).substr(2, 9),
+      title: newTitle,
+      streak: 0,
+      color: colors[Math.floor(Math.random() * colors.length)]
+    });
+    setNewTitle('');
+  };
+
+  return (
+    <div className="max-w-4xl mx-auto p-6 md:p-10 space-y-12 page-transition">
+      <div className="space-y-4">
+        <h2 className="text-5xl font-black text-slate-900 tracking-tighter">Hábitos</h2>
+        <p className="text-slate-500 font-medium text-lg italic">"Somos o que repetidamente fazemos."</p>
+      </div>
+
+      <form onSubmit={handleAdd} className="flex gap-4">
+        <input 
+          type="text" 
+          value={newTitle}
+          onChange={(e) => setNewTitle(e.target.value)}
+          placeholder="Novo hábito (ex: Meditar 10min)" 
+          className="flex-1 bg-white p-6 rounded-3xl border border-slate-100 shadow-sm focus:ring-4 focus:ring-azul-pastel/30 outline-none font-bold"
+        />
+        <button type="submit" className="bg-slate-900 text-white px-10 rounded-3xl font-black hover:bg-black transition-all active:scale-[0.98]">Adicionar</button>
+      </form>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {habits.map(habit => {
+          const isDone = habit.lastCompleted === today;
+          return (
+            <div key={habit.id} className="bg-white p-8 rounded-[3rem] border border-slate-100 shadow-sm flex flex-col justify-between group hover:shadow-xl transition-all">
+              <div className="flex justify-between items-start">
+                <div className={`w-16 h-16 ${habit.color} rounded-2xl flex items-center justify-center text-3xl shadow-inner select-none`}>
+                  {isDone ? '✨' : '🔄'}
+                </div>
+                {/* DELETE ICON PADRONIZADO */}
+                <button 
+                  onClick={() => onDelete(habit.id)} 
+                  className="opacity-0 group-hover:opacity-100 w-12 h-12 flex items-center justify-center rounded-2xl text-slate-300 hover:text-red-500 hover:bg-rose-50 transition-all active:scale-90"
+                >
+                  <span className="text-xl flex items-center justify-center">🗑️</span>
+                </button>
+              </div>
+              <div className="mt-8">
+                <h3 className="text-2xl font-black text-slate-900 tracking-tight">{habit.title}</h3>
+                <div className="flex items-center gap-2 mt-2">
+                  <span className="text-orange-500 font-black text-lg">🔥 {habit.streak}</span>
+                  <span className="text-[10px] font-black uppercase text-slate-400 tracking-widest">DIAS DE SEQUÊNCIA</span>
+                </div>
+              </div>
+              
+              {/* CHECK BUTTON PADRONIZADO */}
+              <button 
+                onClick={() => onToggle(habit.id)}
+                className={`mt-8 w-full py-6 rounded-[2rem] font-black text-sm uppercase tracking-widest transition-all active:scale-[0.98] ${
+                  isDone 
+                  ? 'bg-slate-100 text-slate-400 cursor-default' 
+                  : 'bg-slate-900 text-white hover:bg-black shadow-xl shadow-slate-200'
+                }`}
+              >
+                {isDone ? 'Concluído Hoje' : 'Marcar como Feito'}
+              </button>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+};
+
+export default HabitTracker;

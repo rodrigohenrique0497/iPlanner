@@ -1,0 +1,7 @@
+{
+  "name": "iPlanner",
+  "description": "Um planejador pessoal movido a IA que ajuda você a organizar tarefas, agendar seu dia e gerar planos de ação inteligentes.",
+  "requestFramePermissions": [
+    "microphone"
+  ]
+}
