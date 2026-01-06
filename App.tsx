@@ -5,7 +5,6 @@ import Sidebar from './components/Sidebar';
 import MobileNav from './components/MobileNav';
 import Dashboard from './components/Dashboard';
 import DailyView from './components/DailyView';
-import AIPlanner from './components/AIPlanner';
 import TaskList from './components/TaskList';
 import Auth from './components/Auth';
 import HabitTracker from './components/HabitTracker';
@@ -36,11 +35,9 @@ const App: React.FC = () => {
 
   const loadUserContent = useCallback(async (userId: string) => {
     try {
-      // db.loadProfile does not expect any arguments
       const profile = await db.loadProfile();
       if (profile) setCurrentUser(profile);
 
-      // db.loadData expects only (type, defaultValue)
       const [t, h, g, n, f] = await Promise.all([
         db.loadData('tasks', []),
         db.loadData('habits', []),
@@ -59,7 +56,6 @@ const App: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    // Verifica sessão inicial do Supabase
     supabase.auth.getSession().then(({ data: { session } }) => {
       if (session?.user) {
         loadUserContent(session.user.id);
@@ -69,7 +65,6 @@ const App: React.FC = () => {
       setIsReady(true);
     });
 
-    // Escuta mudanças no Auth
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
       if (session?.user) {
         loadUserContent(session.user.id);
@@ -85,9 +80,7 @@ const App: React.FC = () => {
   useEffect(() => {
     if (!currentUser || !isReady) return;
 
-    // Sincronização automática em background
     const sync = async () => {
-      // db.saveData expects only (type, payload)
       await Promise.all([
         db.saveData('tasks', tasks),
         db.saveData('habits', habits),
@@ -174,7 +167,6 @@ const App: React.FC = () => {
       case 'habits': return <HabitTracker habits={habits} onToggle={(id) => { const today = new Date().toISOString().split('T')[0]; setHabits(prev => prev.map(h => { if (h.id === id && h.lastCompleted !== today) { addXP(15); return { ...h, streak: h.streak + 1, lastCompleted: today }; } return h; })); }} onAdd={(h) => setHabits(prev => [h, ...prev])} onDelete={(id) => setHabits(prev => prev.filter(h => h.id !== id))} />;
       case 'notes': return <NotesView notes={notes} onAdd={(n) => setNotes(prev => [n, ...prev])} onUpdate={(id, up) => setNotes(prev => prev.map(n => n.id === id ? { ...n, ...up } : n))} onDelete={(id) => setNotes(prev => prev.filter(n => n.id !== id))} />;
       case 'finance': return <FinanceView transactions={transactions} onAdd={(t) => setTransactions(prev => [t, ...prev])} onDelete={(id) => setTransactions(prev => prev.filter(t => t.id !== id))} />;
-      case 'ai-assistant': return <AIPlanner onAddTasks={(newTasks) => { newTasks.forEach(t => addTask(t)); setView('tasks'); }} />;
       case 'calendar': return <CalendarView tasks={tasks} onToggle={toggleTask} onNavigate={navigateToDate} setView={setView} />;
       case 'weekly': return <WeeklyView tasks={tasks} onToggle={toggleTask} onNavigate={navigateToDate} setView={setView} />;
       case 'monthly':

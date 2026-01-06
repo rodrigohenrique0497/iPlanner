@@ -13,7 +13,7 @@ const MobileNav: React.FC<MobileNavProps> = ({ currentView, setView }) => {
     { id: 'daily', label: 'Planner', icon: 'today' },
     { id: 'calendar', label: 'Calend.', icon: 'calendar_month' },
     { id: 'tasks', label: 'Tarefas', icon: 'task_alt' },
-    { id: 'ai-assistant', label: 'IA Coach', icon: 'smart_toy' },
+    { id: 'notes', label: 'Notas', icon: 'description' },
   ];
 
   return (

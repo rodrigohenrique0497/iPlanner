@@ -72,18 +72,15 @@ const Dashboard: React.FC<DashboardProps> = ({ tasks, habits, goals, user, setVi
         <div className="lg:col-span-8 space-y-8">
           <div className="bg-theme-card p-12 rounded-[4rem] border border-theme-border shadow-premium relative overflow-hidden flex flex-col md:flex-row gap-10 items-start">
              <div className="w-20 h-20 bg-theme-accent rounded-[2rem] flex items-center justify-center text-theme-card shrink-0 shadow-glow">
-                <span className="material-symbols-outlined !text-4xl">auto_awesome</span>
+                <span className="material-symbols-outlined !text-4xl">emoji_events</span>
              </div>
              <div className="space-y-4">
                 <span className="px-5 py-2 bg-theme-accent-soft text-theme-accent rounded-full text-[10px] font-black uppercase tracking-widest border border-theme-accent/10">Perfil Verificado</span>
                 <h3 className="text-4xl font-black text-theme-text tracking-tighter">👋 Olá, {user.name.split(' ')[0]}!</h3>
-                <p className="text-theme-muted font-bold text-lg leading-relaxed opacity-80">Seu iPlanner está configurado no modo <b className="text-theme-accent">{user.theme.toUpperCase()}</b>. Otimize seus resultados com IA.</p>
+                <p className="text-theme-muted font-bold text-lg leading-relaxed opacity-80">Seu iPlanner está configurado no modo <b className="text-theme-accent">{user.theme.toUpperCase()}</b>. Foque no que realmente importa.</p>
                 <div className="flex flex-wrap gap-4 pt-6">
-                  <button onClick={() => setView('ai-assistant')} className="px-10 py-5 bg-theme-accent text-theme-card rounded-[2rem] font-black text-xs flex items-center gap-3 hover:opacity-90 transition-all shadow-premium uppercase tracking-widest">
-                    <span className="material-symbols-outlined !text-xl">smart_toy</span> IA Coach
-                  </button>
                   <button onClick={() => setView('insights')} className="px-10 py-5 text-theme-text bg-theme-bg rounded-[2rem] font-black text-xs flex items-center gap-3 border border-theme-border hover:bg-theme-card transition-all uppercase tracking-widest">
-                    <span className="material-symbols-outlined !text-xl">bar_chart</span> Insights
+                    <span className="material-symbols-outlined !text-xl">bar_chart</span> Insights do Perfil
                   </button>
                 </div>
              </div>

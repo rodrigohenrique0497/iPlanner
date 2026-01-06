@@ -81,7 +81,6 @@ export type ViewState =
   | 'calendar'
   | 'monthly' 
   | 'annual' 
-  | 'ai-assistant' 
   | 'tasks' 
   | 'habits' 
   | 'notes'
@@ -89,14 +88,15 @@ export type ViewState =
   | 'insights' 
   | 'settings';
 
+// Added missing AIPlanResponse interface used in AI features
 export interface AIPlanResponse {
-  tasks: Array<{
+  tasks: {
     title: string;
     description: string;
     priority: Priority;
     category: string;
-    estimatedDuration: string;
-  }>;
+    estimatedDuration?: string;
+  }[];
   summary: string;
   insight: string;
 }
