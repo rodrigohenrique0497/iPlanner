@@ -1,57 +1,58 @@
 
 import { Task, Habit, Goal, Note, FinanceTransaction, User } from '../types';
+import { supabase } from './supabaseClient';
 
-const STORAGE_PREFIX = 'iplanner_local_';
+const STORAGE_PREFIX = 'iplanner_session_';
 
 export const db = {
-  // Autenticação Local (Simulada para persistência de perfil)
+  // Autenticação Real via Supabase
   signUp: async (email: string, pass: string, name: string) => {
-    // Simula um delay de rede
-    await new Promise(resolve => setTimeout(resolve, 500));
-    
-    const sanitizedEmail = email.trim().toLowerCase();
-    const userId = Math.random().toString(36).substr(2, 9);
-    
-    const users = JSON.parse(localStorage.getItem(`${STORAGE_PREFIX}registered_users`) || '[]');
-    
-    // Verifica duplicidade
-    if (users.find((u: any) => u.email === sanitizedEmail)) {
-      throw new Error("Este e-mail já está cadastrado.");
+    if (!supabase) {
+      throw new Error("Supabase não pôde ser inicializado. Verifique a URL e a Chave no arquivo supabaseClient.ts.");
     }
-
-    const user = { id: userId, email: sanitizedEmail, name: name.trim() };
-    users.push({ ...user, password: pass });
-    localStorage.setItem(`${STORAGE_PREFIX}registered_users`, JSON.stringify(users));
     
-    return user;
+    const { data, error } = await supabase.auth.signUp({
+      email,
+      password: pass,
+      options: {
+        data: { full_name: name }
+      }
+    });
+
+    if (error) throw error;
+    return data.user ? { id: data.user.id, email: data.user.email, name } : null;
   },
 
   signIn: async (email: string, pass: string) => {
-    await new Promise(resolve => setTimeout(resolve, 500));
-    
-    const sanitizedEmail = email.trim().toLowerCase();
-    const users = JSON.parse(localStorage.getItem(`${STORAGE_PREFIX}registered_users`) || '[]');
-    const user = users.find((u: any) => u.email === sanitizedEmail && u.password === pass);
-    
-    if (!user) throw new Error("E-mail ou senha incorretos.");
-    return user;
+    if (!supabase) {
+      throw new Error("Supabase não pôde ser inicializado. Verifique a URL e a Chave no arquivo supabaseClient.ts.");
+    }
+
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email,
+      password: pass,
+    });
+
+    if (error) throw error;
+    return data.user ? { id: data.user.id, email: data.user.email, name: data.user.user_metadata?.full_name } : null;
   },
 
   signOut: async () => {
-    localStorage.removeItem(`${STORAGE_PREFIX}session`);
+    if (supabase) await supabase.auth.signOut();
+    localStorage.removeItem(`${STORAGE_PREFIX}user`);
   },
 
-  // Sessão
+  // Sessão (Persistência rápida para evitar flickering)
   setSession: (user: User | null) => {
     if (user) {
-      localStorage.setItem(`${STORAGE_PREFIX}session`, JSON.stringify(user));
+      localStorage.setItem(`${STORAGE_PREFIX}user`, JSON.stringify(user));
     } else {
-      localStorage.removeItem(`${STORAGE_PREFIX}session`);
+      localStorage.removeItem(`${STORAGE_PREFIX}user`);
     }
   },
 
   getSession: (): User | null => {
-    const session = localStorage.getItem(`${STORAGE_PREFIX}session`);
+    const session = localStorage.getItem(`${STORAGE_PREFIX}user`);
     try {
       return session ? JSON.parse(session) : null;
     } catch {
@@ -59,33 +60,95 @@ export const db = {
     }
   },
 
-  // Perfil do Usuário
+  // Perfil do Usuário (Tabela 'profiles')
   saveUser: async (user: User) => {
-    localStorage.setItem(`${STORAGE_PREFIX}profile_${user.id}`, JSON.stringify(user));
+    if (!supabase) return;
+    const { error } = await supabase
+      .from('profiles')
+      .upsert({
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        avatar: user.avatar,
+        xp: user.xp,
+        level: user.level,
+        focus_goal: user.focusGoal,
+        theme: user.theme,
+        categories: user.categories,
+        daily_energy: user.dailyEnergy,
+        updated_at: new Date().toISOString()
+      });
+    if (error) console.error("Erro ao salvar perfil no Supabase:", error);
   },
 
   loadProfile: async (userId: string): Promise<User | null> => {
-    const data = localStorage.getItem(`${STORAGE_PREFIX}profile_${userId}`);
-    return data ? JSON.parse(data) : null;
+    if (!supabase) return null;
+    const { data, error } = await supabase
+      .from('profiles')
+      .select('*')
+      .eq('id', userId)
+      .single();
+
+    if (error || !data) return null;
+
+    return {
+      id: data.id,
+      name: data.name,
+      email: data.email,
+      avatar: data.avatar,
+      xp: data.xp,
+      level: data.level,
+      joinedAt: data.created_at,
+      focusGoal: data.focus_goal,
+      theme: data.theme,
+      categories: data.categories || ['Geral'],
+      dailyEnergy: data.daily_energy || {}
+    };
   },
 
-  // Dados Genéricos
+  // Sincronização de Dados Genéricos (Tasks, Habits, etc)
   saveData: async (userId: string, table: string, data: any[]) => {
-    localStorage.setItem(`${STORAGE_PREFIX}${table}_${userId}`, JSON.stringify(data));
+    if (!supabase) return;
+
+    if (data.length === 0) {
+      // Se não há dados localmente, garantimos que o banco reflita isso 
+      // mas apenas para esta tabela específica do usuário.
+      await supabase.from(table).delete().eq('user_id', userId);
+      return;
+    }
+
+    // Preparamos os dados garantindo que o user_id esteja presente
+    const dataToUpsert = data.map(item => ({
+      ...item,
+      user_id: userId
+    }));
+
+    // O upsert é muito mais seguro: ele atualiza se o ID já existir ou insere se for novo.
+    // Isso evita o ciclo de deletar tudo e reinserir, que é instável.
+    const { error } = await supabase
+      .from(table)
+      .upsert(dataToUpsert, { onConflict: 'id' });
+
+    if (error) console.error(`Erro ao sincronizar ${table}:`, error);
   },
 
   loadData: async (userId: string, table: string, defaultValue: any) => {
-    const local = localStorage.getItem(`${STORAGE_PREFIX}${table}_${userId}`);
-    return local ? JSON.parse(local) : defaultValue;
+    if (!supabase) return defaultValue;
+    
+    const { data, error } = await supabase
+      .from(table)
+      .select('*')
+      .eq('user_id', userId)
+      .order('created_at', { ascending: false });
+
+    if (error) {
+      console.error(`Erro ao carregar dados de ${table}:`, error);
+      return defaultValue;
+    }
+    return data || defaultValue;
   },
 
   getStorageUsage: () => {
-    let total = 0;
-    for (const key in localStorage) {
-      if (localStorage.hasOwnProperty(key)) {
-        total += (localStorage[key].length + key.length) * 2;
-      }
-    }
-    return (total / 1024).toFixed(2);
+    return supabase ? "Conectado à Nuvem (Supabase)" : "Offline";
   }
 };

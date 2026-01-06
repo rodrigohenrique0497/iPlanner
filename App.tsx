@@ -31,6 +31,7 @@ const App: React.FC = () => {
   
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isReady, setIsReady] = useState(false);
+  const [isSyncing, setIsSyncing] = useState(false);
   const [activeTimer, setActiveTimer] = useState<boolean>(false);
 
   // Inicializa a sessão
@@ -42,20 +43,25 @@ const App: React.FC = () => {
     setIsReady(true);
   }, []);
 
-  // Carrega dados locais ao logar
+  // Carrega dados remotos ao logar
   const loadUserContent = useCallback(async (userId: string) => {
-    const [t, h, g, n, f] = await Promise.all([
-      db.loadData(userId, 'tasks', []),
-      db.loadData(userId, 'habits', []),
-      db.loadData(userId, 'goals', []),
-      db.loadData(userId, 'notes', []),
-      db.loadData(userId, 'finance', [])
-    ]);
-    setTasks(t);
-    setHabits(h);
-    setGoals(g);
-    setNotes(n);
-    setTransactions(f);
+    setIsSyncing(true);
+    try {
+      const [t, h, g, n, f] = await Promise.all([
+        db.loadData(userId, 'tasks', []),
+        db.loadData(userId, 'habits', []),
+        db.loadData(userId, 'goals', []),
+        db.loadData(userId, 'notes', []),
+        db.loadData(userId, 'finance', [])
+      ]);
+      setTasks(t);
+      setHabits(h);
+      setGoals(g);
+      setNotes(n);
+      setTransactions(f);
+    } finally {
+      setIsSyncing(false);
+    }
   }, []);
 
   useEffect(() => {
@@ -64,10 +70,11 @@ const App: React.FC = () => {
     }
   }, [currentUser?.id, loadUserContent]);
 
-  // Persistência local automática
+  // Sincronização automática com Supabase
   useEffect(() => {
     const syncData = async () => {
       if (currentUser && isReady) {
+        setIsSyncing(true);
         try {
           await Promise.all([
             db.saveData(currentUser.id, 'tasks', tasks),
@@ -79,12 +86,14 @@ const App: React.FC = () => {
           ]);
           db.setSession(currentUser);
         } catch (e) {
-          console.error("Erro ao salvar dados localmente", e);
+          console.error("Erro ao sincronizar com Supabase", e);
+        } finally {
+          setIsSyncing(false);
         }
       }
     };
 
-    const timer = setTimeout(syncData, 500); 
+    const timer = setTimeout(syncData, 2000); // Delay maior para evitar hits excessivos na rede
     return () => clearTimeout(timer);
   }, [tasks, habits, goals, notes, transactions, currentUser, isReady]);
 
@@ -141,7 +150,7 @@ const App: React.FC = () => {
   };
 
   const handleLogout = () => {
-    db.setSession(null);
+    db.signOut();
     setCurrentUser(null);
     setView('dashboard');
   };
@@ -267,6 +276,14 @@ const App: React.FC = () => {
       />
 
       <main className="flex-1 overflow-y-auto no-scrollbar relative md:pb-0 pb-32">
+        {/* Sync Indicator Overlay */}
+        {isSyncing && (
+          <div className="fixed top-6 right-6 z-[100] flex items-center gap-3 px-4 py-2 bg-white/80 backdrop-blur-md rounded-full shadow-lg border border-slate-100 animate-in fade-in slide-in-from-right-4 duration-300">
+             <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></div>
+             <span className="text-[10px] font-black uppercase tracking-widest text-slate-500">Sincronizando Nuvem</span>
+          </div>
+        )}
+
         {/* Mobile Header */}
         <div className="md:hidden p-6 flex justify-between items-center sticky top-0 bg-theme-bg/80 backdrop-blur-md z-50">
            <h1 className="text-xl font-black text-theme-text tracking-tighter">iPlanner</h1>
