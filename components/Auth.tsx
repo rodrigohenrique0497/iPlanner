@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { User, ThemeType } from '../types';
 import { db } from '../services/databaseService';
+import { supabase } from '../lib/supabase';
 
 interface AuthProps {
   onLogin: (user: User) => void;
@@ -16,7 +17,6 @@ const Auth: React.FC<AuthProps> = ({ onLogin }) => {
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    // Sincroniza o body com o tema atual
     document.body.className = `theme-${isRegistering ? selectedTheme : db.getGlobalTheme()}`;
   }, [isRegistering, selectedTheme]);
 
@@ -33,29 +33,46 @@ const Auth: React.FC<AuthProps> = ({ onLogin }) => {
     try {
       if (isRegistering) {
         const authUser = await db.signUp(email, password, name);
-        const newUser: User = {
-          id: authUser.id,
-          name: name.trim(),
-          email: email.trim(),
-          avatar: `https://api.dicebear.com/7.x/avataaars/svg?seed=${name.trim()}`,
-          xp: 0,
-          level: 1,
-          joinedAt: new Date().toISOString(),
-          focusGoal: 'Focar na minha produtividade',
-          theme: selectedTheme,
-          categories: ['Geral', 'Trabalho', 'Pessoal']
-        };
-        await db.saveUser(newUser);
-        db.setSession(newUser);
-        onLogin(newUser);
+        if (authUser) {
+          const newUser: User = {
+            id: authUser.id,
+            name: name.trim(),
+            email: email.trim(),
+            avatar: `https://api.dicebear.com/7.x/avataaars/svg?seed=${name.trim()}`,
+            xp: 0,
+            level: 1,
+            joinedAt: new Date().toISOString(),
+            focusGoal: 'Focar na minha produtividade',
+            theme: selectedTheme,
+            categories: ['Geral', 'Trabalho', 'Pessoal']
+          };
+          await db.saveUser(newUser);
+          db.setSession(newUser);
+          onLogin(newUser);
+        }
       } else {
         const authUser = await db.signIn(email, password);
-        const profile = await db.loadProfile(authUser.id);
-        if (profile) {
-          db.setSession(profile);
-          onLogin(profile);
-        } else {
-          onLogin({ id: authUser.id, name: authUser.name || 'Usuário', email: authUser.email, avatar: '', xp: 0, level: 1, joinedAt: '', focusGoal: '', theme: 'light', categories: [] });
+        if (authUser) {
+          const profile = await db.loadProfile(authUser.id);
+          if (profile) {
+            db.setSession(profile);
+            onLogin(profile);
+          } else {
+            // Caso o profile ainda não exista por algum erro de sincronismo inicial
+            const defaultUser: User = { 
+              id: authUser.id, 
+              name: authUser.user_metadata?.full_name || 'Usuário', 
+              email: authUser.email || '', 
+              avatar: '', 
+              xp: 0, 
+              level: 1, 
+              joinedAt: new Date().toISOString(), 
+              focusGoal: 'Produtividade', 
+              theme: db.getGlobalTheme(), 
+              categories: ['Geral'] 
+            };
+            onLogin(defaultUser);
+          }
         }
       }
     } catch (err: any) {
@@ -70,8 +87,6 @@ const Auth: React.FC<AuthProps> = ({ onLogin }) => {
   return (
     <div className={`min-h-screen transition-all duration-1000 flex items-center justify-center p-6 theme-${currentThemeClass} bg-theme-bg`}>
       <div className="max-w-lg w-full space-y-12 animate-in fade-in slide-in-from-bottom-8 duration-1000">
-        
-        {/* LOGO DINÂMICO BASEADO NO TEMA */}
         <div className="text-center space-y-4">
           <div className="w-24 h-24 bg-theme-accent rounded-[3rem] mx-auto flex items-center justify-center shadow-2xl transform hover:rotate-6 transition-all border-4 border-white/20">
              <span className="material-symbols-outlined !text-5xl text-theme-card leading-none">menu_book</span>
@@ -79,17 +94,16 @@ const Auth: React.FC<AuthProps> = ({ onLogin }) => {
           <div>
             <h2 className="text-6xl font-black tracking-tighter text-theme-accent transition-colors duration-700">iPlanner</h2>
             <p className="mt-2 text-theme-accent font-black px-6 text-[10px] uppercase tracking-[0.4em] opacity-50 transition-colors duration-700">
-              A EXCELÊNCIA EM ORGANIZAÇÃO
+              A EXCELÊNCIA EM ORGANIZAÇÃO • CLOUD
             </p>
           </div>
         </div>
 
-        {/* CARD DINÂMICO */}
         <div className="bg-theme-card p-10 md:p-14 rounded-[5rem] border border-theme-border shadow-[0_50px_100px_-20px_rgba(0,0,0,0.15)] relative overflow-hidden transition-all duration-700">
           {isLoading && (
             <div className="absolute inset-0 bg-theme-card/95 backdrop-blur-xl z-50 flex flex-col items-center justify-center space-y-6">
               <div className="w-14 h-14 border-4 border-theme-border border-t-theme-accent rounded-full animate-spin"></div>
-              <p className="text-[10px] font-black uppercase tracking-[0.4em] text-theme-muted">Configurando sua experiência...</p>
+              <p className="text-[10px] font-black uppercase tracking-[0.4em] text-theme-muted text-center">Conectando ao Supabase Cloud...</p>
             </div>
           )}
 
@@ -192,7 +206,7 @@ const Auth: React.FC<AuthProps> = ({ onLogin }) => {
         </div>
         
         <p className="text-center text-[10px] font-black text-theme-muted opacity-40 tracking-[0.2em] transition-colors">
-          iPlanner • Todos os direitos reservados
+          iPlanner • Cloud Integration
         </p>
       </div>
     </div>

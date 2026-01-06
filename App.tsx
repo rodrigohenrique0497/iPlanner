@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect, useCallback, useRef } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Task, ViewState, Priority, User, Habit, Goal, Note, FinanceTransaction } from './types';
 import Sidebar from './components/Sidebar';
 import MobileNav from './components/MobileNav';
@@ -18,6 +18,7 @@ import GoalView from './components/GoalView';
 import FocusTimer from './components/FocusTimer';
 import CalendarView from './components/CalendarView';
 import { db } from './services/databaseService';
+import { supabase } from './lib/supabase';
 
 const App: React.FC = () => {
   const [currentUser, setCurrentUser] = useState<User | null>(null);
@@ -51,26 +52,38 @@ const App: React.FC = () => {
       setNotes(n);
       setTransactions(f);
     } catch (e) {
-      console.error("Erro ao carregar dados locais:", e);
+      console.error("Erro ao carregar dados da nuvem:", e);
     }
   }, []);
 
   useEffect(() => {
-    const savedUser = db.getSession();
-    if (savedUser) {
-      setCurrentUser(savedUser);
-      loadUserContent(savedUser.id);
-      document.body.className = `theme-${savedUser.theme}`;
-    } else {
-      // Se não houver sessão, aplica o tema global salvo para a tela de Auth
-      document.body.className = `theme-${db.getGlobalTheme()}`;
-    }
-    setIsReady(true);
+    // Verifica sessão inicial do Supabase
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      if (session?.user) {
+        loadUserContent(session.user.id);
+      } else {
+        document.body.className = `theme-${db.getGlobalTheme()}`;
+      }
+      setIsReady(true);
+    });
+
+    // Escuta mudanças no Auth
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      if (session?.user) {
+        loadUserContent(session.user.id);
+      } else {
+        setCurrentUser(null);
+        document.body.className = `theme-${db.getGlobalTheme()}`;
+      }
+    });
+
+    return () => subscription.unsubscribe();
   }, [loadUserContent]);
 
   useEffect(() => {
     if (!currentUser || !isReady) return;
 
+    // Sincronização automática em background
     const sync = async () => {
       await Promise.all([
         db.saveData(currentUser.id, 'tasks', tasks),
@@ -83,7 +96,8 @@ const App: React.FC = () => {
       db.setSession(currentUser);
     };
 
-    sync();
+    const timeout = setTimeout(sync, 1000); 
+    return () => clearTimeout(timeout);
   }, [tasks, habits, goals, notes, transactions, currentUser, isReady]);
 
   useEffect(() => {

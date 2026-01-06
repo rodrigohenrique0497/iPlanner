@@ -3,77 +3,88 @@
 <html lang="pt-br">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no"
+    />
     <meta name="theme-color" content="#FAFAFA" />
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="default">
-    <meta name="apple-mobile-web-app-title" content="iPlanner">
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="description" content="iPlanner - Sua vida organizada em um só lugar." />
-    
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="iPlanner" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta
+      name="description"
+      content="iPlanner - Sua vida organizada em um só lugar."
+    />
+
     <link rel="manifest" href="./manifest.json" />
-    <link rel="apple-touch-icon" href="https://api.dicebear.com/7.x/avataaars/svg?seed=iplanner" />
-    
+    <link
+      rel="apple-touch-icon"
+      href="https://api.dicebear.com/7.x/avataaars/svg?seed=iplanner"
+    />
+
     <title>iPlanner - Sua vida organizada em um só lugar</title>
-    
+
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-    
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
+    />
+
     <script>
       tailwind.config = {
         theme: {
           extend: {
             colors: {
-              'theme-bg': 'var(--bg-main)',
-              'theme-card': 'var(--bg-card)',
-              'theme-text': 'var(--text-main)',
-              'theme-muted': 'var(--text-muted)',
-              'theme-accent': 'var(--accent-main)',
-              'theme-accent-soft': 'var(--accent-soft)',
-              'theme-border': 'var(--border-color)',
+              "theme-bg": "var(--bg-main)",
+              "theme-card": "var(--bg-card)",
+              "theme-text": "var(--text-main)",
+              "theme-muted": "var(--text-muted)",
+              "theme-accent": "var(--accent-main)",
+              "theme-accent-soft": "var(--accent-soft)",
+              "theme-border": "var(--border-color)",
             },
             boxShadow: {
-              'premium': 'var(--shadow-main)',
-              'glow': 'var(--shadow-glow)',
-            }
-          }
-        }
-      }
+              premium: "var(--shadow-main)",
+              glow: "var(--shadow-glow)",
+            },
+          },
+        },
+      };
     </script>
+
     <style>
       :root {
-        /* Tema Light - Padrão */
-        --bg-main: #FAFAFA;
-        --bg-card: #FFFFFF;
-        --text-main: #0F172A;
-        --text-muted: #64748B;
-        --accent-main: #0F172A;
+        --bg-main: #fafafa;
+        --bg-card: #ffffff;
+        --text-main: #0f172a;
+        --text-muted: #64748b;
+        --accent-main: #0f172a;
         --accent-soft: rgba(15, 23, 42, 0.08);
-        --border-color: #F1F5F9;
-        
-        /* Sombras Light: Escuras e suaves */
+        --border-color: #f1f5f9;
         --shadow-main: 0 20px 40px -12px rgba(15, 23, 42, 0.12);
         --shadow-glow: 0 0 20px 0 rgba(15, 23, 42, 0.05);
       }
 
       .theme-dark {
-        /* Tema Dark Premium (OLED Friendly) */
         --bg-main: #050505;
         --bg-card: #121212;
-        --text-main: #FFFFFF;
-        --text-muted: #A1A1AA;
-        --accent-main: #FFFFFF;
+        --text-main: #ffffff;
+        --text-muted: #a1a1aa;
+        --accent-main: #ffffff;
         --accent-soft: rgba(255, 255, 255, 0.12);
-        --border-color: #1F1F1F;
-
-        /* Sombras Dark: Glow Branco/Luz */
+        --border-color: #1f1f1f;
         --shadow-main: 0 10px 40px -10px rgba(255, 255, 255, 0.15);
         --shadow-glow: 0 0 25px 0 rgba(255, 255, 255, 0.1);
       }
-
+      
       .theme-rosa {
         --bg-main: #FFF5F7;
         --bg-card: #FFFFFF;
@@ -85,7 +96,7 @@
         --shadow-main: 0 20px 40px -12px rgba(244, 63, 94, 0.2);
         --shadow-glow: 0 0 20px 0 rgba(244, 63, 94, 0.1);
       }
-
+      
       .theme-azul {
         --bg-main: #F0F7FF;
         --bg-card: #FFFFFF;
@@ -99,28 +110,25 @@
       }
 
       body {
-        font-family: 'Plus Jakarta Sans', sans-serif;
+        font-family: "Plus Jakarta Sans", sans-serif;
         background: var(--bg-main);
         color: var(--text-main);
-        transition: background 0.6s cubic-bezier(0.4, 0, 0.2, 1), color 0.4s ease;
         min-height: 100vh;
         margin: 0;
+        transition: background 0.3s ease, color 0.3s ease;
       }
 
-      button:active { transform: scale(0.96); }
-
-      .material-symbols-outlined {
-        display: flex !important;
-        align-items: center !important;
-        justify-content: center !important;
+      button:active {
+        transform: scale(0.96);
       }
       
-      .no-scrollbar::-webkit-scrollbar { display: none; }
-      .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-
-      input:focus, textarea:focus, select:focus {
-        border-color: var(--accent-main) !important;
-        box-shadow: 0 0 0 8px var(--accent-soft) !important;
+      .page-transition {
+        animation: fadeIn 0.5s ease-out;
+      }
+      
+      @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
       }
     </style>
   <script type="importmap">
@@ -129,11 +137,13 @@
     "react": "https://esm.sh/react@^19.2.3",
     "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
     "react/": "https://esm.sh/react@^19.2.3/",
-    "@google/genai": "https://esm.sh/@google/genai@^1.34.0"
+    "@google/genai": "https://esm.sh/@google/genai@^1.34.0",
+    "@supabase/supabase-js": "https://esm.sh/@supabase/supabase-js@^2.39.0"
   }
 }
 </script>
 </head>
+
   <body>
     <div id="root"></div>
     <script type="module" src="./index.tsx"></script>
