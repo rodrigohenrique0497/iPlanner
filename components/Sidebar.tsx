@@ -13,19 +13,19 @@ interface SidebarProps {
 
 const Sidebar: React.FC<SidebarProps> = ({ currentView, setView, user, onLogout, isOpen, onClose }) => {
   const navItems = [
-    { id: 'dashboard', label: 'Início', icon: '🏠' },
-    { id: 'daily', label: 'Meu Dia (Planner)', icon: '☀️' },
-    { id: 'calendar', label: 'Calendário', icon: '📅' },
-    { id: 'tasks', label: 'Tarefas', icon: '📋' },
-    { id: 'habits', label: 'Hábitos', icon: '🔄' },
-    { id: 'notes', label: 'Notas', icon: '📝' },
-    { id: 'finance', label: 'Finanças', icon: '💰' },
-    { id: 'ai-assistant', label: 'IA Coach', icon: '✨' },
-    { id: 'weekly', label: 'Semana', icon: '🗓️' },
-    { id: 'monthly', label: 'Metas (Mês)', icon: '🎯' },
-    { id: 'annual', label: 'Metas (Ano)', icon: '🌍' },
-    { id: 'insights', label: 'Insights', icon: '📈' },
-    { id: 'settings', label: 'Configurações', icon: '⚙️' },
+    { id: 'dashboard', label: 'Início', icon: 'home' },
+    { id: 'daily', label: 'Meu Dia (Planner)', icon: 'today' },
+    { id: 'calendar', label: 'Calendário', icon: 'calendar_month' },
+    { id: 'tasks', label: 'Tarefas', icon: 'task_alt' },
+    { id: 'habits', label: 'Hábitos', icon: 'repeat' },
+    { id: 'notes', label: 'Notas', icon: 'description' },
+    { id: 'finance', label: 'Finanças', icon: 'payments' },
+    { id: 'ai-assistant', label: 'IA Coach', icon: 'smart_toy' },
+    { id: 'weekly', label: 'Semana', icon: 'date_range' },
+    { id: 'monthly', label: 'Metas (Mês)', icon: 'track_changes' },
+    { id: 'annual', label: 'Metas (Ano)', icon: 'public' },
+    { id: 'insights', label: 'Insights', icon: 'insights' },
+    { id: 'settings', label: 'Configurações', icon: 'settings' },
   ];
 
   const getRank = (level: number) => {
@@ -53,17 +53,22 @@ const Sidebar: React.FC<SidebarProps> = ({ currentView, setView, user, onLogout,
         fixed inset-y-0 left-0 w-72 border-r border-theme-border h-screen flex flex-col z-[70] transition-transform duration-300 ease-in-out
         ${isOpen ? 'translate-x-0' : '-translate-x-full'}
         md:translate-x-0 md:static md:z-auto
-        bg-[var(--sidebar-bg)] glass-item
+        glass-item
       `}>
-        {/* Header com Logo adaptável ao tema */}
+        {/* Header com Logo */}
         <div className="p-6 flex items-center justify-between shrink-0">
-          <h1 className="text-2xl font-extrabold tracking-tight flex items-center gap-2 text-theme-text">
-            <span className="w-10 h-10 rounded-[1.25rem] bg-theme-accent flex items-center justify-center shadow-lg transition-transform hover:rotate-6">
-              <span className="material-symbols-outlined text-[var(--bg-card)] !text-xl">menu_book</span>
+          <h1 className="text-2xl font-extrabold tracking-tight flex items-center gap-3 text-theme-text">
+            <span className="w-12 h-12 rounded-[1.5rem] bg-theme-accent flex items-center justify-center shadow-lg transition-transform hover:rotate-6">
+              <span className="material-symbols-outlined !text-3xl text-theme-card leading-none">menu_book</span>
             </span>
             iPlanner
           </h1>
-          <button onClick={onClose} className="md:hidden text-theme-muted p-2 hover:bg-theme-bg rounded-full">✕</button>
+          <button 
+            onClick={onClose} 
+            className="md:hidden text-theme-muted w-10 h-10 flex items-center justify-center hover:bg-theme-bg rounded-full transition-colors"
+          >
+            <span className="material-symbols-outlined !text-2xl leading-none">close</span>
+          </button>
         </div>
         
         {/* Navegação */}
@@ -80,7 +85,7 @@ const Sidebar: React.FC<SidebarProps> = ({ currentView, setView, user, onLogout,
                     : 'text-theme-muted hover:bg-theme-accent/10 hover:text-theme-text'
                 }`}
               >
-                <span className={`text-xl transition-transform duration-300 ${isActive ? 'scale-110' : 'group-hover:scale-110'}`}>
+                <span className={`material-symbols-outlined !text-2xl flex items-center justify-center transition-transform duration-300 ${isActive ? 'scale-110' : 'group-hover:scale-110'}`}>
                   {item.icon}
                 </span>
                 <span className="text-sm tracking-tight">{item.label}</span>
@@ -93,13 +98,15 @@ const Sidebar: React.FC<SidebarProps> = ({ currentView, setView, user, onLogout,
         <div className="p-4 space-y-3 border-t border-theme-border shrink-0">
           <div className="bg-theme-accent/5 rounded-[1.75rem] p-4 border border-theme-accent/10">
             <div className="flex items-center gap-3 mb-3">
-              <div className="w-10 h-10 rounded-2xl bg-theme-card flex items-center justify-center text-lg shadow-sm">🏆</div>
+              <div className="w-10 h-10 rounded-2xl bg-theme-card/50 glass-item flex items-center justify-center text-xl shadow-sm">
+                <span className="material-symbols-outlined !text-2xl text-theme-accent">emoji_events</span>
+              </div>
               <div>
                 <p className="text-[8px] font-black uppercase tracking-widest text-theme-muted">Rank Atual</p>
                 <p className="text-xs font-black text-theme-text">{getRank(user.level)}</p>
               </div>
             </div>
-            <div className="h-1.5 w-full bg-theme-card/60 rounded-full overflow-hidden">
+            <div className="h-1.5 w-full bg-theme-card/30 rounded-full overflow-hidden">
               <div 
                 className="h-full bg-theme-accent rounded-full transition-all duration-1000 ease-out" 
                 style={{ width: `${(user.xp % 100)}%` }}
@@ -111,7 +118,7 @@ const Sidebar: React.FC<SidebarProps> = ({ currentView, setView, user, onLogout,
             onClick={onLogout}
             className="w-full py-3 text-[10px] font-black uppercase tracking-widest text-theme-muted hover:text-rose-500 hover:bg-rose-500/10 rounded-xl transition-all flex items-center justify-center gap-2"
           >
-            🚪 Encerrar Sessão
+            <span className="material-symbols-outlined !text-xl">logout</span> Encerrar Sessão
           </button>
         </div>
       </aside>

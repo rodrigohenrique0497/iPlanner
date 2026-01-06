@@ -64,7 +64,6 @@ const App: React.FC = () => {
     setIsReady(true);
   }, [loadUserContent]);
 
-  // Sincronização automática com LocalStorage
   useEffect(() => {
     if (!currentUser || !isReady) return;
 
@@ -170,9 +169,12 @@ const App: React.FC = () => {
       <Sidebar currentView={view} setView={setView} user={currentUser} onLogout={handleLogout} isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
       <main className="flex-1 overflow-y-auto no-scrollbar relative md:pb-0 pb-32">
         <div className="md:hidden p-6 flex justify-between items-center sticky top-0 bg-theme-bg/80 backdrop-blur-md z-50">
-           <h1 className="text-xl font-black text-theme-text tracking-tighter">iPlanner</h1>
-           <button onClick={() => setIsSidebarOpen(true)} className="w-12 h-12 flex items-center justify-center rounded-2xl bg-theme-card border border-theme-border shadow-sm">
-             <span className="text-xl">☰</span>
+           <h1 className="text-2xl font-black text-theme-text tracking-tighter">iPlanner</h1>
+           <button 
+             onClick={() => setIsSidebarOpen(true)} 
+             className="w-14 h-14 flex items-center justify-center rounded-2xl bg-theme-card border border-theme-border shadow-sm active:scale-95 transition-transform"
+           >
+             <span className="material-symbols-outlined !text-3xl leading-none flex items-center justify-center">menu</span>
            </button>
         </div>
         {renderView()}

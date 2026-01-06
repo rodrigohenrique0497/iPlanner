@@ -1,13 +1,15 @@
+
 <!DOCTYPE html>
 <html lang="pt-br">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no" />
     <meta name="theme-color" content="#FAFAFA" />
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="apple-mobile-web-app-title" content="iPlanner">
-    <meta name="description" content="iPlanner 2026 - O planejador pessoal inteligente para produtividade consciente." />
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="description" content="iPlanner - Sua vida organizada em um só lugar. O planejador pessoal inteligente para produtividade consciente." />
     
     <!-- Open Graph / Social Media -->
     <meta property="og:type" content="website" />
@@ -18,13 +20,13 @@
     <link rel="manifest" href="./manifest.json" />
     <link rel="apple-touch-icon" href="https://api.dicebear.com/7.x/avataaars/svg?seed=iplanner" />
     
-    <title>iPlanner 2026 - Produtividade Consciente</title>
+    <title>iPlanner - Sua vida organizada em um só lugar</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=menu_book" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     
     <script>
       tailwind.config = {
@@ -48,19 +50,22 @@
       }
     </script>
     <style>
+      /* TEMAS GLOBAIS - iPlanner Premium */
       :root {
         --bg-main: #FAFAFA;
         --bg-card: #FFFFFF;
-        --text-main: #1E293B;
+        --text-main: #0F172A;
         --text-muted: #64748B;
         --accent-main: #0F172A;
         --accent-text: #FFFFFF;
         --border-color: #F1F5F9;
         --sidebar-bg: #FFFFFF;
+        --glass-blur: blur(0);
+        --card-opacity: 1;
       }
 
-      .theme-sweet-pastel {
-        --bg-main: #FEF2F2;
+      .theme-rosa {
+        --bg-main: #FFF1F2;
         --bg-card: #FFFFFF;
         --text-main: #881337;
         --text-muted: #FB7185;
@@ -68,17 +73,6 @@
         --accent-text: #FFFFFF;
         --border-color: #FFE4E6;
         --sidebar-bg: #FFF1F2;
-      }
-
-      .theme-midnight-slate {
-        --bg-main: #0F172A;
-        --bg-card: #1E293B;
-        --text-main: #F1F5F9;
-        --text-muted: #94A3B8;
-        --accent-main: #38BDF8;
-        --accent-text: #0F172A;
-        --border-color: #334155;
-        --sidebar-bg: #111827;
       }
 
       .theme-dark {
@@ -93,14 +87,16 @@
       }
 
       .theme-glass {
-        --bg-main: #F8FAFC;
-        --bg-card: rgba(255, 255, 255, 0.4);
-        --text-main: #0F172A;
-        --text-muted: #475569;
-        --accent-main: #0F172A;
+        --bg-main: #EEF2FF;
+        --bg-card: rgba(255, 255, 255, 0.7);
+        --text-main: #1E1B4B;
+        --text-muted: #6366F1;
+        --accent-main: #4F46E5;
         --accent-text: #FFFFFF;
-        --border-color: rgba(255, 255, 255, 0.5);
-        --sidebar-bg: rgba(255, 255, 255, 0.6);
+        --border-color: rgba(255, 255, 255, 0.4);
+        --sidebar-bg: rgba(255, 255, 255, 0.8);
+        --glass-blur: blur(16px);
+        --card-opacity: 0.7;
       }
 
       body {
@@ -109,9 +105,24 @@
         color: var(--text-main);
         -webkit-tap-highlight-color: transparent;
         letter-spacing: -0.01em;
-        transition: background-color 0.5s ease, color 0.5s ease;
+        transition: background-color 0.8s cubic-bezier(0.4, 0, 0.2, 1), color 0.5s ease;
         margin: 0;
         min-height: 100vh;
+        overscroll-behavior: none;
+      }
+
+      .glass-item {
+        backdrop-filter: var(--glass-blur);
+        -webkit-backdrop-filter: var(--glass-blur);
+        background-color: var(--bg-card);
+      }
+
+      main {
+        padding-bottom: calc(8rem + env(safe-area-inset-bottom));
+      }
+
+      @media (min-width: 768px) {
+        main { padding-bottom: 2rem; }
       }
 
       .no-scrollbar::-webkit-scrollbar { display: none; }
@@ -121,16 +132,20 @@
         animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1);
       }
       @keyframes slideUp {
-        from { opacity: 0; transform: translateY(30px); }
+        from { opacity: 0; transform: translateY(20px); }
         to { opacity: 1; transform: translateY(0); }
       }
 
-      * {
-        transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
+      button:active {
+        transform: scale(0.97);
       }
 
-      @media (display-mode: standalone) {
-        body { padding-top: env(safe-area-inset-top); }
+      .material-symbols-outlined {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        user-select: none;
+        font-variation-settings: 'FILL' 1, 'wght' 600, 'GRAD' 0, 'opsz' 24;
       }
     </style>
   <script type="importmap">
@@ -145,7 +160,7 @@
 }
 </script>
 </head>
-  <body class="theme-light">
+  <body>
     <div id="root"></div>
     <script type="module" src="./index.tsx"></script>
   </body>

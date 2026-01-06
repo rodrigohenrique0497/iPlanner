@@ -59,7 +59,7 @@ const NotesView: React.FC<NotesViewProps> = ({ notes, onAdd, onUpdate, onDelete 
               onChange={e => setSearch(e.target.value)}
               className="w-full pl-12 pr-6 py-4 bg-white rounded-[1.75rem] border border-slate-100 shadow-sm focus:ring-4 focus:ring-azul-pastel/30 outline-none font-bold text-xs"
             />
-            <span className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-300">🔍</span>
+            <span className="absolute left-5 top-1/2 -translate-y-1/2 text-2xl opacity-30 flex items-center justify-center">🔍</span>
           </div>
           
           {/* FAB PADRONIZADO PREMIUM */}
@@ -67,7 +67,7 @@ const NotesView: React.FC<NotesViewProps> = ({ notes, onAdd, onUpdate, onDelete 
             onClick={() => setIsCreating(true)}
             className="bg-slate-900 text-white w-16 h-16 md:w-20 md:h-20 rounded-full flex items-center justify-center shadow-xl hover:scale-105 active:scale-90 transition-all focus:outline-none group relative shrink-0"
           >
-            <span className="text-3xl md:text-5xl font-light leading-none select-none flex items-center justify-center">+</span>
+            <span className="text-3xl md:text-5xl font-light leading-none flex items-center justify-center">➕</span>
             <div className="absolute inset-0 rounded-full border border-white/10 group-hover:scale-105 transition-transform"></div>
           </button>
         </div>
@@ -121,7 +121,7 @@ const NotesView: React.FC<NotesViewProps> = ({ notes, onAdd, onUpdate, onDelete 
               onClick={() => onDelete(note.id)}
               className="absolute top-6 right-6 w-12 h-12 bg-black/5 rounded-2xl flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all hover:bg-red-500 hover:text-white active:scale-90"
             >
-              <span className="text-xl flex items-center justify-center">🗑️</span>
+              <span className="text-2xl flex items-center justify-center leading-none">🗑️</span>
             </button>
             <h3 className="text-xl font-black text-slate-900 mb-4 line-clamp-2">{note.title}</h3>
             <p className="text-slate-700/80 font-medium leading-relaxed flex-1 line-clamp-5 whitespace-pre-wrap">{note.content}</p>

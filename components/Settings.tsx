@@ -20,11 +20,10 @@ const Settings: React.FC<SettingsProps> = ({ user, onUpdate, onLogout, onExport 
   }, []);
 
   const themes: { id: ThemeType; label: string; icon: string; description: string; colorClass: string }[] = [
-    { id: 'light', label: 'Modo Claro', icon: '☀️', description: 'Visual claro e arejado.', colorClass: 'bg-white' },
-    { id: 'dark', label: 'Modo Escuro', icon: '🌙', description: 'Minimalista e focado.', colorClass: 'bg-slate-900' },
-    { id: 'glass', label: 'Glass Luxury', icon: '💎', description: 'Efeitos translúcidos.', colorClass: 'bg-gradient-to-br from-blue-100 to-white' },
-    { id: 'sweet-pastel', label: 'Tons Pasteis', icon: '🌸', description: 'Visual em tons suaves e coloridos.', colorClass: 'bg-pink-100' },
-    { id: 'midnight-slate', label: 'Tons Escuros', icon: '⚓', description: 'Visual profundo, sóbrio e moderno.', colorClass: 'bg-indigo-950' },
+    { id: 'light', label: 'Modo Claro', icon: 'light_mode', description: 'Visual limpo e profissional.', colorClass: 'bg-white' },
+    { id: 'dark', label: 'Modo Escuro', icon: 'dark_mode', description: 'Focado e elegante.', colorClass: 'bg-slate-900' },
+    { id: 'rosa', label: 'Modo Rosa', icon: 'favorite', description: 'Suave, inspirador e alegre.', colorClass: 'bg-pink-100' },
+    { id: 'glass', label: 'Modo Glass', icon: 'blur_on', description: 'Transparências modernas.', colorClass: 'bg-gradient-to-br from-blue-100 to-indigo-100' },
   ];
 
   const handleExportData = () => {
@@ -50,84 +49,74 @@ const Settings: React.FC<SettingsProps> = ({ user, onUpdate, onLogout, onExport 
       <div className="space-y-4">
         <h2 className="text-5xl font-black tracking-tighter text-theme-text">Configurações</h2>
         <div className="flex items-center gap-2">
-          <div className="px-3 py-1 bg-slate-500/10 rounded-lg border border-slate-500/20">
-             <span className="text-[10px] font-black uppercase text-slate-600">Armazenamento: {storageUsage}</span>
+          <div className="px-3 py-1 bg-theme-accent/5 rounded-lg border border-theme-border">
+             <span className="text-[10px] font-black uppercase text-theme-muted">Armazenamento: {storageUsage}</span>
           </div>
         </div>
       </div>
       
-      {/* Temas */}
+      {/* Temas Premium */}
       <div className="space-y-8">
         <h3 className="text-xl font-black uppercase tracking-widest text-theme-muted opacity-50 px-4">Estilo Visual</h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {themes.map(t => (
             <button
               key={t.id}
               onClick={() => onUpdate({ theme: t.id })}
-              className={`p-6 rounded-[2.5rem] border-2 transition-all text-left flex flex-col gap-4 active:scale-95 ${
+              className={`p-8 rounded-[3.5rem] border-2 transition-all text-left flex items-center gap-6 active:scale-95 ${
                 user.theme === t.id 
-                ? 'border-theme-accent bg-theme-card shadow-xl shadow-theme-accent/10' 
+                ? 'border-theme-accent bg-theme-card shadow-2xl' 
                 : 'border-theme-border bg-theme-card/50 hover:border-theme-accent/30'
               }`}
             >
-              <div className="flex justify-between items-center">
-                <div className={`w-12 h-12 rounded-2xl flex items-center justify-center text-xl shadow-inner ${t.colorClass}`}>
+              <div className={`w-16 h-16 rounded-[1.75rem] flex items-center justify-center shadow-inner shrink-0 ${t.colorClass}`}>
+                <span className={`material-symbols-outlined !text-3xl ${t.id === 'dark' ? 'text-white' : 'text-slate-900'}`}>
                   {t.icon}
-                </div>
-                {user.theme === t.id && <span className="text-theme-accent">✓</span>}
+                </span>
               </div>
               <div>
-                <p className="font-black text-theme-text text-sm uppercase tracking-widest">{t.label}</p>
-                <p className="text-[10px] font-medium text-theme-muted mt-1">{t.description}</p>
+                <p className="font-black text-theme-text text-lg tracking-tight">{t.label}</p>
+                <p className="text-xs font-medium text-theme-muted mt-0.5">{t.description}</p>
               </div>
             </button>
           ))}
         </div>
       </div>
 
-      {/* Backup & Migração */}
-      <div className="bg-theme-card p-10 rounded-[3.5rem] border border-theme-border space-y-8 shadow-sm">
-        <div className="flex justify-between items-center">
-          <h3 className="text-xl font-black uppercase tracking-widest text-theme-muted opacity-50">Dados & Backup</h3>
-        </div>
-
-        <div className="p-8 bg-slate-500/5 rounded-3xl border border-slate-500/10 space-y-4">
-          <p className="text-xs font-bold text-slate-700">💾 Sincronização em Nuvem</p>
-          <p className="text-[11px] text-slate-600 leading-relaxed font-medium">
-            Seus dados são sincronizados automaticamente com o Supabase. Você pode baixar uma cópia local por segurança.
-          </p>
-        </div>
-
+      {/* Backup & Perfil permanecem com cores de tema dinâmicas */}
+      <div className="bg-theme-card glass-item p-10 rounded-[3.5rem] border border-theme-border space-y-8 shadow-sm">
+        <h3 className="text-xl font-black uppercase tracking-widest text-theme-muted opacity-50">Dados & Backup</h3>
         <button 
           onClick={handleExportData}
-          className="w-full flex flex-col items-start p-8 bg-theme-bg rounded-3xl border border-theme-border hover:border-theme-accent transition-all group"
+          className="w-full flex items-center gap-6 p-8 bg-theme-bg rounded-3xl border border-theme-border hover:border-theme-accent transition-all group"
         >
-          <span className="text-2xl mb-2 group-hover:scale-110 transition-transform">📥</span>
-          <span className="font-black text-theme-text uppercase text-[10px] tracking-widest">Baixar Cópia de Segurança (.json)</span>
-          <p className="text-[10px] text-theme-muted mt-1">Exporta todas as tarefas, hábitos e notas.</p>
+          <span className="material-symbols-outlined !text-4xl text-theme-accent">download</span>
+          <div className="text-left">
+            <span className="font-black text-theme-text uppercase text-[10px] tracking-widest block">Baixar Cópia (.json)</span>
+            <p className="text-[10px] text-theme-muted mt-1">Exporta todas as tarefas, hábitos e notas locais.</p>
+          </div>
         </button>
       </div>
 
-      {/* Dados do Perfil */}
-      <div className={`p-10 rounded-[3.5rem] border border-theme-border bg-theme-card shadow-sm space-y-8`}>
-        <h3 className="text-xl font-black uppercase tracking-widest text-theme-muted opacity-50">Dados do Perfil</h3>
+      <div className="p-10 rounded-[3.5rem] border border-theme-border bg-theme-card glass-item shadow-sm space-y-8">
+        <h3 className="text-xl font-black uppercase tracking-widest text-theme-muted opacity-50">Perfil</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="space-y-2">
-            <label className="text-[10px] font-black uppercase text-theme-muted opacity-40 px-4">Nome Exibido</label>
+            <label className="text-[10px] font-black uppercase text-theme-muted opacity-40 px-4">Como quer ser chamado(a)?</label>
             <input 
               type="text" 
               value={name} 
               onChange={e => setName(e.target.value)} 
-              className="w-full bg-theme-bg p-6 rounded-3xl text-theme-text font-bold outline-none border-2 border-transparent focus:border-theme-accent transition-all" 
+              className="w-full bg-theme-bg/50 p-6 rounded-3xl text-theme-text font-bold outline-none border-2 border-transparent focus:border-theme-accent transition-all" 
             />
           </div>
           <div className="space-y-2">
-            <label className="text-[10px] font-black uppercase text-theme-muted opacity-40 px-4">Foco Principal</label>
+            <label className="text-[10px] font-black uppercase text-theme-muted opacity-40 px-4">Seu Foco Principal</label>
             <input 
               type="text" 
               value={goal} 
               onChange={e => setGoal(e.target.value)} 
-              className="w-full bg-theme-bg p-6 rounded-3xl text-theme-text font-bold outline-none border-2 border-transparent focus:border-theme-accent transition-all" 
+              className="w-full bg-theme-bg/50 p-6 rounded-3xl text-theme-text font-bold outline-none border-2 border-transparent focus:border-theme-accent transition-all" 
             />
           </div>
         </div>
@@ -142,7 +131,7 @@ const Settings: React.FC<SettingsProps> = ({ user, onUpdate, onLogout, onExport 
       <div className="bg-rose-500/10 p-10 rounded-[3.5rem] border border-rose-500/20 flex flex-col md:flex-row items-center justify-between gap-6">
         <div>
           <p className="font-black text-rose-600 text-xl">Sair do iPlanner</p>
-          <p className="text-rose-400 text-[10px] font-black uppercase">Sua sessão será encerrada.</p>
+          <p className="text-rose-400 text-[10px] font-black uppercase tracking-widest">Sua sessão será encerrada com segurança.</p>
         </div>
         <button 
           onClick={onLogout} 

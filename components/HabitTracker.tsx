@@ -41,7 +41,9 @@ const HabitTracker: React.FC<HabitTrackerProps> = ({ habits, onToggle, onAdd, on
           placeholder="Novo hábito (ex: Meditar 10min)" 
           className="flex-1 bg-white p-6 rounded-3xl border border-slate-100 shadow-sm focus:ring-4 focus:ring-azul-pastel/30 outline-none font-bold"
         />
-        <button type="submit" className="bg-slate-900 text-white px-10 rounded-3xl font-black hover:bg-black transition-all active:scale-[0.98]">Adicionar</button>
+        <button type="submit" className="bg-slate-900 text-white px-10 rounded-3xl font-black hover:bg-black transition-all active:scale-[0.98]">
+          <span className="material-symbols-outlined !text-2xl leading-none flex items-center justify-center">add</span>
+        </button>
       </form>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -51,34 +53,48 @@ const HabitTracker: React.FC<HabitTrackerProps> = ({ habits, onToggle, onAdd, on
             <div key={habit.id} className="bg-white p-8 rounded-[3rem] border border-slate-100 shadow-sm flex flex-col justify-between group hover:shadow-xl transition-all">
               <div className="flex justify-between items-start">
                 <div className={`w-16 h-16 ${habit.color} rounded-2xl flex items-center justify-center text-3xl shadow-inner select-none`}>
-                  {isDone ? '✨' : '🔄'}
+                  <span className="material-symbols-outlined !text-3xl leading-none flex items-center justify-center">
+                    {isDone ? 'auto_awesome' : 'autorenew'}
+                  </span>
                 </div>
-                {/* DELETE ICON PADRONIZADO */}
+                {/* DELETE ICON MATERIAL PADRONIZADO */}
                 <button 
                   onClick={() => onDelete(habit.id)} 
                   className="opacity-0 group-hover:opacity-100 w-12 h-12 flex items-center justify-center rounded-2xl text-slate-300 hover:text-red-500 hover:bg-rose-50 transition-all active:scale-90"
                 >
-                  <span className="text-xl flex items-center justify-center">🗑️</span>
+                  <span className="material-symbols-outlined !text-2xl leading-none flex items-center justify-center">delete</span>
                 </button>
               </div>
               <div className="mt-8">
                 <h3 className="text-2xl font-black text-slate-900 tracking-tight">{habit.title}</h3>
                 <div className="flex items-center gap-2 mt-2">
-                  <span className="text-orange-500 font-black text-lg">🔥 {habit.streak}</span>
+                  <span className="text-orange-500 font-black text-lg flex items-center gap-1">
+                    <span className="material-symbols-outlined !text-xl">local_fire_department</span> {habit.streak}
+                  </span>
                   <span className="text-[10px] font-black uppercase text-slate-400 tracking-widest">DIAS DE SEQUÊNCIA</span>
                 </div>
               </div>
               
-              {/* CHECK BUTTON PADRONIZADO */}
+              {/* CHECK BUTTON MATERIAL PADRONIZADO */}
               <button 
                 onClick={() => onToggle(habit.id)}
-                className={`mt-8 w-full py-6 rounded-[2rem] font-black text-sm uppercase tracking-widest transition-all active:scale-[0.98] ${
+                className={`mt-8 w-full py-6 rounded-[2rem] font-black text-sm uppercase tracking-widest transition-all active:scale-[0.98] flex items-center justify-center gap-3 ${
                   isDone 
                   ? 'bg-slate-100 text-slate-400 cursor-default' 
                   : 'bg-slate-900 text-white hover:bg-black shadow-xl shadow-slate-200'
                 }`}
               >
-                {isDone ? 'Concluído Hoje' : 'Marcar como Feito'}
+                {isDone ? (
+                  <>
+                    <span className="material-symbols-outlined !text-xl">task_alt</span>
+                    Concluído Hoje
+                  </>
+                ) : (
+                  <>
+                    <span className="material-symbols-outlined !text-xl">check_circle</span>
+                    Marcar como Feito
+                  </>
+                )}
               </button>
             </div>
           );

@@ -40,12 +40,12 @@ const GoalView: React.FC<GoalViewProps> = ({ type, goals, onAdd, onUpdate }) => 
           <p className="text-slate-500 font-medium mt-2">Visão macro do seu sucesso pessoal.</p>
         </div>
         
-        {/* FAB PADRONIZADO PREMIUM */}
+        {/* FAB PADRONIZADO MATERIAL PREMIUM */}
         <button 
           onClick={() => setIsAdding(true)} 
-          className="bg-slate-900 text-white w-16 h-16 md:w-20 md:h-20 rounded-full flex items-center justify-center shadow-xl hover:scale-105 active:scale-90 transition-all focus:outline-none group relative"
+          className="bg-slate-900 text-white w-16 h-16 md:w-20 md:h-20 rounded-full flex items-center justify-center shadow-xl hover:scale-105 active:scale-90 transition-all focus:outline-none group relative overflow-hidden"
         >
-          <span className="text-3xl md:text-5xl font-light leading-none select-none flex items-center justify-center">+</span>
+          <span className="material-symbols-outlined !text-4xl md:!text-5xl leading-none flex items-center justify-center">add</span>
           <div className="absolute inset-0 rounded-full border border-white/10 group-hover:scale-105 transition-transform"></div>
         </button>
       </div>
@@ -75,18 +75,17 @@ const GoalView: React.FC<GoalViewProps> = ({ type, goals, onAdd, onUpdate }) => 
                 <p className="text-xs font-bold text-slate-400 mt-1 uppercase tracking-widest">Progresso Atual: {goal.progress}%</p>
               </div>
               <div className="flex gap-2 shrink-0">
-                {/* BOTÕES DE CONTROLE PADRONIZADOS */}
                 <button 
                   onClick={() => updateProgress(goal.id, -10)} 
-                  className="w-12 h-12 rounded-xl bg-slate-50 flex items-center justify-center text-xl font-black hover:bg-slate-100 transition-all active:scale-90"
+                  className="w-12 h-12 rounded-xl bg-slate-50 flex items-center justify-center text-theme-text font-black hover:bg-slate-100 transition-all active:scale-90"
                 >
-                  <span className="flex items-center justify-center leading-none mt-[-2px] select-none">−</span>
+                  <span className="material-symbols-outlined !text-2xl leading-none flex items-center justify-center">remove</span>
                 </button>
                 <button 
                   onClick={() => updateProgress(goal.id, 10)} 
-                  className="w-12 h-12 rounded-xl bg-slate-900 text-white flex items-center justify-center text-xl font-black hover:bg-black transition-all active:scale-90"
+                  className="w-12 h-12 rounded-xl bg-slate-900 text-white flex items-center justify-center text-theme-text font-black hover:bg-black transition-all active:scale-90"
                 >
-                  <span className="flex items-center justify-center leading-none mt-[-2px] select-none">+</span>
+                  <span className="material-symbols-outlined !text-2xl leading-none flex items-center justify-center">add</span>
                 </button>
               </div>
             </div>

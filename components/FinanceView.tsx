@@ -48,14 +48,14 @@ const FinanceView: React.FC<FinanceViewProps> = ({ transactions, onAdd, onDelete
 
   const getCategoryIcon = (cat: FinanceCategory) => {
     switch(cat) {
-      case 'Salário': return '💼';
-      case 'Casa': return '🏠';
-      case 'Assinatura': return '📺';
-      case 'Parcela': return '💳';
-      case 'Reserva': return '🛡️';
-      case 'Lazer': return '🎡';
-      case 'Alimentação': return '🍕';
-      default: return '💰';
+      case 'Salário': return 'payments';
+      case 'Casa': return 'home';
+      case 'Assinatura': return 'subscriptions';
+      case 'Parcela': return 'credit_card';
+      case 'Reserva': return 'savings';
+      case 'Lazer': return 'confirmation_number';
+      case 'Alimentação': return 'restaurant';
+      default: return 'monetization_on';
     }
   };
 
@@ -68,9 +68,10 @@ const FinanceView: React.FC<FinanceViewProps> = ({ transactions, onAdd, onDelete
         </div>
         <button 
           onClick={() => setIsAdding(true)}
-          className="bg-slate-900 text-white px-8 py-4 rounded-[1.75rem] flex items-center gap-3 text-sm font-black uppercase tracking-widest shadow-xl hover:scale-105 transition-all"
+          className="bg-slate-900 text-white px-8 py-5 rounded-[1.75rem] flex items-center gap-3 text-sm font-black uppercase tracking-widest shadow-xl hover:scale-105 transition-all"
         >
-          <span>+ Nova Transação</span>
+          <span className="material-symbols-outlined !text-2xl leading-none">add_circle</span>
+          <span>Nova Transação</span>
         </button>
       </header>
 
@@ -191,8 +192,8 @@ const FinanceView: React.FC<FinanceViewProps> = ({ transactions, onAdd, onDelete
           {transactions.length > 0 ? [...transactions].reverse().map(t => (
             <div key={t.id} className="p-8 flex items-center justify-between group hover:bg-slate-50/50 transition-all">
               <div className="flex items-center gap-6">
-                <div className="w-14 h-14 bg-slate-50 rounded-2xl flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">
-                  {getCategoryIcon(t.category)}
+                <div className="w-14 h-14 bg-slate-50 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform">
+                  <span className="material-symbols-outlined !text-3xl text-theme-text leading-none flex items-center justify-center">{getCategoryIcon(t.category)}</span>
                 </div>
                 <div>
                   <h4 className="font-black text-slate-900 leading-tight">{t.description}</h4>
@@ -217,9 +218,9 @@ const FinanceView: React.FC<FinanceViewProps> = ({ transactions, onAdd, onDelete
                 </p>
                 <button 
                   onClick={() => onDelete(t.id)}
-                  className="opacity-0 group-hover:opacity-100 p-3 text-slate-200 hover:text-red-500 transition-all"
+                  className="opacity-0 group-hover:opacity-100 p-3 text-slate-200 hover:text-red-500 transition-all flex items-center justify-center"
                 >
-                  🗑️
+                  <span className="material-symbols-outlined !text-2xl leading-none">delete</span>
                 </button>
               </div>
             </div>

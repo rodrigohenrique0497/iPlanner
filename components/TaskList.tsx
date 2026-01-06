@@ -1,4 +1,3 @@
-
 import React, { useState, useMemo } from 'react';
 import { Task, Priority, ViewState } from '../types';
 
@@ -69,7 +68,9 @@ const TaskList: React.FC<TaskListProps> = ({ tasks, onToggle, onDelete, onAdd, u
       {/* Header Padronizado */}
       <header className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
         <div className="flex items-center gap-6">
-          <div className="w-16 h-16 bg-theme-card rounded-[2rem] flex items-center justify-center text-3xl shadow-sm border border-theme-border">📋</div>
+          <div className="w-16 h-16 bg-theme-card rounded-[2rem] flex items-center justify-center shadow-sm border border-theme-border">
+            <span className="material-symbols-outlined !text-4xl text-theme-accent leading-none">format_list_bulleted</span>
+          </div>
           <div>
             <h2 className="text-5xl font-black text-theme-text tracking-tighter leading-none">Minhas Tarefas</h2>
             <p className="text-theme-muted font-bold mt-2 tracking-widest uppercase text-[10px] flex items-center gap-2">
@@ -90,7 +91,7 @@ const TaskList: React.FC<TaskListProps> = ({ tasks, onToggle, onDelete, onAdd, u
           <button
             onClick={() => setIsAdding(!isAdding)}
             className={`
-              w-12 h-12 md:w-14 md:h-14 rounded-full 
+              w-14 h-14 md:w-16 md:h-16 rounded-full 
               flex items-center justify-center 
               transition-all duration-500 shadow-xl
               ${isAdding 
@@ -99,12 +100,12 @@ const TaskList: React.FC<TaskListProps> = ({ tasks, onToggle, onDelete, onAdd, u
               }
             `}
           >
-            <span className="text-2xl font-light leading-none">+</span>
+            <span className="material-symbols-outlined !text-4xl leading-none flex items-center justify-center">add</span>
           </button>
         </div>
       </header>
 
-      {/* Barra de Filtros e Busca Padronizada */}
+      {/* Barra de Filtros e Busca */}
       <div className="grid grid-cols-1 md:grid-cols-12 gap-4">
         <div className="md:col-span-8 relative">
           <input 
@@ -114,7 +115,9 @@ const TaskList: React.FC<TaskListProps> = ({ tasks, onToggle, onDelete, onAdd, u
             onChange={e => setSearchQuery(e.target.value)}
             className="w-full pl-14 pr-6 py-5 bg-theme-card rounded-[2rem] border border-theme-border shadow-sm focus:ring-4 focus:ring-theme-accent/5 outline-none font-bold text-sm text-theme-text"
           />
-          <span className="absolute left-6 top-1/2 -translate-y-1/2 text-xl opacity-30">🔍</span>
+          <span className="absolute left-6 top-1/2 -translate-y-1/2 opacity-30">
+            <span className="material-symbols-outlined !text-3xl leading-none">search</span>
+          </span>
         </div>
         <div className="md:col-span-4">
           <select 
@@ -133,7 +136,9 @@ const TaskList: React.FC<TaskListProps> = ({ tasks, onToggle, onDelete, onAdd, u
         <div className="bg-theme-card p-10 rounded-[3.5rem] border border-theme-border shadow-xl space-y-8 animate-in zoom-in duration-300">
           <div className="flex justify-between items-center">
              <h4 className="text-[11px] font-black uppercase tracking-widest text-theme-muted opacity-60">Suas Listas</h4>
-             <button onClick={() => setShowCatManager(false)} className="text-theme-muted hover:text-theme-text">✕</button>
+             <button onClick={() => setShowCatManager(false)} className="text-theme-muted hover:text-theme-text w-10 h-10 flex items-center justify-center">
+               <span className="material-symbols-outlined !text-2xl leading-none">close</span>
+             </button>
           </div>
           <div className="flex flex-wrap gap-2">
             {userCategories.map(cat => (
@@ -141,9 +146,9 @@ const TaskList: React.FC<TaskListProps> = ({ tasks, onToggle, onDelete, onAdd, u
                 <span className="text-[10px] font-black uppercase tracking-tight text-theme-text">{cat}</span>
                 <button 
                   onClick={() => onUpdateCategories(userCategories.filter(c => c !== cat))} 
-                  className="text-rose-400 opacity-0 group-hover:opacity-100 transition-opacity text-xs"
+                  className="text-rose-400 opacity-0 group-hover:opacity-100 transition-opacity w-6 h-6 flex items-center justify-center"
                 >
-                  ✕
+                  <span className="material-symbols-outlined !text-lg leading-none">close</span>
                 </button>
               </div>
             ))}
@@ -215,7 +220,7 @@ const TaskList: React.FC<TaskListProps> = ({ tasks, onToggle, onDelete, onAdd, u
         </form>
       )}
 
-      {/* Lista de Tarefas Estilizada */}
+      {/* Lista de Tarefas */}
       <div className="space-y-6">
         {filteredTasks.length > 0 ? (
           filteredTasks.map((task) => {
@@ -238,7 +243,7 @@ const TaskList: React.FC<TaskListProps> = ({ tasks, onToggle, onDelete, onAdd, u
                 `}
               >
                 <div className="flex items-center gap-8 cursor-pointer flex-1 min-w-0" onClick={() => onToggle(task.id)}>
-                  {/* Checkbox Circular */}
+                  {/* Checkbox Circular Material */}
                   <div className={`
                     relative w-14 h-14 rounded-full flex items-center justify-center 
                     transition-all duration-500 shrink-0 border-2
@@ -250,10 +255,10 @@ const TaskList: React.FC<TaskListProps> = ({ tasks, onToggle, onDelete, onAdd, u
                     }
                   `}>
                     {task.completed ? (
-                      <span className="text-2xl animate-in zoom-in">✓</span>
+                      <span className="material-symbols-outlined !text-3xl animate-in zoom-in leading-none">check</span>
                     ) : (
                       (isOverdue || isDueToday) && (
-                        <span className={`text-sm font-black ${isOverdue ? 'text-rose-500' : 'text-amber-500'} animate-pulse`}>!</span>
+                        <span className={`material-symbols-outlined !text-2xl ${isOverdue ? 'text-rose-500' : 'text-amber-500'} animate-pulse leading-none`}>priority_high</span>
                       )
                     )}
                   </div>
@@ -276,7 +281,7 @@ const TaskList: React.FC<TaskListProps> = ({ tasks, onToggle, onDelete, onAdd, u
                           isOverdue ? 'text-rose-500' : 'text-theme-muted'
                         }`}
                       >
-                        📅 {task.dueDate === todayStr ? 'Hoje' : task.dueDate} 
+                        <span className="material-symbols-outlined !text-lg leading-none">calendar_today</span> {task.dueDate === todayStr ? 'Hoje' : task.dueDate} 
                         {task.scheduledHour !== undefined && ` • ${task.scheduledHour}:00`}
                       </button>
                     </div>
@@ -289,7 +294,7 @@ const TaskList: React.FC<TaskListProps> = ({ tasks, onToggle, onDelete, onAdd, u
                     className="w-12 h-12 rounded-2xl flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all hover:bg-rose-500 hover:text-white text-theme-muted active:scale-90"
                     aria-label="Excluir"
                   >
-                    <span className="text-xl">🗑️</span>
+                    <span className="material-symbols-outlined !text-3xl leading-none flex items-center justify-center">delete</span>
                   </button>
                 </div>
               </div>
@@ -297,7 +302,9 @@ const TaskList: React.FC<TaskListProps> = ({ tasks, onToggle, onDelete, onAdd, u
           })
         ) : (
           <div className="py-32 text-center space-y-6">
-            <div className="w-24 h-24 bg-theme-card rounded-[2.5rem] border border-theme-border flex items-center justify-center text-4xl mx-auto shadow-sm grayscale opacity-30">✨</div>
+            <div className="w-24 h-24 bg-theme-card rounded-[2.5rem] border border-theme-border flex items-center justify-center text-5xl mx-auto shadow-sm grayscale opacity-30">
+              <span className="material-symbols-outlined !text-5xl leading-none">auto_awesome</span>
+            </div>
             <div className="space-y-2">
               <p className="font-black text-theme-text text-xl">Nenhuma tarefa encontrada</p>
               <p className="text-sm text-theme-muted font-medium max-w-xs mx-auto">Tente ajustar seus filtros ou crie um novo desafio para hoje.</p>
