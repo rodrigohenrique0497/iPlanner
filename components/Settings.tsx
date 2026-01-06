@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { User, ThemeType } from '../types';
 import { db } from '../services/databaseService';
 
@@ -14,6 +14,7 @@ const Settings: React.FC<SettingsProps> = ({ user, onUpdate, onLogout, onExport 
   const [name, setName] = useState(user.name);
   const [goal, setGoal] = useState(user.focusGoal);
   const [storageUsage, setStorageUsage] = useState("0");
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     setStorageUsage(db.getStorageUsage());
@@ -42,6 +43,45 @@ const Settings: React.FC<SettingsProps> = ({ user, onUpdate, onLogout, onExport 
     a.href = url;
     a.download = `iplanner_backup_${new Date().toISOString().split('T')[0]}.json`;
     a.click();
+  };
+
+  const handleImportClick = () => {
+    fileInputRef.current?.click();
+  };
+
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      try {
+        const json = JSON.parse(e.target?.result as string);
+        
+        // Validação básica de estrutura
+        if (json.user && (json.tasks || json.habits || json.notes)) {
+          const confirmImport = window.confirm("Isso irá sobrescrever seus dados atuais com os do arquivo. Deseja continuar?");
+          if (!confirmImport) return;
+
+          // Restaurar para o localStorage
+          const uid = user.id;
+          if (json.user) localStorage.setItem(`iplanner_local_profile_${uid}`, JSON.stringify(json.user));
+          if (json.tasks) localStorage.setItem(`iplanner_local_tasks_${uid}`, JSON.stringify(json.tasks));
+          if (json.habits) localStorage.setItem(`iplanner_local_habits_${uid}`, JSON.stringify(json.habits));
+          if (json.goals) localStorage.setItem(`iplanner_local_goals_${uid}`, JSON.stringify(json.goals));
+          if (json.notes) localStorage.setItem(`iplanner_local_notes_${uid}`, JSON.stringify(json.notes));
+          if (json.finance) localStorage.setItem(`iplanner_local_finance_${uid}`, JSON.stringify(json.finance));
+
+          alert("Backup restaurado com sucesso! O iPlanner será atualizado.");
+          window.location.reload();
+        } else {
+          alert("Arquivo inválido ou corrompido. Certifique-se de que é um backup do iPlanner.");
+        }
+      } catch (err) {
+        alert("Erro ao ler o arquivo. Verifique se é um arquivo JSON válido.");
+      }
+    };
+    reader.readAsText(file);
   };
 
   return (
@@ -124,20 +164,44 @@ const Settings: React.FC<SettingsProps> = ({ user, onUpdate, onLogout, onExport 
         </button>
       </div>
 
-      <div className="bg-theme-card p-10 rounded-[3.5rem] border border-theme-border space-y-8 shadow-premium">
+      <div className="bg-theme-card p-10 rounded-[3.5rem] border border-theme-border space-y-6 shadow-premium">
         <h3 className="text-xl font-black uppercase tracking-widest text-theme-muted opacity-50 px-4">Dados & Backup</h3>
-        <button 
-          onClick={handleExportData}
-          className="w-full flex items-center gap-6 p-8 bg-theme-bg rounded-3xl border border-theme-border hover:border-theme-accent transition-all group"
-        >
-          <div className="w-14 h-14 bg-theme-accent-soft rounded-2xl flex items-center justify-center">
-            <span className="material-symbols-outlined !text-3xl text-theme-accent">download</span>
-          </div>
-          <div className="text-left">
-            <span className="font-black text-theme-text uppercase text-[10px] tracking-widest block">Baixar Cópia (.json)</span>
-            <p className="text-[10px] text-theme-muted mt-1 font-bold">Exporta todas as suas informações com segurança.</p>
-          </div>
-        </button>
+        
+        <div className="grid grid-cols-1 gap-4">
+          <button 
+            onClick={handleExportData}
+            className="w-full flex items-center gap-6 p-8 bg-theme-bg rounded-3xl border border-theme-border hover:border-theme-accent transition-all group"
+          >
+            <div className="w-14 h-14 bg-theme-accent-soft rounded-2xl flex items-center justify-center">
+              <span className="material-symbols-outlined !text-3xl text-theme-accent">download</span>
+            </div>
+            <div className="text-left">
+              <span className="font-black text-theme-text uppercase text-[10px] tracking-widest block">Baixar Cópia (.json)</span>
+              <p className="text-[10px] text-theme-muted mt-1 font-bold">Exporta todas as suas informações com segurança.</p>
+            </div>
+          </button>
+
+          <input 
+            type="file" 
+            ref={fileInputRef} 
+            onChange={handleFileChange} 
+            accept=".json" 
+            className="hidden" 
+          />
+          
+          <button 
+            onClick={handleImportClick}
+            className="w-full flex items-center gap-6 p-8 bg-theme-bg rounded-3xl border border-theme-border hover:border-theme-accent transition-all group"
+          >
+            <div className="w-14 h-14 bg-emerald-100 rounded-2xl flex items-center justify-center">
+              <span className="material-symbols-outlined !text-3xl text-emerald-600">backup_restore</span>
+            </div>
+            <div className="text-left">
+              <span className="font-black text-theme-text uppercase text-[10px] tracking-widest block">Restaurar Backup (.json)</span>
+              <p className="text-[10px] text-theme-muted mt-1 font-bold">Faça o Upload do seu arquivo para recuperar suas informações.</p>
+            </div>
+          </button>
+        </div>
       </div>
 
       <div className="bg-rose-500/10 p-10 rounded-[3.5rem] border border-rose-500/20 flex flex-col md:flex-row items-center justify-between gap-6">
