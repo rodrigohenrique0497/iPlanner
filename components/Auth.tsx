@@ -53,13 +53,11 @@ const Auth: React.FC<AuthProps> = ({ onLogin }) => {
       } else {
         const authUser = await db.signIn(email, password);
         if (authUser) {
-          // db.loadProfile does not expect any arguments as it retrieves the user internally
           const profile = await db.loadProfile();
           if (profile) {
             db.setSession(profile);
             onLogin(profile);
           } else {
-            // Caso o profile ainda não exista por algum erro de sincronismo inicial
             const defaultUser: User = { 
               id: authUser.id, 
               name: authUser.user_metadata?.full_name || 'Usuário', 
@@ -86,129 +84,108 @@ const Auth: React.FC<AuthProps> = ({ onLogin }) => {
   const currentThemeClass = isRegistering ? selectedTheme : db.getGlobalTheme();
 
   return (
-    <div className={`min-h-screen transition-all duration-1000 flex items-center justify-center p-6 theme-${currentThemeClass} bg-theme-bg`}>
-      <div className="max-w-lg w-full space-y-12 animate-in fade-in slide-in-from-bottom-8 duration-1000">
-        <div className="text-center space-y-4">
-          <div className="w-24 h-24 bg-theme-accent rounded-[3rem] mx-auto flex items-center justify-center shadow-2xl transform hover:rotate-6 transition-all border-4 border-white/20">
-             <span className="material-symbols-outlined !text-5xl text-theme-card leading-none">menu_book</span>
+    <div className={`min-h-screen transition-all duration-700 flex items-center justify-center p-6 theme-${currentThemeClass} bg-theme-bg`}>
+      <div className="max-w-md w-full space-y-10 animate-in fade-in slide-in-from-bottom-6 duration-700">
+        
+        {/* Logo Section - Mais Clean */}
+        <div className="text-center space-y-2">
+          <div className="w-20 h-20 bg-theme-accent rounded-[2.5rem] mx-auto flex items-center justify-center shadow-premium transform hover:scale-105 transition-all">
+             <span className="material-symbols-outlined !text-4xl text-theme-card">menu_book</span>
           </div>
-          <div>
-            <h2 className="text-6xl font-black tracking-tighter text-theme-accent transition-colors duration-700">iPlanner</h2>
-            <p className="mt-2 text-theme-accent font-black px-6 text-[10px] uppercase tracking-[0.4em] opacity-50 transition-colors duration-700">
-              A EXCELÊNCIA EM ORGANIZAÇÃO
-            </p>
-          </div>
+          <h2 className="text-5xl font-black tracking-tighter text-theme-text transition-colors">iPlanner</h2>
         </div>
 
-        <div className="bg-theme-card p-10 md:p-14 rounded-[5rem] border border-theme-border shadow-[0_50px_100px_-20px_rgba(0,0,0,0.15)] relative overflow-hidden transition-all duration-700">
+        {/* Card Principal - Refinado */}
+        <div className="bg-theme-card p-10 md:p-12 rounded-[4rem] border border-theme-border shadow-premium relative overflow-hidden transition-all">
           {isLoading && (
-            <div className="absolute inset-0 bg-theme-card/95 backdrop-blur-xl z-50 flex flex-col items-center justify-center space-y-6">
-              <div className="w-14 h-14 border-4 border-theme-border border-t-theme-accent rounded-full animate-spin"></div>
-              <p className="text-[10px] font-black uppercase tracking-[0.4em] text-theme-muted text-center">Conectando ao Supabase Cloud...</p>
+            <div className="absolute inset-0 bg-theme-card/90 backdrop-blur-md z-50 flex flex-col items-center justify-center space-y-4">
+              <div className="w-12 h-12 border-4 border-theme-border border-t-theme-accent rounded-full animate-spin"></div>
+              <p className="text-[10px] font-black uppercase tracking-widest text-theme-muted">Conectando...</p>
             </div>
           )}
 
-          <div className="space-y-10">
-            <h3 className="text-center font-black text-theme-text text-xl uppercase tracking-[0.3em] transition-colors">
-              {isRegistering ? 'Nova Experiência' : 'Acesse seu Plano'}
-            </h3>
+          <form onSubmit={handleAction} className="space-y-6">
+            {isRegistering && (
+              <>
+                <div className="space-y-2">
+                  <label className="text-[10px] font-black uppercase text-theme-muted ml-4 tracking-widest opacity-80">Seu Nome</label>
+                  <input
+                    required
+                    type="text"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    className="w-full p-5 bg-theme-bg border border-theme-border rounded-[1.75rem] outline-none focus:ring-4 focus:ring-theme-accent-soft focus:border-theme-accent text-sm font-bold transition-all text-theme-text"
+                  />
+                </div>
 
-            <form onSubmit={handleAction} className="space-y-8">
-              {isRegistering && (
-                <>
-                  <div className="space-y-3">
-                    <label className="text-[10px] font-black uppercase text-theme-muted ml-6 tracking-widest transition-colors">Seu nome de usuário</label>
-                    <input
-                      required
-                      type="text"
-                      placeholder="Como deseja ser chamado(a)?"
-                      value={name}
-                      onChange={(e) => setName(e.target.value)}
-                      className="w-full p-6 bg-theme-bg border-2 border-theme-border rounded-[2.25rem] outline-none focus:ring-8 focus:ring-theme-accent-soft focus:bg-theme-card focus:border-theme-accent text-base font-bold transition-all text-theme-text placeholder:text-theme-muted/40"
-                    />
+                <div className="space-y-4 pt-2">
+                  <label className="text-[10px] font-black uppercase text-theme-muted text-center block tracking-widest opacity-80">Estilo Visual</label>
+                  <div className="grid grid-cols-4 gap-2">
+                    {themes.map((t) => (
+                      <button
+                        key={t.id}
+                        type="button"
+                        onClick={() => setSelectedTheme(t.id)}
+                        className={`aspect-square rounded-2xl flex items-center justify-center border-2 transition-all ${
+                          selectedTheme === t.id 
+                          ? 'border-theme-accent bg-theme-accent-soft shadow-sm scale-110' 
+                          : 'bg-theme-bg border-theme-border opacity-60 grayscale'
+                        }`}
+                        title={t.label}
+                      >
+                        <span className={`material-symbols-outlined !text-xl ${t.id === 'dark' ? 'text-white' : t.text}`}>
+                          {t.icon}
+                        </span>
+                      </button>
+                    ))}
                   </div>
+                </div>
+              </>
+            )}
+            
+            <div className="space-y-2">
+              <label className="text-[10px] font-black uppercase text-theme-muted ml-4 tracking-widest opacity-80">E-mail</label>
+              <input
+                required
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="w-full p-5 bg-theme-bg border border-theme-border rounded-[1.75rem] outline-none focus:ring-4 focus:ring-theme-accent-soft focus:border-theme-accent text-sm font-bold transition-all text-theme-text"
+              />
+            </div>
 
-                  <div className="space-y-6 py-2">
-                    <label className="text-[10px] font-black uppercase text-theme-muted text-center block tracking-[0.2em] transition-colors">Escolha sua Identidade Visual</label>
-                    <div className="grid grid-cols-2 gap-4">
-                      {themes.map((t) => (
-                        <button
-                          key={t.id}
-                          type="button"
-                          onClick={() => setSelectedTheme(t.id)}
-                          className={`group flex items-center gap-4 p-5 rounded-[2.5rem] transition-all duration-500 border-2 ${
-                            selectedTheme === t.id 
-                            ? 'bg-theme-card border-theme-accent ring-8 ring-theme-accent-soft shadow-2xl scale-[1.05] z-10' 
-                            : 'bg-theme-bg border-theme-border hover:border-theme-accent/30 opacity-60'
-                          }`}
-                        >
-                          <div className={`w-12 h-12 rounded-2xl flex items-center justify-center shadow-inner transition-transform group-hover:rotate-12 ${t.bg} border border-black/5 shrink-0`}>
-                            <span className={`material-symbols-outlined !text-2xl ${t.id === 'dark' ? 'text-white' : t.text}`}>
-                              {t.icon}
-                            </span>
-                          </div>
-                          <div className="text-left">
-                            <span className={`text-[9px] font-black uppercase tracking-widest block ${selectedTheme === t.id ? 'text-theme-text' : 'text-theme-muted'}`}>
-                              {t.label}
-                            </span>
-                          </div>
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-                </>
-              )}
-              
-              <div className="space-y-3">
-                <label className="text-[10px] font-black uppercase text-theme-muted ml-6 tracking-widest transition-colors">E-mail</label>
-                <input
-                  required
-                  type="email"
-                  placeholder="exemplo@email.com"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className="w-full p-6 bg-theme-bg border-2 border-theme-border rounded-[2.25rem] outline-none focus:ring-8 focus:ring-theme-accent-soft focus:bg-theme-card focus:border-theme-accent text-base font-bold transition-all text-theme-text placeholder:text-theme-muted/40"
-                />
-              </div>
+            <div className="space-y-2">
+              <label className="text-[10px] font-black uppercase text-theme-muted ml-4 tracking-widest opacity-80">Senha</label>
+              <input
+                required
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="w-full p-5 bg-theme-bg border border-theme-border rounded-[1.75rem] outline-none focus:ring-4 focus:ring-theme-accent-soft focus:border-theme-accent text-sm font-bold transition-all text-theme-text"
+              />
+            </div>
 
-              <div className="space-y-3">
-                <label className="text-[10px] font-black uppercase text-theme-muted ml-6 tracking-widest transition-colors">Senha</label>
-                <input
-                  required
-                  type="password"
-                  placeholder="••••••••"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  className="w-full p-6 bg-theme-bg border-2 border-theme-border rounded-[2.25rem] outline-none focus:ring-8 focus:ring-theme-accent-soft focus:bg-theme-card focus:border-theme-accent text-base font-bold transition-all text-theme-text placeholder:text-theme-muted/40"
-                />
-              </div>
+            <button
+              type="submit"
+              className="w-full py-6 rounded-[1.75rem] font-black text-lg shadow-premium transition-all active:scale-[0.98] mt-4 bg-theme-accent text-theme-card hover:opacity-90 uppercase tracking-widest"
+            >
+              {isRegistering ? 'Criar Conta' : 'Entrar'}
+            </button>
+          </form>
 
-              <button
-                type="submit"
-                className="w-full py-7 rounded-[2.25rem] font-black text-xl shadow-2xl transition-all active:scale-[0.97] mt-8 bg-theme-accent text-theme-card hover:opacity-90 uppercase tracking-[0.2em]"
-              >
-                {isRegistering ? 'Criar Minha Conta' : 'Entrar Agora'}
-              </button>
-            </form>
-          </div>
-
-          <div className="mt-12 text-center border-t border-theme-border pt-10">
+          <div className="mt-10 text-center border-t border-theme-border pt-8">
             <button
               onClick={() => setIsRegistering(!isRegistering)}
-              className="text-xs font-bold text-theme-muted hover:text-theme-accent px-8 py-3 rounded-full transition-all"
+              className="text-[10px] font-black text-theme-muted hover:text-theme-text uppercase tracking-widest transition-all"
             >
               {isRegistering ? (
-                'Já possui uma conta? Faça o Login'
+                'Já possui acesso? Clique aqui'
               ) : (
-                <>Primeira vez no iPlanner? <span className="text-theme-text underline underline-offset-4 ml-1 font-black">Criar Conta</span></>
+                'Primeira vez? Crie sua conta'
               )}
             </button>
           </div>
         </div>
-        
-        <p className="text-center text-[10px] font-black text-theme-muted opacity-40 tracking-[0.2em] transition-colors">
-          iPlanner • Todos os direitos reservados
-        </p>
       </div>
     </div>
   );
