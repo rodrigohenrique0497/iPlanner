@@ -15,7 +15,7 @@
 
     <link rel="manifest" href="./manifest.json" />
     <link
-      rel="apple-touch-icon"
+      "apple-touch-icon"
       href="https://api.dicebear.com/7.x/avataaars/svg?seed=iplanner"
     />
 
@@ -83,15 +83,43 @@
         }
       }
 
+      /* TEMA DARK - Foco e Profundidade */
       .theme-dark {
         --bg-main: #020617;
         --bg-card: #0f172a;
         --text-main: #f8fafc;
         --text-muted: #94a3b8;
         --accent-main: #f8fafc;
-        --accent-soft: rgba(248, 250, 252, 0.08);
+        --accent-soft: rgba(248, 250, 252, 0.12);
         --border-color: #1e293b;
-        --shadow-main: 0 20px 50px -12px rgba(0, 0, 0, 0.4);
+        --shadow-main: 0 20px 50px -12px rgba(0, 0, 0, 0.6);
+        --shadow-glow: 0 0 30px 0 rgba(255, 255, 255, 0.02);
+      }
+
+      /* TEMA ROSA - Criatividade e Suavidade */
+      .theme-rosa {
+        --bg-main: #fff1f2;
+        --bg-card: #ffffff;
+        --text-main: #4c0519;
+        --text-muted: #9f1239;
+        --accent-main: #e11d48;
+        --accent-soft: rgba(225, 29, 72, 0.08);
+        --border-color: #ffe4e6;
+        --shadow-main: 0 12px 40px -12px rgba(225, 29, 72, 0.15);
+        --shadow-glow: 0 0 25px 0 rgba(225, 29, 72, 0.08);
+      }
+
+      /* TEMA AZUL - Serenidade e Inteligência */
+      .theme-azul {
+        --bg-main: #f0f9ff;
+        --bg-card: #ffffff;
+        --text-main: #0c4a6e;
+        --text-muted: #075985;
+        --accent-main: #0284c7;
+        --accent-soft: rgba(2, 132, 199, 0.08);
+        --border-color: #e0f2fe;
+        --shadow-main: 0 12px 40px -12px rgba(2, 132, 199, 0.15);
+        --shadow-glow: 0 0 25px 0 rgba(2, 132, 199, 0.08);
       }
       
       body {
@@ -100,6 +128,7 @@
         color: var(--text-main);
         -webkit-font-smoothing: antialiased;
         letter-spacing: -0.01em;
+        transition: background 0.5s cubic-bezier(0.4, 0, 0.2, 1);
       }
 
       .material-symbols-outlined {
@@ -130,7 +159,7 @@
       }
       .hover-lift:hover {
         transform: translateY(-4px);
-        box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.1);
+        box-shadow: var(--shadow-main);
       }
     </style>
   

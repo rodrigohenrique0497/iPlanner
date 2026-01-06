@@ -21,19 +21,23 @@ const DailyView: React.FC<DailyViewProps> = ({ date, tasks, onToggle, onSetEnerg
   const hours = Array.from({ length: 16 }, (_, i) => i + 6); // 06:00 to 21:00
   const getTaskForHour = (h: number) => tasks.find(t => t.scheduledHour === h);
 
-  const handleQuickAdd = (e: React.FormEvent, h: number) => {
-    e.preventDefault();
-    if (!quickTaskTitle.trim()) {
+  const handleQuickAdd = (e?: React.FormEvent, h?: number) => {
+    if (e) e.preventDefault();
+    const targetHour = h ?? creatingHour;
+    
+    if (!quickTaskTitle.trim() || targetHour === null) {
       setCreatingHour(null);
+      setQuickTaskTitle('');
       return;
     }
+
     onAddTask({
       title: quickTaskTitle,
       completed: false,
       priority: Priority.MEDIUM,
       category: 'Geral',
       dueDate: date,
-      scheduledHour: h,
+      scheduledHour: targetHour,
       notified: false
     });
     setQuickTaskTitle('');
@@ -73,16 +77,27 @@ const DailyView: React.FC<DailyViewProps> = ({ date, tasks, onToggle, onSetEnerg
                   <span className="w-12 text-[10px] font-black text-theme-muted/40 tracking-widest shrink-0 text-center">{h}:00</span>
                   
                   {isCreating ? (
-                    <form onSubmit={(e) => handleQuickAdd(e, h)} className="flex-1">
+                    <form onSubmit={(e) => handleQuickAdd(e, h)} className="flex-1 relative animate-in fade-in zoom-in-95 duration-300">
                       <input 
                         autoFocus
                         type="text"
                         value={quickTaskTitle}
                         onChange={(e) => setQuickTaskTitle(e.target.value)}
-                        onBlur={() => !quickTaskTitle && setCreatingHour(null)}
+                        onBlur={(e) => {
+                          // Só cancela se o clique não for no botão de salvar
+                          if (!quickTaskTitle.trim() && !e.relatedTarget?.closest('button')) {
+                            setCreatingHour(null);
+                          }
+                        }}
                         placeholder="Nome da tarefa..."
-                        className="w-full min-h-[70px] rounded-planner-sm border-2 border-theme-accent bg-theme-card px-6 font-bold text-sm outline-none shadow-glow text-theme-text"
+                        className="w-full min-h-[70px] rounded-planner-sm border-2 border-theme-accent bg-theme-card pl-6 pr-20 font-bold text-sm outline-none shadow-glow text-theme-text transition-all"
                       />
+                      <button 
+                        type="submit"
+                        className="absolute right-2 top-1/2 -translate-y-1/2 w-12 h-12 bg-theme-accent text-theme-card rounded-2xl flex items-center justify-center shadow-premium active:scale-90 transition-all hover:opacity-90"
+                      >
+                        <span className="material-symbols-outlined !text-2xl leading-none">done_all</span>
+                      </button>
                     </form>
                   ) : (
                     <div 
