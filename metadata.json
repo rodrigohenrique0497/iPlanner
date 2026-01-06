@@ -1,7 +1,5 @@
 {
   "name": "iPlanner",
   "description": "Um planejador pessoal premium que ajuda você a organizar tarefas, agendar seu dia e gerenciar suas finanças com elegância.",
-  "requestFramePermissions": [
-    "microphone"
-  ]
+  "requestFramePermissions": []
 }

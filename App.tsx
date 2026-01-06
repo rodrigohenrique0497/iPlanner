@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect, useCallback } from 'react';
 import { Task, ViewState, Priority, User, Habit, Goal, Note, FinanceTransaction } from './types';
 import Sidebar from './components/Sidebar';
@@ -15,8 +16,6 @@ import WeeklyView from './components/WeeklyView';
 import GoalView from './components/GoalView';
 import FocusTimer from './components/FocusTimer';
 import CalendarView from './components/CalendarView';
-// Imported AIPlanner to integrate the iCoach feature
-import AIPlanner from './components/AIPlanner';
 import { db } from './services/databaseService';
 import { supabase } from './lib/supabase';
 
@@ -173,16 +172,6 @@ const App: React.FC = () => {
       case 'monthly':
       case 'annual': return <GoalView type={view === 'monthly' ? 'monthly' : 'annual'} goals={goals.filter(g => g.type === (view === 'monthly' ? 'monthly' : 'annual'))} onAdd={(g) => setGoals(prev => [g, ...prev])} onUpdate={setGoals} />;
       case 'insights': return <Insights tasks={tasks} habits={habits} user={currentUser} />;
-      case 'ai-planner': return (
-        <AIPlanner 
-          onAddTasks={(newTasks) => { 
-            const tasksWithIds = newTasks.map(t => ({ ...t, id: crypto.randomUUID() }));
-            setTasks(prev => [...tasksWithIds, ...prev]); 
-            setView('tasks'); 
-            addXP(100); 
-          }} 
-        />
-      );
       case 'settings': return <Settings user={currentUser} onUpdate={handleUpdateProfile} onLogout={handleLogout} onExport={() => {}} />;
       default: return <Dashboard tasks={tasks} habits={habits} goals={goals} user={currentUser} setView={setView} />;
     }

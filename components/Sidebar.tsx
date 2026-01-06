@@ -20,7 +20,6 @@ const Sidebar: React.FC<SidebarProps> = ({ currentView, setView, user, onLogout,
     { id: 'habits', label: 'Hábitos', icon: 'auto_fix_high' },
     { id: 'notes', label: 'Notas Rápidas', icon: 'edit_note' },
     { id: 'finance', label: 'Finanças', icon: 'account_balance_wallet' },
-    { id: 'ai-planner', label: 'iCoach IA', icon: 'magic_button' },
     { id: 'insights', label: 'Relatórios', icon: 'query_stats' },
     { id: 'settings', label: 'Configurações', icon: 'tune' },
   ];

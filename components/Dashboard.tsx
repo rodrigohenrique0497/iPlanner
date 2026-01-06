@@ -80,9 +80,6 @@ const Dashboard: React.FC<DashboardProps> = ({ tasks, habits, goals, user, setVi
                   Seu iPlanner está pronto. Hoje é um excelente dia para <b className="text-theme-accent underline underline-offset-8">vencer suas metas</b>.
                 </p>
                 <div className="flex flex-wrap gap-4 pt-4">
-                  <button onClick={() => setView('ai-planner')} className="px-10 py-5 text-theme-card bg-theme-accent rounded-[2rem] font-extrabold text-xs flex items-center gap-3 shadow-glow hover:opacity-90 transition-all uppercase tracking-widest">
-                    <span className="material-symbols-outlined !text-xl">psychology</span> iCoach IA
-                  </button>
                   <button onClick={() => setView('insights')} className="px-10 py-5 text-theme-text bg-theme-bg rounded-[2rem] font-extrabold text-xs flex items-center gap-3 border border-theme-border hover:bg-theme-card transition-all uppercase tracking-widest">
                     <span className="material-symbols-outlined !text-xl">analytics</span> Performance
                   </button>

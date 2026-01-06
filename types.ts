@@ -1,3 +1,4 @@
+
 export enum Priority {
   LOW = 'low',
   MEDIUM = 'medium',
@@ -73,18 +74,6 @@ export interface User {
   categories: string[];
 }
 
-// Fixed missing AIPlanResponse type used by AIPlanner component
-export interface AIPlanResponse {
-  insight: string;
-  tasks: {
-    title: string;
-    description: string;
-    priority: Priority;
-    category: string;
-    estimatedDuration: string;
-  }[];
-}
-
 export type ViewState = 
   | 'dashboard' 
   | 'daily' 
@@ -97,5 +86,16 @@ export type ViewState =
   | 'notes'
   | 'finance'
   | 'insights' 
-  | 'ai-planner'
   | 'settings';
+
+// Fix: Define AIPlanResponse interface for GenAI structured output
+export interface AIPlanResponse {
+  insight: string;
+  tasks: {
+    title: string;
+    description: string;
+    priority: string;
+    category: string;
+    estimatedDuration: string;
+  }[];
+}
