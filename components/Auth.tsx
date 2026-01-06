@@ -94,7 +94,7 @@ const Auth: React.FC<AuthProps> = ({ onLogin }) => {
           <div>
             <h2 className="text-6xl font-black tracking-tighter text-theme-accent transition-colors duration-700">iPlanner</h2>
             <p className="mt-2 text-theme-accent font-black px-6 text-[10px] uppercase tracking-[0.4em] opacity-50 transition-colors duration-700">
-              A EXCELÊNCIA EM ORGANIZAÇÃO • CLOUD
+              A EXCELÊNCIA EM ORGANIZAÇÃO
             </p>
           </div>
         </div>
@@ -206,7 +206,7 @@ const Auth: React.FC<AuthProps> = ({ onLogin }) => {
         </div>
         
         <p className="text-center text-[10px] font-black text-theme-muted opacity-40 tracking-[0.2em] transition-colors">
-          iPlanner • Cloud Integration
+          iPlanner • Todos os direitos reservados
         </p>
       </div>
     </div>
