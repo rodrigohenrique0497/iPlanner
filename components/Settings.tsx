@@ -20,11 +20,11 @@ const Settings: React.FC<SettingsProps> = ({ user, onUpdate, onLogout, onExport 
   }, []);
 
   const themes: { id: ThemeType; label: string; icon: string; description: string; colorClass: string }[] = [
-    { id: 'light', label: 'Light Clean', icon: '☀️', description: 'Visual claro e arejado.', colorClass: 'bg-white' },
-    { id: 'dark', label: 'Dark Pro', icon: '🌙', description: 'Minimalista e focado.', colorClass: 'bg-slate-900' },
+    { id: 'light', label: 'Modo Claro', icon: '☀️', description: 'Visual claro e arejado.', colorClass: 'bg-white' },
+    { id: 'dark', label: 'Modo Escuro', icon: '🌙', description: 'Minimalista e focado.', colorClass: 'bg-slate-900' },
     { id: 'glass', label: 'Glass Luxury', icon: '💎', description: 'Efeitos translúcidos.', colorClass: 'bg-gradient-to-br from-blue-100 to-white' },
     { id: 'sweet-pastel', label: 'Tons Pasteis', icon: '🌸', description: 'Visual em tons suaves e coloridos.', colorClass: 'bg-pink-100' },
-    { id: 'midnight-slate', label: 'Midnight Slate', icon: '⚓', description: 'Visual profundo, sóbrio e moderno.', colorClass: 'bg-indigo-950' },
+    { id: 'midnight-slate', label: 'Tons Escuros', icon: '⚓', description: 'Visual profundo, sóbrio e moderno.', colorClass: 'bg-indigo-950' },
   ];
 
   const handleExportData = () => {
@@ -51,10 +51,7 @@ const Settings: React.FC<SettingsProps> = ({ user, onUpdate, onLogout, onExport 
         <h2 className="text-5xl font-black tracking-tighter text-theme-text">Configurações</h2>
         <div className="flex items-center gap-2">
           <div className="px-3 py-1 bg-slate-500/10 rounded-lg border border-slate-500/20">
-             <span className="text-[10px] font-black uppercase text-slate-600">Armazenamento: Local</span>
-          </div>
-          <div className="px-3 py-1 bg-emerald-500/10 rounded-lg">
-             <span className="text-[10px] font-black uppercase text-emerald-600">Espaço: {storageUsage} KB</span>
+             <span className="text-[10px] font-black uppercase text-slate-600">Armazenamento: {storageUsage}</span>
           </div>
         </div>
       </div>
@@ -95,9 +92,9 @@ const Settings: React.FC<SettingsProps> = ({ user, onUpdate, onLogout, onExport 
         </div>
 
         <div className="p-8 bg-slate-500/5 rounded-3xl border border-slate-500/10 space-y-4">
-          <p className="text-xs font-bold text-slate-700">💾 Modo Local Ativo</p>
+          <p className="text-xs font-bold text-slate-700">💾 Sincronização em Nuvem</p>
           <p className="text-[11px] text-slate-600 leading-relaxed font-medium">
-            Seus dados estão sendo salvos apenas no seu navegador. Para evitar perdas ao limpar o cache ou trocar de dispositivo, recomendamos baixar uma cópia de segurança periodicamente.
+            Seus dados são sincronizados automaticamente com o Supabase. Você pode baixar uma cópia local por segurança.
           </p>
         </div>
 
@@ -107,7 +104,7 @@ const Settings: React.FC<SettingsProps> = ({ user, onUpdate, onLogout, onExport 
         >
           <span className="text-2xl mb-2 group-hover:scale-110 transition-transform">📥</span>
           <span className="font-black text-theme-text uppercase text-[10px] tracking-widest">Baixar Cópia de Segurança (.json)</span>
-          <p className="text-[10px] text-theme-muted mt-1">Exporta todas as tarefas, hábitos e notas salvos localmente.</p>
+          <p className="text-[10px] text-theme-muted mt-1">Exporta todas as tarefas, hábitos e notas.</p>
         </button>
       </div>
 
@@ -145,7 +142,7 @@ const Settings: React.FC<SettingsProps> = ({ user, onUpdate, onLogout, onExport 
       <div className="bg-rose-500/10 p-10 rounded-[3.5rem] border border-rose-500/20 flex flex-col md:flex-row items-center justify-between gap-6">
         <div>
           <p className="font-black text-rose-600 text-xl">Sair do iPlanner</p>
-          <p className="text-rose-400 text-[10px] font-black uppercase">Sua sessão local será encerrada.</p>
+          <p className="text-rose-400 text-[10px] font-black uppercase">Sua sessão será encerrada.</p>
         </div>
         <button 
           onClick={onLogout} 

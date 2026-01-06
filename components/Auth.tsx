@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { User } from '../types';
 import { db } from '../services/databaseService';
@@ -21,49 +20,44 @@ const Auth: React.FC<AuthProps> = ({ onLogin }) => {
     try {
       if (isRegistering) {
         const authUser = await db.signUp(email, password, name);
-        if (authUser) {
-          const newUser: User = {
+        const newUser: User = {
+          id: authUser.id,
+          name: name.trim(),
+          email: email.trim(),
+          avatar: `https://api.dicebear.com/7.x/avataaars/svg?seed=${name.trim()}`,
+          xp: 0,
+          level: 1,
+          joinedAt: new Date().toISOString(),
+          focusGoal: 'Focar na minha produtividade',
+          theme: 'light',
+          categories: ['Geral', 'Trabalho', 'Pessoal']
+        };
+        await db.saveUser(newUser);
+        db.setSession(newUser);
+        onLogin(newUser);
+      } else {
+        const authUser = await db.signIn(email, password);
+        const profile = await db.loadProfile(authUser.id);
+        if (profile) {
+          db.setSession(profile);
+          onLogin(profile);
+        } else {
+          const fallback: User = {
             id: authUser.id,
-            name: name.trim(),
-            email: email.trim(),
-            avatar: `https://api.dicebear.com/7.x/avataaars/svg?seed=${name.trim()}`,
+            name: authUser.name,
+            email: authUser.email,
+            avatar: `https://api.dicebear.com/7.x/avataaars/svg?seed=${authUser.id}`,
             xp: 0,
             level: 1,
             joinedAt: new Date().toISOString(),
-            focusGoal: 'Focar na minha produtividade',
+            focusGoal: 'Seja bem-vindo!',
             theme: 'light',
-            categories: ['Geral', 'Trabalho', 'Pessoal']
+            categories: ['Geral']
           };
-          await db.saveUser(newUser);
-          db.setSession(newUser);
-          onLogin(newUser);
-        }
-      } else {
-        const authUser = await db.signIn(email, password);
-        if (authUser) {
-          const profile = await db.loadProfile(authUser.id);
-          if (profile) {
-            db.setSession(profile);
-            onLogin(profile);
-          } else {
-            const fallback: User = {
-              id: authUser.id,
-              name: authUser.name || authUser.email?.split('@')[0] || 'Usuário',
-              email: authUser.email || '',
-              avatar: `https://api.dicebear.com/7.x/avataaars/svg?seed=${authUser.id}`,
-              xp: 0,
-              level: 1,
-              joinedAt: new Date().toISOString(),
-              focusGoal: 'Seja bem-vindo!',
-              theme: 'light',
-              categories: ['Geral']
-            };
-            onLogin(fallback);
-          }
+          onLogin(fallback);
         }
       }
     } catch (err: any) {
-      console.error(err);
       alert(err.message || 'Erro ao processar sua solicitação.');
     } finally {
       setIsLoading(false);

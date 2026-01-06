@@ -17,7 +17,6 @@ import GoalView from './components/GoalView';
 import FocusTimer from './components/FocusTimer';
 import CalendarView from './components/CalendarView';
 import { db } from './services/databaseService';
-import { supabase } from './services/supabaseClient';
 
 const App: React.FC = () => {
   const [currentUser, setCurrentUser] = useState<User | null>(null);
@@ -31,16 +30,9 @@ const App: React.FC = () => {
   
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isReady, setIsReady] = useState(false);
-  const [isSyncing, setIsSyncing] = useState(false);
   const [activeTimer, setActiveTimer] = useState<boolean>(false);
 
-  const syncTimeoutRef = useRef<any>(null);
-  const lastLoadedUser = useRef<string | null>(null);
-
   const loadUserContent = useCallback(async (userId: string) => {
-    if (lastLoadedUser.current === userId) return; // Evita loop de recarga
-    
-    setIsSyncing(true);
     try {
       const profile = await db.loadProfile(userId);
       if (profile) setCurrentUser(profile);
@@ -57,71 +49,38 @@ const App: React.FC = () => {
       setGoals(g);
       setNotes(n);
       setTransactions(f);
-      lastLoadedUser.current = userId;
     } catch (e) {
-      console.error("Erro ao carregar dados:", e);
-    } finally {
-      setIsSyncing(false);
+      console.error("Erro ao carregar dados locais:", e);
     }
   }, []);
 
   useEffect(() => {
-    if (!supabase) {
-      setIsReady(true);
-      return;
-    }
-
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
-      if ((event === 'SIGNED_IN' || event === 'INITIAL_SESSION') && session?.user) {
-        await loadUserContent(session.user.id);
-      } else if (event === 'SIGNED_OUT') {
-        setCurrentUser(null);
-        setTasks([]);
-        setHabits([]);
-        setGoals([]);
-        setNotes([]);
-        setTransactions([]);
-        lastLoadedUser.current = null;
-      }
-      setIsReady(true);
-    });
-
     const savedUser = db.getSession();
     if (savedUser) {
       setCurrentUser(savedUser);
+      loadUserContent(savedUser.id);
       document.body.className = `theme-${savedUser.theme}`;
     }
-
-    return () => {
-      subscription.unsubscribe();
-    };
+    setIsReady(true);
   }, [loadUserContent]);
 
+  // Sincronização automática com LocalStorage
   useEffect(() => {
     if (!currentUser || !isReady) return;
 
-    if (syncTimeoutRef.current) clearTimeout(syncTimeoutRef.current);
+    const sync = async () => {
+      await Promise.all([
+        db.saveData(currentUser.id, 'tasks', tasks),
+        db.saveData(currentUser.id, 'habits', habits),
+        db.saveData(currentUser.id, 'goals', goals),
+        db.saveData(currentUser.id, 'notes', notes),
+        db.saveData(currentUser.id, 'finance', transactions),
+        db.saveUser(currentUser)
+      ]);
+      db.setSession(currentUser);
+    };
 
-    syncTimeoutRef.current = setTimeout(async () => {
-      setIsSyncing(true);
-      try {
-        await Promise.all([
-          db.saveData(currentUser.id, 'tasks', tasks),
-          db.saveData(currentUser.id, 'habits', habits),
-          db.saveData(currentUser.id, 'goals', goals),
-          db.saveData(currentUser.id, 'notes', notes),
-          db.saveData(currentUser.id, 'finance', transactions),
-          db.saveUser(currentUser)
-        ]);
-        db.setSession(currentUser);
-      } catch (e) {
-        console.error("Erro sync:", e);
-      } finally {
-        setIsSyncing(false);
-      }
-    }, 2000);
-
-    return () => clearTimeout(syncTimeoutRef.current);
+    sync();
   }, [tasks, habits, goals, notes, transactions, currentUser, isReady]);
 
   useEffect(() => {
@@ -169,6 +128,7 @@ const App: React.FC = () => {
 
   const handleLogout = () => {
     db.signOut();
+    setCurrentUser(null);
   };
 
   if (!isReady) {
@@ -209,12 +169,6 @@ const App: React.FC = () => {
     <div className="flex min-h-screen bg-theme-bg overflow-hidden relative">
       <Sidebar currentView={view} setView={setView} user={currentUser} onLogout={handleLogout} isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
       <main className="flex-1 overflow-y-auto no-scrollbar relative md:pb-0 pb-32">
-        {isSyncing && (
-          <div className="fixed top-6 right-6 z-[100] flex items-center gap-3 px-4 py-2 bg-theme-card/80 backdrop-blur-md rounded-full shadow-lg border border-theme-border animate-in fade-in slide-in-from-right-4 duration-300">
-             <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></div>
-             <span className="text-[9px] font-black uppercase tracking-widest text-theme-text opacity-60">Sincronizando...</span>
-          </div>
-        )}
         <div className="md:hidden p-6 flex justify-between items-center sticky top-0 bg-theme-bg/80 backdrop-blur-md z-50">
            <h1 className="text-xl font-black text-theme-text tracking-tighter">iPlanner</h1>
            <button onClick={() => setIsSidebarOpen(true)} className="w-12 h-12 flex items-center justify-center rounded-2xl bg-theme-card border border-theme-border shadow-sm">
