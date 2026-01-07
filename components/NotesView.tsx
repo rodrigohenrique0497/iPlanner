@@ -105,6 +105,7 @@ const NotesView: React.FC<NotesViewProps> = ({ notes, onAdd, onUpdate, onDelete 
               />
             </div>
 
+            {/* Otimização UX: Salvar antes de Cancelar */}
             <div className="flex flex-col gap-4">
               <button 
                 onClick={handleAddNote}

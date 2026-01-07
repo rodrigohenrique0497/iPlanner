@@ -178,8 +178,9 @@ const FinanceView: React.FC<FinanceViewProps> = ({ transactions, onAdd, onDelete
               </div>
             </div>
 
+            {/* Otimização UX: Salvar antes de Cancelar */}
             <div className="flex flex-col gap-4">
-              <button type="submit" className="btn-action-primary w-full shadow-glow">Salvar</button>
+              <button type="submit" className="btn-action-primary w-full shadow-glow">Salvar Registro</button>
               <button type="button" onClick={() => setIsAdding(false)} className="btn-action-secondary w-full">Cancelar</button>
             </div>
           </form>
@@ -188,7 +189,7 @@ const FinanceView: React.FC<FinanceViewProps> = ({ transactions, onAdd, onDelete
 
       {/* Transactions List */}
       <div className="bg-theme-card rounded-[3rem] border border-theme-border shadow-sm overflow-hidden">
-        <div className="p-10 border-b border-theme-border flex justify-between items-center bg-theme-bg/30">
+        <div className="p-8 md:p-10 border-b border-theme-border flex justify-between items-center bg-theme-bg/30">
           <h3 className="font-black text-theme-text tracking-tight uppercase text-xs tracking-[0.25em] opacity-60">Fluxo de Caixa</h3>
           <span className="text-[10px] font-black uppercase text-theme-muted bg-theme-accent-soft px-4 py-2 rounded-full border border-theme-border/50 tracking-widest">{transactions.length} registros</span>
         </div>

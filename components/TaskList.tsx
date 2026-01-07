@@ -102,17 +102,17 @@ const TaskList: React.FC<TaskListProps> = ({ tasks, onToggle, onDelete, onAdd, u
       </header>
 
       {isManagingCats && (
-        <div className="bg-theme-card p-8 md:p-10 rounded-planner border border-theme-border shadow-premium space-y-8 animate-in slide-in-from-top-4 duration-300 relative">
+        <div className="bg-theme-card p-6 md:p-10 rounded-planner border border-theme-border shadow-premium space-y-8 animate-in slide-in-from-top-4 duration-300 relative">
           <div className="flex justify-between items-center">
             <h3 className="text-[11px] font-black uppercase tracking-[0.25em] text-theme-muted">Gerenciar Categorias</h3>
-            <button onClick={() => setIsManagingCats(false)} className="btn-close-modal !w-10 !h-10">
+            <button onClick={() => setIsManagingCats(false)} className="btn-close-modal">
               <span className="material-symbols-outlined">close</span>
             </button>
           </div>
-          <div className="flex flex-wrap gap-3">
+          <div className="flex flex-wrap gap-2.5">
             {userCategories.map(cat => (
-              <div key={cat} className="flex items-center gap-3 px-5 py-3 bg-theme-bg rounded-xl border border-theme-border group">
-                <span className="text-sm font-bold text-theme-text">{cat}</span>
+              <div key={cat} className="flex items-center gap-3 px-5 py-2.5 bg-theme-bg rounded-xl border border-theme-border group">
+                <span className="text-xs font-bold text-theme-text">{cat}</span>
                 {cat !== 'Geral' && (
                   <button onClick={() => removeCategory(cat)} className="text-theme-muted hover:text-rose-500 transition-colors">
                     <span className="material-symbols-outlined !text-[20px]">close</span>
@@ -127,7 +127,7 @@ const TaskList: React.FC<TaskListProps> = ({ tasks, onToggle, onDelete, onAdd, u
               placeholder="Nova categoria..." 
               value={tempCategory}
               onChange={e => setTempCategory(e.target.value)}
-              className="flex-1 px-7 h-[3.75rem] bg-theme-bg border border-theme-border rounded-2xl text-sm font-bold outline-none focus:border-theme-accent transition-all"
+              className="flex-1 px-6 h-[3.75rem] bg-theme-bg border border-theme-border rounded-2xl text-sm font-bold outline-none focus:border-theme-accent transition-all"
             />
             <button onClick={handleAddCategory} className="btn-action-primary !h-[3.75rem] shadow-glow">Adicionar</button>
           </div>
@@ -135,10 +135,10 @@ const TaskList: React.FC<TaskListProps> = ({ tasks, onToggle, onDelete, onAdd, u
       )}
 
       {isAdding && (
-        <form onSubmit={handleSubmit} className="bg-theme-card p-10 md:p-12 rounded-planner border border-theme-border shadow-premium space-y-10 animate-in slide-in-from-bottom-4 duration-300 relative">
-          <div className="flex justify-between items-center mb-2">
+        <form onSubmit={handleSubmit} className="bg-theme-card p-8 md:p-12 rounded-planner border border-theme-border shadow-premium space-y-10 animate-in slide-in-from-bottom-4 duration-300 relative">
+          <div className="flex justify-between items-center">
             <span className="text-[10px] font-black uppercase tracking-widest text-theme-accent opacity-60">Novo Registro</span>
-            <button type="button" onClick={() => setIsAdding(false)} className="btn-close-modal !w-10 !h-10">
+            <button type="button" onClick={() => setIsAdding(false)} className="btn-close-modal">
               <span className="material-symbols-outlined">close</span>
             </button>
           </div>
@@ -149,10 +149,10 @@ const TaskList: React.FC<TaskListProps> = ({ tasks, onToggle, onDelete, onAdd, u
             placeholder="Qual o próximo passo?"
             value={newTitle}
             onChange={e => setNewTitle(e.target.value)}
-            className="w-full text-3xl font-black bg-transparent border-none outline-none text-theme-text placeholder:opacity-30 p-0 min-h-0"
+            className="w-full text-2xl md:text-3xl font-black bg-transparent border-none outline-none text-theme-text placeholder:opacity-30 p-0 min-h-0"
           />
           
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
             <div className="space-y-3">
                <label className="text-[10px] font-black uppercase text-theme-muted opacity-60 ml-3 tracking-widest">Categoria</label>
                <select value={newCategory} onChange={e => setNewCategory(e.target.value)} className="w-full px-6 h-[3.75rem] rounded-2xl uppercase outline-none border border-theme-border cursor-pointer appearance-none text-xs tracking-widest bg-theme-bg">
@@ -186,9 +186,10 @@ const TaskList: React.FC<TaskListProps> = ({ tasks, onToggle, onDelete, onAdd, u
             </div>
           </div>
           
-          <div className="flex flex-col sm:flex-row justify-end pt-4 gap-4">
-            <button type="button" onClick={() => setIsAdding(false)} className="btn-action-secondary">Cancelar</button>
-            <button type="submit" className="btn-action-primary shadow-glow">Agendar Tarefa</button>
+          {/* Otimização UX: Salvar antes de Cancelar */}
+          <div className="flex flex-col sm:flex-row-reverse justify-start pt-4 gap-4">
+            <button type="submit" className="btn-action-primary shadow-glow w-full sm:w-auto">Agendar Tarefa</button>
+            <button type="button" onClick={() => setIsAdding(false)} className="btn-action-secondary w-full sm:w-auto">Cancelar</button>
           </div>
         </form>
       )}
@@ -242,7 +243,7 @@ const TaskList: React.FC<TaskListProps> = ({ tasks, onToggle, onDelete, onAdd, u
           return (
             <div
               key={task.id}
-              className={`flex items-center gap-6 p-6 md:p-8 rounded-[2rem] border transition-all duration-300 ${task.completed ? 'bg-theme-bg border-transparent opacity-50 scale-[0.98]' : 'bg-theme-card border-theme-border shadow-sm hover:border-theme-accent/20 hover:shadow-premium'}`}
+              className={`flex items-center gap-5 md:gap-6 p-5 md:p-8 rounded-[2rem] border transition-all duration-300 ${task.completed ? 'bg-theme-bg border-transparent opacity-50 scale-[0.98]' : 'bg-theme-card border-theme-border shadow-sm hover:border-theme-accent/20 hover:shadow-premium'}`}
             >
               <button 
                 onClick={() => onToggle(task.id)}
@@ -252,20 +253,21 @@ const TaskList: React.FC<TaskListProps> = ({ tasks, onToggle, onDelete, onAdd, u
               </button>
 
               <div className="flex-1 min-w-0" onClick={() => onToggle(task.id)}>
-                <p className={`font-bold text-[18px] tracking-tight truncate ${task.completed ? 'line-through text-theme-muted' : 'text-theme-text'}`}>
+                <p className={`font-bold text-[17px] md:text-[18px] tracking-tight truncate ${task.completed ? 'line-through text-theme-muted' : 'text-theme-text'}`}>
                   {task.title}
                 </p>
-                <div className="flex items-center gap-4 mt-2.5">
-                   <span className={`text-[10px] font-black uppercase tracking-[0.2em] px-3 py-1.5 rounded-xl ${task.completed ? 'bg-theme-muted/10 text-theme-muted' : 'bg-theme-accent-soft text-theme-accent'}`}>
+                {/* Correção de Overflow Mobile: Flex-wrap nas badges */}
+                <div className="flex flex-wrap items-center gap-2.5 mt-2.5">
+                   <span className={`text-[9px] font-black uppercase tracking-[0.15em] px-2.5 py-1.5 rounded-lg whitespace-nowrap ${task.completed ? 'bg-theme-muted/10 text-theme-muted' : 'bg-theme-accent-soft text-theme-accent'}`}>
                      {task.category}
                    </span>
                    {!task.completed && (
-                     <span className={`text-[10px] font-black uppercase tracking-[0.2em] px-3 py-1.5 rounded-xl border ${priorityColors[task.priority as Priority]}`}>
+                     <span className={`text-[9px] font-black uppercase tracking-[0.15em] px-2.5 py-1.5 rounded-lg border whitespace-nowrap ${priorityColors[task.priority as Priority]}`}>
                        {task.priority === Priority.LOW ? 'Baixa' : task.priority === Priority.MEDIUM ? 'Média' : 'Alta'}
                      </span>
                    )}
                    {isOverdue && (
-                     <span className="text-[10px] font-black text-rose-600 uppercase tracking-widest flex items-center gap-1.5 bg-rose-500/10 px-3 py-1.5 rounded-xl">
+                     <span className="text-[9px] font-black text-rose-600 uppercase tracking-widest flex items-center gap-1.5 bg-rose-500/10 px-2.5 py-1.5 rounded-lg whitespace-nowrap">
                        <span className="w-1.5 h-1.5 bg-rose-600 rounded-full animate-pulse"></span> Atrasado
                      </span>
                    )}
@@ -274,7 +276,7 @@ const TaskList: React.FC<TaskListProps> = ({ tasks, onToggle, onDelete, onAdd, u
 
               <button 
                 onClick={() => onDelete(task.id)} 
-                className="w-12 h-12 flex items-center justify-center rounded-2xl text-theme-muted hover:text-rose-600 hover:bg-rose-500/10 transition-all active:scale-90"
+                className="w-11 h-11 flex items-center justify-center rounded-2xl text-theme-muted hover:text-rose-600 hover:bg-rose-500/10 transition-all active:scale-90"
               >
                 <span className="material-symbols-outlined !text-2xl">delete</span>
               </button>
