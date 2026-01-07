@@ -70,8 +70,8 @@ const Dashboard: React.FC<DashboardProps> = ({ tasks, habits, goals, user, setVi
         {/* Banner de Boas Vindas */}
         <div className="lg:col-span-8 space-y-6 md:space-y-10">
           <div className="bg-theme-card p-8 md:p-14 rounded-planner border border-theme-border shadow-premium relative overflow-hidden flex flex-col md:flex-row gap-6 md:gap-12 items-start group">
-             <div className="w-16 h-16 md:w-24 md:h-24 bg-theme-accent rounded-planner-sm flex items-center justify-center text-theme-card shrink-0 shadow-glow group-hover:rotate-6 transition-transform duration-500">
-                <span className="material-symbols-outlined !text-4xl md:!text-5xl">menu_book</span>
+             <div className="w-16 h-16 md:w-24 md:h-24 bg-theme-accent rounded-planner-sm flex items-center justify-center text-theme-card shrink-0 shadow-glow group-hover:rotate-6 transition-transform duration-500 overflow-hidden p-3 md:p-5">
+                <img src="/icon-192.png" alt="iPlanner Logo" className="w-full h-full object-contain" />
              </div>
              <div className="space-y-4 md:space-y-6 relative z-10">
                 <span className="inline-block px-4 py-1.5 md:px-6 md:py-2.5 bg-theme-accent-soft text-theme-accent rounded-full text-[8px] md:text-[10px] font-black uppercase tracking-[0.3em] border border-theme-accent/5">Foco Máximo Ativado</span>
