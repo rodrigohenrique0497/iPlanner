@@ -17,23 +17,23 @@ const MobileNav: React.FC<MobileNavProps> = ({ currentView, setView }) => {
   ];
 
   return (
-    <nav className="md:hidden fixed bottom-6 left-5 right-5 glass-premium border border-theme-border/20 flex justify-between items-center px-4 py-3 z-[60] rounded-[2rem] shadow-glass transition-all">
+    <nav className="md:hidden fixed bottom-6 left-5 right-5 glass-mobile-nav border border-theme-border/30 flex justify-between items-center px-4 py-3 z-[60] rounded-[2rem] shadow-glass transition-all">
       {navItems.map((item) => {
         const isActive = currentView === item.id;
         return (
           <button
             key={item.id}
             onClick={() => setView(item.id as ViewState)}
-            className={`flex flex-col items-center justify-center gap-1.5 p-2 transition-all active:scale-90 ${isActive ? 'text-theme-accent' : 'text-theme-muted opacity-50'}`}
+            className={`flex flex-col items-center justify-center gap-1.5 p-2 transition-all active:scale-90 relative ${isActive ? 'text-theme-accent' : 'text-theme-muted'}`}
           >
-            <span className={`material-symbols-outlined !text-[26px] transition-all duration-300 ${isActive ? 'font-black scale-110 drop-shadow-sm' : ''}`}>
+            <span className={`material-symbols-outlined !text-[26px] transition-all duration-300 ${isActive ? 'font-black scale-110 opacity-100' : 'opacity-40'}`}>
               {item.icon}
             </span>
-            <span className={`text-[8px] font-black uppercase tracking-widest transition-opacity ${isActive ? 'opacity-100' : 'opacity-40'}`}>
+            <span className={`text-[8px] font-black uppercase tracking-widest transition-opacity ${isActive ? 'opacity-100' : 'opacity-30'}`}>
               {item.label}
             </span>
             {isActive && (
-              <div className="absolute -bottom-1 w-1.5 h-1.5 bg-theme-accent rounded-full animate-pulse shadow-glow"></div>
+              <div className="absolute -bottom-1 w-1 h-1 bg-theme-accent rounded-full shadow-glow"></div>
             )}
           </button>
         );

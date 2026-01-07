@@ -75,7 +75,7 @@ const TaskList: React.FC<TaskListProps> = ({ tasks, onToggle, onDelete, onAdd, u
     <div className="max-w-4xl mx-auto px-6 py-6 md:py-12 space-y-8 page-transition pb-32">
       <header className="flex justify-between items-center">
         <div className="flex items-center gap-5">
-          <div className="w-14 h-14 bg-theme-accent text-theme-card rounded-[1.25rem] flex items-center justify-center shadow-premium shrink-0">
+          <div className="w-14 h-14 bg-theme-accent text-theme-card rounded-2xl flex items-center justify-center shadow-premium shrink-0">
             <span className="material-symbols-outlined !text-2xl">checklist</span>
           </div>
           <div>
@@ -87,27 +87,27 @@ const TaskList: React.FC<TaskListProps> = ({ tasks, onToggle, onDelete, onAdd, u
         <div className="flex gap-2">
           <button
             onClick={() => setIsManagingCats(!isManagingCats)}
-            className={`w-14 h-14 rounded-full flex items-center justify-center border transition-all active:scale-90 ${isManagingCats ? 'bg-theme-accent text-theme-card border-theme-accent' : 'bg-theme-card text-theme-muted border-theme-border'}`}
+            className={`w-12 h-12 rounded-full flex items-center justify-center border transition-all active:scale-90 ${isManagingCats ? 'bg-theme-accent text-theme-card border-theme-accent' : 'bg-theme-card text-theme-muted border-theme-border'}`}
             title="Gerenciar Categorias"
           >
-            <span className="material-symbols-outlined !text-2xl">category</span>
+            <span className="material-symbols-outlined !text-xl">category</span>
           </button>
           <button
             onClick={() => setIsAdding(!isAdding)}
-            className={`w-14 h-14 rounded-full flex items-center justify-center shadow-premium transition-all active:scale-90 ${isAdding ? 'bg-rose-500 text-white rotate-45 scale-90' : 'bg-theme-accent text-theme-card'}`}
+            className={`w-12 h-12 rounded-full flex items-center justify-center shadow-premium transition-all active:scale-90 ${isAdding ? 'bg-rose-500 text-white rotate-45 scale-90' : 'bg-theme-accent text-theme-card'}`}
           >
-            <span className="material-symbols-outlined !text-2xl">add</span>
+            <span className="material-symbols-outlined !text-xl">add</span>
           </button>
         </div>
       </header>
 
       {/* Gerenciador de Categorias */}
       {isManagingCats && (
-        <div className="bg-theme-card p-8 rounded-planner border border-theme-border shadow-premium space-y-6 animate-in slide-in-from-top-4 duration-300">
+        <div className="bg-theme-card p-6 md:p-8 rounded-planner border border-theme-border shadow-premium space-y-6 animate-in slide-in-from-top-4 duration-300">
           <h3 className="text-[10px] font-black uppercase tracking-widest text-theme-muted">Minhas Categorias</h3>
           <div className="flex flex-wrap gap-2">
             {userCategories.map(cat => (
-              <div key={cat} className="flex items-center gap-2 px-4 py-2 bg-theme-bg rounded-xl border border-theme-border group">
+              <div key={cat} className="flex items-center gap-2 px-3 py-1.5 bg-theme-bg rounded-xl border border-theme-border group">
                 <span className="text-[11px] font-bold text-theme-text">{cat}</span>
                 {cat !== 'Geral' && (
                   <button onClick={() => removeCategory(cat)} className="text-theme-muted hover:text-rose-500 transition-colors">
@@ -120,12 +120,12 @@ const TaskList: React.FC<TaskListProps> = ({ tasks, onToggle, onDelete, onAdd, u
           <div className="flex gap-2">
             <input 
               type="text" 
-              placeholder="Nome da nova categoria..." 
+              placeholder="Nova categoria..." 
               value={tempCategory}
               onChange={e => setTempCategory(e.target.value)}
-              className="flex-1 px-5 py-3 bg-theme-bg border border-theme-border rounded-xl text-xs font-bold outline-none focus:border-theme-accent transition-all"
+              className="flex-1 px-4 py-2.5 bg-theme-bg border border-theme-border rounded-xl text-xs font-bold outline-none focus:border-theme-accent transition-all"
             />
-            <button onClick={handleAddCategory} className="px-6 py-3 bg-theme-accent text-theme-card rounded-xl text-[10px] font-black uppercase tracking-widest">Adicionar</button>
+            <button onClick={handleAddCategory} className="px-5 py-2.5 bg-theme-accent text-theme-card rounded-xl text-[10px] font-black uppercase tracking-widest active:scale-95">Adicionar</button>
           </div>
         </div>
       )}
@@ -144,14 +144,14 @@ const TaskList: React.FC<TaskListProps> = ({ tasks, onToggle, onDelete, onAdd, u
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="flex flex-col gap-2">
                <label className="text-[9px] font-black uppercase text-theme-muted opacity-60 ml-2 tracking-widest">Categoria</label>
-               <select value={newCategory} onChange={e => setNewCategory(e.target.value)} className="bg-theme-bg px-5 py-3 rounded-2xl text-[11px] font-black uppercase outline-none border border-theme-border cursor-pointer appearance-none">
+               <select value={newCategory} onChange={e => setNewCategory(e.target.value)} className="bg-theme-bg px-4 py-3 rounded-xl text-[11px] font-black uppercase outline-none border border-theme-border cursor-pointer appearance-none">
                  {userCategories.map(c => <option key={c} value={c}>{c}</option>)}
                </select>
             </div>
             
             <div className="flex flex-col gap-2">
                <label className="text-[9px] font-black uppercase text-theme-muted opacity-60 ml-2 tracking-widest">Prioridade</label>
-               <div className="flex bg-theme-bg p-1 rounded-2xl border border-theme-border">
+               <div className="flex bg-theme-bg p-1 rounded-xl border border-theme-border">
                   {[
                     { id: Priority.LOW, label: 'Baixa' },
                     { id: Priority.MEDIUM, label: 'Média' },
@@ -161,7 +161,7 @@ const TaskList: React.FC<TaskListProps> = ({ tasks, onToggle, onDelete, onAdd, u
                       key={p.id}
                       type="button"
                       onClick={() => setNewPriority(p.id)}
-                      className={`flex-1 py-2 rounded-xl text-[9px] font-black uppercase transition-all ${newPriority === p.id ? 'bg-theme-accent text-theme-card shadow-sm' : 'text-theme-muted opacity-50'}`}
+                      className={`flex-1 py-2 rounded-lg text-[9px] font-black uppercase transition-all ${newPriority === p.id ? 'bg-theme-accent text-theme-card shadow-sm' : 'text-theme-muted opacity-50'}`}
                     >
                       {p.label}
                     </button>
@@ -171,12 +171,12 @@ const TaskList: React.FC<TaskListProps> = ({ tasks, onToggle, onDelete, onAdd, u
 
             <div className="flex flex-col gap-2">
                <label className="text-[9px] font-black uppercase text-theme-muted opacity-60 ml-2 tracking-widest">Data Limite</label>
-               <input type="date" value={newDueDate} onChange={e => setNewDueDate(e.target.value)} className="bg-theme-bg px-5 py-3 rounded-2xl text-[11px] font-black outline-none border border-theme-border" />
+               <input type="date" value={newDueDate} onChange={e => setNewDueDate(e.target.value)} className="bg-theme-bg px-4 py-3 rounded-xl text-[11px] font-black outline-none border border-theme-border" />
             </div>
           </div>
           
           <div className="flex justify-end pt-4">
-            <button type="submit" className="bg-theme-accent text-theme-card px-12 py-4 rounded-2xl text-[11px] font-black uppercase shadow-glow active:scale-95 transition-all">Agendar Tarefa</button>
+            <button type="submit" className="bg-theme-accent text-theme-card px-10 py-3.5 rounded-xl text-[11px] font-black uppercase shadow-glow active:scale-95 transition-all">Agendar Tarefa</button>
           </div>
         </form>
       )}
@@ -189,10 +189,10 @@ const TaskList: React.FC<TaskListProps> = ({ tasks, onToggle, onDelete, onAdd, u
             placeholder="Buscar tarefas..." 
             value={searchQuery}
             onChange={e => setSearchQuery(e.target.value)}
-            className="w-full pl-14 pr-6 py-5 bg-theme-card rounded-[1.25rem] border border-theme-border outline-none font-bold text-sm shadow-sm focus:border-theme-accent/40 transition-all text-theme-text"
+            className="w-full pl-14 pr-6 py-4.5 bg-theme-card rounded-2xl border border-theme-border outline-none font-bold text-sm shadow-sm focus:border-theme-accent/40 transition-all text-theme-text"
           />
           <span className="absolute left-5 top-1/2 -translate-y-1/2 text-theme-muted opacity-60">
-            <span className="material-symbols-outlined !text-2xl">search</span>
+            <span className="material-symbols-outlined !text-xl">search</span>
           </span>
         </div>
 
@@ -200,7 +200,7 @@ const TaskList: React.FC<TaskListProps> = ({ tasks, onToggle, onDelete, onAdd, u
           <div className="flex-1 flex gap-2 overflow-x-auto no-scrollbar py-1">
             <button 
               onClick={() => setFilterCategory('all')}
-              className={`px-6 py-2.5 rounded-full text-[10px] font-black uppercase tracking-widest transition-all shrink-0 border ${filterCategory === 'all' ? 'bg-theme-accent text-theme-card border-theme-accent shadow-glow' : 'bg-theme-card text-theme-muted border-theme-border opacity-70'}`}
+              className={`px-5 py-2 rounded-full text-[9px] font-black uppercase tracking-widest transition-all shrink-0 border ${filterCategory === 'all' ? 'bg-theme-accent text-theme-card border-theme-accent shadow-glow' : 'bg-theme-card text-theme-muted border-theme-border opacity-70'}`}
             >
               Todas
             </button>
@@ -208,18 +208,18 @@ const TaskList: React.FC<TaskListProps> = ({ tasks, onToggle, onDelete, onAdd, u
               <button 
                 key={cat}
                 onClick={() => setFilterCategory(cat)}
-                className={`px-6 py-2.5 rounded-full text-[10px] font-black uppercase tracking-widest transition-all shrink-0 border ${filterCategory === cat ? 'bg-theme-accent text-theme-card border-theme-accent shadow-glow' : 'bg-theme-card text-theme-muted border-theme-border opacity-70'}`}
+                className={`px-5 py-2 rounded-full text-[9px] font-black uppercase tracking-widest transition-all shrink-0 border ${filterCategory === cat ? 'bg-theme-accent text-theme-card border-theme-accent shadow-glow' : 'bg-theme-card text-theme-muted border-theme-border opacity-70'}`}
               >
                 {cat}
               </button>
             ))}
           </div>
 
-          <div className="bg-theme-card p-1.5 rounded-2xl border border-theme-border flex gap-1 shrink-0">
-             <button onClick={() => setFilterPriority('all')} className={`px-4 py-2 rounded-xl text-[9px] font-black uppercase ${filterPriority === 'all' ? 'bg-theme-bg text-theme-text shadow-sm' : 'text-theme-muted opacity-50'}`}>Todas</button>
-             <button onClick={() => setFilterPriority(Priority.LOW)} className={`px-4 py-2 rounded-xl text-[9px] font-black uppercase ${filterPriority === Priority.LOW ? 'bg-blue-500 text-white' : 'text-theme-muted opacity-50'}`}>Baixa</button>
-             <button onClick={() => setFilterPriority(Priority.MEDIUM)} className={`px-4 py-2 rounded-xl text-[9px] font-black uppercase ${filterPriority === Priority.MEDIUM ? 'bg-amber-500 text-white' : 'text-theme-muted opacity-50'}`}>Média</button>
-             <button onClick={() => setFilterPriority(Priority.HIGH)} className={`px-4 py-2 rounded-xl text-[9px] font-black uppercase ${filterPriority === Priority.HIGH ? 'bg-rose-500 text-white' : 'text-theme-muted opacity-50'}`}>Alta</button>
+          <div className="bg-theme-card p-1 rounded-xl border border-theme-border flex gap-1 shrink-0">
+             <button onClick={() => setFilterPriority('all')} className={`px-3 py-1.5 rounded-lg text-[8px] font-black uppercase ${filterPriority === 'all' ? 'bg-theme-bg text-theme-text shadow-sm' : 'text-theme-muted opacity-50'}`}>Todas</button>
+             <button onClick={() => setFilterPriority(Priority.LOW)} className={`px-3 py-1.5 rounded-lg text-[8px] font-black uppercase ${filterPriority === Priority.LOW ? 'bg-blue-500 text-white' : 'text-theme-muted opacity-50'}`}>Baixa</button>
+             <button onClick={() => setFilterPriority(Priority.MEDIUM)} className={`px-3 py-1.5 rounded-lg text-[8px] font-black uppercase ${filterPriority === Priority.MEDIUM ? 'bg-amber-500 text-white' : 'text-theme-muted opacity-50'}`}>Média</button>
+             <button onClick={() => setFilterPriority(Priority.HIGH)} className={`px-3 py-1.5 rounded-lg text-[8px] font-black uppercase ${filterPriority === Priority.HIGH ? 'bg-rose-500 text-white' : 'text-theme-muted opacity-50'}`}>Alta</button>
           </div>
         </div>
       </div>
@@ -230,30 +230,30 @@ const TaskList: React.FC<TaskListProps> = ({ tasks, onToggle, onDelete, onAdd, u
           return (
             <div
               key={task.id}
-              className={`flex items-center gap-4 p-4 md:p-5 rounded-[1.25rem] border transition-all duration-300 ${task.completed ? 'bg-theme-bg border-transparent opacity-60 scale-[0.98]' : 'bg-theme-card border-theme-border shadow-sm hover:border-theme-accent/20 hover:shadow-premium'}`}
+              className={`flex items-center gap-4 p-4 md:p-5 rounded-2xl border transition-all duration-300 ${task.completed ? 'bg-theme-bg border-transparent opacity-60 scale-[0.98]' : 'bg-theme-card border-theme-border shadow-sm hover:border-theme-accent/20 hover:shadow-premium'}`}
             >
               <button 
                 onClick={() => onToggle(task.id)}
-                className={`w-11 h-11 rounded-2xl border-2 flex items-center justify-center shrink-0 transition-all duration-500 active:scale-75 ${task.completed ? 'bg-theme-accent border-theme-accent text-theme-card shadow-glow' : 'bg-theme-bg border-theme-border'}`}
+                className={`w-10 h-10 rounded-xl border-2 flex items-center justify-center shrink-0 transition-all duration-500 active:scale-75 ${task.completed ? 'bg-theme-accent border-theme-accent text-theme-card shadow-glow' : 'bg-theme-bg border-theme-border'}`}
               >
-                <span className={`material-symbols-outlined !text-xl ${task.completed ? 'scale-100 opacity-100' : 'scale-0 opacity-0'} transition-all`}>check</span>
+                <span className={`material-symbols-outlined !text-lg ${task.completed ? 'scale-100 opacity-100' : 'scale-0 opacity-0'} transition-all`}>check</span>
               </button>
 
               <div className="flex-1 min-w-0" onClick={() => onToggle(task.id)}>
-                <p className={`font-bold text-[16px] tracking-tight truncate ${task.completed ? 'line-through text-theme-muted' : 'text-theme-text'}`}>
+                <p className={`font-bold text-[15px] tracking-tight truncate ${task.completed ? 'line-through text-theme-muted' : 'text-theme-text'}`}>
                   {task.title}
                 </p>
                 <div className="flex items-center gap-3 mt-1">
-                   <span className={`text-[9px] font-black uppercase tracking-widest px-2 py-0.5 rounded ${task.completed ? 'bg-theme-muted/10 text-theme-muted' : 'bg-theme-accent-soft text-theme-accent'}`}>
+                   <span className={`text-[8px] font-black uppercase tracking-widest px-2 py-0.5 rounded ${task.completed ? 'bg-theme-muted/10 text-theme-muted' : 'bg-theme-accent-soft text-theme-accent'}`}>
                      {task.category}
                    </span>
                    {!task.completed && (
-                     <span className={`text-[9px] font-black uppercase tracking-widest px-2 py-0.5 rounded border ${priorityColors[task.priority as Priority]}`}>
+                     <span className={`text-[8px] font-black uppercase tracking-widest px-2 py-0.5 rounded border ${priorityColors[task.priority as Priority]}`}>
                        {task.priority === Priority.LOW ? 'Baixa' : task.priority === Priority.MEDIUM ? 'Média' : 'Alta'}
                      </span>
                    )}
                    {isOverdue && (
-                     <span className="text-[9px] font-black text-rose-600 uppercase tracking-widest flex items-center gap-1 bg-rose-500/10 px-2 py-0.5 rounded">
+                     <span className="text-[8px] font-black text-rose-600 uppercase tracking-widest flex items-center gap-1 bg-rose-500/10 px-2 py-0.5 rounded">
                        <span className="w-1 h-1 bg-rose-600 rounded-full animate-pulse"></span> Atrasado
                      </span>
                    )}
@@ -262,9 +262,9 @@ const TaskList: React.FC<TaskListProps> = ({ tasks, onToggle, onDelete, onAdd, u
 
               <button 
                 onClick={() => onDelete(task.id)} 
-                className="w-11 h-11 flex items-center justify-center rounded-2xl text-theme-muted hover:text-rose-600 active:bg-rose-500/10 transition-all"
+                className="w-10 h-10 flex items-center justify-center rounded-xl text-theme-muted hover:text-rose-600 active:bg-rose-500/10 transition-all"
               >
-                <span className="material-symbols-outlined !text-2xl">delete</span>
+                <span className="material-symbols-outlined !text-xl">delete</span>
               </button>
             </div>
           );
@@ -273,8 +273,8 @@ const TaskList: React.FC<TaskListProps> = ({ tasks, onToggle, onDelete, onAdd, u
         {filteredTasks.length === 0 && (
           <div className="py-24 text-center space-y-4 opacity-40">
             <span className="material-symbols-outlined !text-6xl text-theme-muted">inventory_2</span>
-            <p className="font-black uppercase tracking-[0.2em] text-[11px] text-theme-muted">Nenhum resultado para estes filtros</p>
-            <button onClick={() => { setFilterCategory('all'); setFilterPriority('all'); setSearchQuery(''); }} className="text-[10px] font-black text-theme-accent uppercase underline tracking-widest">Limpar Filtros</button>
+            <p className="font-black uppercase tracking-[0.2em] text-[11px] text-theme-muted">Nenhum resultado</p>
+            <button onClick={() => { setFilterCategory('all'); setFilterPriority('all'); setSearchQuery(''); }} className="text-[10px] font-black text-theme-accent uppercase underline tracking-widest active:scale-95">Limpar Filtros</button>
           </div>
         )}
       </div>
