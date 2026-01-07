@@ -20,11 +20,12 @@ const Auth: React.FC<AuthProps> = ({ onLogin }) => {
     document.body.className = `theme-${isRegistering ? selectedTheme : db.getGlobalTheme()}`;
   }, [isRegistering, selectedTheme]);
 
-  const themes: { id: ThemeType; label: string; icon: string; bg: string; text: string }[] = [
-    { id: 'light', label: 'Claro', icon: 'light_mode', bg: 'bg-white', text: 'text-slate-900' },
-    { id: 'dark', label: 'Escuro', icon: 'dark_mode', bg: 'bg-slate-900', text: 'text-white' },
-    { id: 'rosa', label: 'Rosa', icon: 'favorite', bg: 'bg-rose-100', text: 'text-rose-600' },
-    { id: 'azul', label: 'Azul', icon: 'water_drop', bg: 'bg-blue-100', text: 'text-blue-600' },
+  // Temas com a mesma estrutura e textos das Configurações
+  const themes: { id: ThemeType; label: string; icon: string; description: string; colorClass: string; iconColor: string }[] = [
+    { id: 'light', label: 'Modo Claro', icon: 'light_mode', description: 'Visual limpo e profissional.', colorClass: 'bg-white', iconColor: 'text-slate-900' },
+    { id: 'dark', label: 'Modo Escuro', icon: 'dark_mode', description: 'Focado e elegante.', colorClass: 'bg-slate-900', iconColor: 'text-white' },
+    { id: 'rosa', label: 'Modo Rosa', icon: 'favorite', description: 'Suave, inspirador e alegre.', colorClass: 'bg-rose-500', iconColor: 'text-white' },
+    { id: 'azul', label: 'Modo Azul', icon: 'water_drop', description: 'Sereno, produtivo e moderno.', colorClass: 'bg-blue-500', iconColor: 'text-white' },
   ];
 
   const handleAction = async (e: React.FormEvent) => {
@@ -85,7 +86,7 @@ const Auth: React.FC<AuthProps> = ({ onLogin }) => {
 
   return (
     <div className={`min-h-screen transition-all duration-700 flex items-center justify-center p-6 theme-${currentThemeClass} bg-theme-bg`}>
-      <div className="max-w-md w-full space-y-10 animate-in fade-in slide-in-from-bottom-6 duration-700">
+      <div className="max-w-2xl w-full space-y-10 animate-in fade-in slide-in-from-bottom-6 duration-700">
         
         {/* Header Visual com Slogan */}
         <div className="text-center space-y-4">
@@ -99,7 +100,7 @@ const Auth: React.FC<AuthProps> = ({ onLogin }) => {
         </div>
 
         {/* Card Principal de Autenticação */}
-        <div className="bg-theme-card p-10 md:p-12 rounded-[4rem] border border-theme-border shadow-premium relative overflow-hidden transition-all">
+        <div className="bg-theme-card p-8 md:p-14 rounded-[3.5rem] md:rounded-[5rem] border border-theme-border shadow-premium relative overflow-hidden transition-all">
           {isLoading && (
             <div className="absolute inset-0 bg-theme-card/90 backdrop-blur-md z-50 flex flex-col items-center justify-center space-y-4">
               <div className="w-12 h-12 border-4 border-theme-border border-t-theme-accent rounded-full animate-spin"></div>
@@ -107,39 +108,44 @@ const Auth: React.FC<AuthProps> = ({ onLogin }) => {
             </div>
           )}
 
-          <form onSubmit={handleAction} className="space-y-6">
+          <form onSubmit={handleAction} className="space-y-8">
             {isRegistering && (
               <>
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black uppercase text-theme-muted ml-4 tracking-widest opacity-80">Como quer ser chamado(a)?</label>
+                  <label className="text-[10px] font-black uppercase text-theme-muted ml-6 tracking-widest opacity-80">Como quer ser chamado(a)?</label>
                   <input
                     required
                     type="text"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     placeholder="Ex: Maria Silva"
-                    className="w-full p-5 bg-theme-bg border border-theme-border rounded-[1.75rem] outline-none focus:ring-4 focus:ring-theme-accent-soft focus:border-theme-accent text-sm font-bold transition-all text-theme-text placeholder:opacity-20"
+                    className="w-full p-6 bg-theme-bg border border-theme-border rounded-[2rem] outline-none focus:ring-8 focus:ring-theme-accent-soft focus:border-theme-accent text-sm font-bold transition-all text-theme-text placeholder:opacity-20"
                   />
                 </div>
 
-                <div className="space-y-4 pt-2">
-                  <label className="text-[10px] font-black uppercase text-theme-muted text-center block tracking-widest opacity-80">Selecione seu Estilo</label>
-                  <div className="grid grid-cols-4 gap-2">
+                <div className="space-y-6 pt-2">
+                  <label className="text-[10px] font-black uppercase text-theme-muted text-center block tracking-widest opacity-80">Escolha seu Estilo Visual</label>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     {themes.map((t) => (
                       <button
                         key={t.id}
                         type="button"
                         onClick={() => setSelectedTheme(t.id)}
-                        className={`aspect-square rounded-2xl flex items-center justify-center border-2 transition-all ${
+                        className={`p-5 rounded-[2.5rem] border-2 transition-all text-left flex items-center gap-4 active:scale-95 ${
                           selectedTheme === t.id 
-                          ? 'border-theme-accent bg-theme-accent-soft shadow-premium scale-110' 
-                          : 'bg-theme-bg border-theme-border opacity-50 grayscale hover:opacity-100'
+                          ? 'border-theme-accent bg-theme-card shadow-premium ring-4 ring-theme-accent-soft' 
+                          : 'border-theme-border bg-theme-bg/50 hover:border-theme-accent/30 opacity-70'
                         }`}
-                        title={t.label}
                       >
-                        <span className={`material-symbols-outlined !text-xl ${t.id === 'dark' ? 'text-white' : t.text}`}>
-                          {t.icon}
-                        </span>
+                        <div className={`w-12 h-12 rounded-2xl flex items-center justify-center shadow-inner shrink-0 ${t.colorClass} border border-black/5`}>
+                          <span className={`material-symbols-outlined !text-2xl ${t.id === 'light' ? 'text-slate-900' : 'text-white'}`}>
+                            {t.icon}
+                          </span>
+                        </div>
+                        <div className="min-w-0">
+                          <p className="font-black text-theme-text text-[13px] tracking-tight truncate">{t.label}</p>
+                          <p className="text-[9px] font-medium text-theme-muted mt-0.5 leading-tight line-clamp-1">{t.description}</p>
+                        </div>
                       </button>
                     ))}
                   </div>
@@ -147,42 +153,44 @@ const Auth: React.FC<AuthProps> = ({ onLogin }) => {
               </>
             )}
             
-            <div className="space-y-2">
-              <label className="text-[10px] font-black uppercase text-theme-muted ml-4 tracking-widest opacity-80">E-mail</label>
-              <input
-                required
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="exemplo@email.com"
-                className="w-full p-5 bg-theme-bg border border-theme-border rounded-[1.75rem] outline-none focus:ring-4 focus:ring-theme-accent-soft focus:border-theme-accent text-sm font-bold transition-all text-theme-text placeholder:opacity-20"
-              />
-            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="space-y-2">
+                <label className="text-[10px] font-black uppercase text-theme-muted ml-6 tracking-widest opacity-80">E-mail</label>
+                <input
+                  required
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="exemplo@email.com"
+                  className="w-full p-6 bg-theme-bg border border-theme-border rounded-[2rem] outline-none focus:ring-8 focus:ring-theme-accent-soft focus:border-theme-accent text-sm font-bold transition-all text-theme-text placeholder:opacity-20"
+                />
+              </div>
 
-            <div className="space-y-2">
-              <label className="text-[10px] font-black uppercase text-theme-muted ml-4 tracking-widest opacity-80">Senha</label>
-              <input
-                required
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="••••••••"
-                className="w-full p-5 bg-theme-bg border border-theme-border rounded-[1.75rem] outline-none focus:ring-4 focus:ring-theme-accent-soft focus:border-theme-accent text-sm font-bold transition-all text-theme-text placeholder:opacity-20"
-              />
+              <div className="space-y-2">
+                <label className="text-[10px] font-black uppercase text-theme-muted ml-6 tracking-widest opacity-80">Senha</label>
+                <input
+                  required
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="••••••••"
+                  className="w-full p-6 bg-theme-bg border border-theme-border rounded-[2rem] outline-none focus:ring-8 focus:ring-theme-accent-soft focus:border-theme-accent text-sm font-bold transition-all text-theme-text placeholder:opacity-20"
+                />
+              </div>
             </div>
 
             <button
               type="submit"
-              className="w-full py-6 rounded-[1.75rem] font-black text-lg shadow-premium transition-all active:scale-[0.98] mt-4 bg-theme-accent text-theme-card hover:opacity-95 uppercase tracking-widest"
+              className="w-full py-8 rounded-[2.5rem] font-black text-xl shadow-premium transition-all active:scale-[0.98] mt-4 bg-theme-accent text-theme-card hover:opacity-95 uppercase tracking-[0.2em]"
             >
               {isRegistering ? 'Criar minha Conta' : 'Entrar no iPlanner'}
             </button>
           </form>
 
-          <div className="mt-10 text-center border-t border-theme-border pt-8">
+          <div className="mt-12 text-center border-t border-theme-border pt-10">
             <button
               onClick={() => setIsRegistering(!isRegistering)}
-              className="text-[10px] font-black text-theme-muted hover:text-theme-text uppercase tracking-widest transition-all px-4 py-2 hover:bg-theme-bg rounded-full"
+              className="text-[10px] font-black text-theme-muted hover:text-theme-text uppercase tracking-widest transition-all px-8 py-4 hover:bg-theme-bg rounded-full border border-transparent hover:border-theme-border"
             >
               {isRegistering ? (
                 'Já possui conta? Clique para entrar'

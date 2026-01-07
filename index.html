@@ -55,6 +55,9 @@
             borderRadius: {
               'planner': 'var(--radius-planner)',
               'planner-sm': 'var(--radius-planner-sm)',
+            },
+            animation: {
+              'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
             }
           },
         },
@@ -63,15 +66,15 @@
 
     <style>
       :root {
-        --bg-main: #f1f5f9;
+        --bg-main: #f8fafc; /* Um pouco mais claro para contraste com o card */
         --bg-card: #ffffff;
         --text-main: #0f172a;
-        --text-muted: #475569; /* Contraste aumentado de 64748b */
+        --text-muted: #334155; /* Escurecido para melhor contraste (AA) */
         --accent-main: #0f172a;
-        --accent-soft: rgba(15, 23, 42, 0.06);
-        --border-color: #e2e8f0; /* Borda mais visível */
-        --shadow-main: 0 12px 30px -10px rgba(15, 23, 42, 0.12);
-        --shadow-glow: 0 0 20px 0 rgba(15, 23, 42, 0.06);
+        --accent-soft: rgba(15, 23, 42, 0.08);
+        --border-color: #cbd5e1; /* Borda mais definida */
+        --shadow-main: 0 12px 30px -10px rgba(15, 23, 42, 0.15);
+        --shadow-glow: 0 0 25px 0 rgba(15, 23, 42, 0.08);
         --radius-planner: 2.5rem;
         --radius-planner-sm: 1.25rem;
       }
@@ -86,37 +89,37 @@
       .theme-dark {
         --bg-main: #020617;
         --bg-card: #0f172a;
-        --text-main: #f1f5f9;
+        --text-main: #f8fafc;
         --text-muted: #94a3b8;
-        --accent-main: #f8fafc;
-        --accent-soft: rgba(248, 250, 252, 0.08);
+        --accent-main: #f1f5f9;
+        --accent-soft: rgba(241, 245, 249, 0.12);
         --border-color: #1e293b;
-        --shadow-main: 0 20px 50px -12px rgba(0, 0, 0, 0.6);
-        --shadow-glow: 0 0 30px 0 rgba(255, 255, 255, 0.01);
+        --shadow-main: 0 20px 50px -12px rgba(0, 0, 0, 0.8);
+        --shadow-glow: 0 0 35px 0 rgba(255, 255, 255, 0.02);
       }
 
       .theme-rosa {
         --bg-main: #fff1f2;
         --bg-card: #ffffff;
         --text-main: #4c0519;
-        --text-muted: #9f1239; /* Rosa mais escuro para leitura */
-        --accent-main: #be123c;
-        --accent-soft: rgba(190, 18, 60, 0.08);
+        --text-muted: #881337; /* Rosa mais saturado para legibilidade */
+        --accent-main: #9f1239;
+        --accent-soft: rgba(159, 18, 57, 0.1);
         --border-color: #fecdd3;
-        --shadow-main: 0 12px 30px -10px rgba(190, 18, 60, 0.12);
-        --shadow-glow: 0 0 20px 0 rgba(190, 18, 60, 0.04);
+        --shadow-main: 0 12px 30px -10px rgba(159, 18, 57, 0.15);
+        --shadow-glow: 0 0 25px 0 rgba(159, 18, 57, 0.06);
       }
 
       .theme-azul {
         --bg-main: #f0f9ff;
         --bg-card: #ffffff;
         --text-main: #0c4a6e;
-        --text-muted: #0369a1; /* Azul mais escuro para leitura */
+        --text-muted: #0369a1; /* Azul mais profundo */
         --accent-main: #0284c7;
-        --accent-soft: rgba(2, 132, 199, 0.08);
+        --accent-soft: rgba(2, 132, 199, 0.1);
         --border-color: #bae6fd;
-        --shadow-main: 0 12px 30px -10px rgba(2, 132, 199, 0.12);
-        --shadow-glow: 0 0 20px 0 rgba(2, 132, 199, 0.04);
+        --shadow-main: 0 12px 30px -10px rgba(2, 132, 199, 0.15);
+        --shadow-glow: 0 0 25px 0 rgba(2, 132, 199, 0.06);
       }
       
       body {
@@ -146,8 +149,8 @@
       }
 
       .glass-effect {
-        backdrop-filter: blur(12px);
-        -webkit-backdrop-filter: blur(12px);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
       }
     </style>
   
