@@ -118,7 +118,6 @@
         border: 1px solid rgba(255, 255, 255, 0.12);
       }
 
-      /* Reversão do efeito glass para estado funcional e elegante */
       .glass-mobile-nav {
         backdrop-filter: blur(12px) saturate(130%);
         -webkit-backdrop-filter: blur(12px) saturate(130%);
@@ -148,12 +147,13 @@
       .no-scrollbar::-webkit-scrollbar { display: none; }
       .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
-      /* Estilo dos Inputs Premium - Foco em Conforto e Robustez */
+      /* Robustez de Inputs e Seleção */
       input, select, textarea {
         background: var(--bg-card);
         color: var(--text-main);
         transition: all 0.2s ease-out;
-        min-height: 3.25rem; /* Altura mínima confortável para toque */
+        min-height: 3.5rem; /* Padronização Robusta */
+        font-weight: 600;
       }
       
       input:focus, select:focus, textarea:focus {
@@ -161,18 +161,52 @@
         box-shadow: 0 0 0 4px var(--accent-soft) !important;
       }
 
-      /* Botões Padronizados */
-      .btn-primary {
-        min-height: 3.25rem;
-        padding-left: 2rem;
-        padding-right: 2rem;
+      /* Padronização Global de Botões de Ação */
+      .btn-action-primary {
+        height: 3.5rem;
+        padding-left: 2.5rem;
+        padding-right: 2.5rem;
+        border-radius: 1.25rem;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 0.15em;
+        font-size: 0.75rem;
         display: inline-flex;
         align-items: center;
         justify-content: center;
+        gap: 0.75rem;
+        transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        white-space: nowrap;
+      }
+
+      .btn-action-secondary {
+        height: 3.5rem;
+        padding-left: 2rem;
+        padding-right: 2rem;
+        border-radius: 1.25rem;
         font-weight: 800;
         text-transform: uppercase;
-        letter-spacing: 0.1em;
-        transition: all 0.2s ease-out;
+        letter-spacing: 0.15em;
+        font-size: 0.7rem;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        transition: all 0.2s;
+        border: 1px solid var(--border-color);
+        background: var(--bg-main);
+        color: var(--text-muted);
+      }
+
+      .btn-square-action {
+        width: 3.5rem;
+        height: 3.5rem;
+        border-radius: 1.25rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.2s;
+        flex-shrink: 0;
       }
     </style>
   
