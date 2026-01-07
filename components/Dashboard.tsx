@@ -42,10 +42,10 @@ const Dashboard: React.FC<DashboardProps> = ({ tasks, habits, goals, user, setVi
       {/* Grid de Estatísticas Premium */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8">
         {[
-          { label: 'Eficiência', val: `${productivity}%`, icon: 'insights', bg: 'bg-indigo-500/10', view: 'insights', color: 'text-indigo-500' },
-          { label: 'Pendências', val: tasks.filter(t => !t.completed).length, icon: 'list_alt', bg: 'bg-theme-accent-soft', view: 'tasks', color: 'text-theme-accent' },
-          { label: 'Energia', val: totalStreak, icon: 'bolt', bg: 'bg-amber-500/10', view: 'habits', color: 'text-amber-500' },
-          { label: 'Objetivos', val: goals.length, icon: 'flag', bg: 'bg-emerald-500/10', view: 'monthly', color: 'text-emerald-500' }
+          { label: 'Insights', val: `${productivity}%`, icon: 'insights', bg: 'bg-indigo-500/10', view: 'insights', color: 'text-indigo-500' },
+          { label: 'Tarefas', val: tasks.filter(t => !t.completed).length, icon: 'list_alt', bg: 'bg-theme-accent-soft', view: 'tasks', color: 'text-theme-accent' },
+          { label: 'Hábitos', val: totalStreak, icon: 'bolt', bg: 'bg-amber-500/10', view: 'habits', color: 'text-amber-500' },
+          { label: 'Metas', val: goals.length, icon: 'flag', bg: 'bg-emerald-500/10', view: 'monthly', color: 'text-emerald-500' }
         ].map((item, i) => (
           <button 
             key={i}
@@ -71,7 +71,7 @@ const Dashboard: React.FC<DashboardProps> = ({ tasks, habits, goals, user, setVi
         <div className="lg:col-span-8 space-y-8">
           <div className="bg-theme-card p-10 md:p-16 rounded-[3rem] border border-theme-border shadow-premium relative overflow-hidden flex flex-col md:flex-row gap-8 md:gap-14 items-start group">
              <div className="w-20 h-20 md:w-28 md:h-28 bg-theme-accent rounded-[2rem] flex items-center justify-center text-theme-card shrink-0 shadow-glow group-hover:rotate-3 transition-transform duration-700 overflow-hidden p-4 md:p-6">
-                <img src="/icon-192.png" alt="iPlanner Logo" className="w-full h-full object-contain" />
+                <span className="material-symbols-outlined !text-4xl md:!text-6xl text-theme-card">menu_book</span>
              </div>
              <div className="space-y-6 md:space-y-8 relative z-10">
                 <span className="inline-block px-5 py-2 bg-theme-accent-soft text-theme-accent rounded-full text-[10px] font-black uppercase tracking-[0.4em] border border-theme-accent/10">Modo Premium</span>
