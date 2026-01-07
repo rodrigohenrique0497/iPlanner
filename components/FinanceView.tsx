@@ -179,7 +179,7 @@ const FinanceView: React.FC<FinanceViewProps> = ({ transactions, onAdd, onDelete
             </div>
 
             <div className="flex flex-col gap-4">
-              <button type="submit" className="btn-action-primary w-full shadow-glow">Salvar Registro</button>
+              <button type="submit" className="btn-action-primary w-full shadow-glow">Salvar</button>
               <button type="button" onClick={() => setIsAdding(false)} className="btn-action-secondary w-full">Cancelar</button>
             </div>
           </form>
