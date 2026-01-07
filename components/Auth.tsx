@@ -87,15 +87,18 @@ const Auth: React.FC<AuthProps> = ({ onLogin }) => {
     <div className={`min-h-screen transition-all duration-700 flex items-center justify-center p-6 theme-${currentThemeClass} bg-theme-bg`}>
       <div className="max-w-md w-full space-y-10 animate-in fade-in slide-in-from-bottom-6 duration-700">
         
-        {/* Logo Section - Mais Clean */}
-        <div className="text-center space-y-2">
+        {/* Header Visual com Slogan */}
+        <div className="text-center space-y-4">
           <div className="w-20 h-20 bg-theme-accent rounded-[2.5rem] mx-auto flex items-center justify-center shadow-premium transform hover:scale-105 transition-all">
              <span className="material-symbols-outlined !text-4xl text-theme-card">menu_book</span>
           </div>
-          <h2 className="text-5xl font-black tracking-tighter text-theme-text transition-colors">iPlanner</h2>
+          <div>
+            <h2 className="text-5xl font-black tracking-tighter text-theme-text transition-colors leading-none">iPlanner</h2>
+            <p className="text-[10px] font-black uppercase tracking-[0.3em] text-theme-muted opacity-60 mt-3">Excelência em Organização</p>
+          </div>
         </div>
 
-        {/* Card Principal - Refinado */}
+        {/* Card Principal de Autenticação */}
         <div className="bg-theme-card p-10 md:p-12 rounded-[4rem] border border-theme-border shadow-premium relative overflow-hidden transition-all">
           {isLoading && (
             <div className="absolute inset-0 bg-theme-card/90 backdrop-blur-md z-50 flex flex-col items-center justify-center space-y-4">
@@ -108,18 +111,19 @@ const Auth: React.FC<AuthProps> = ({ onLogin }) => {
             {isRegistering && (
               <>
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black uppercase text-theme-muted ml-4 tracking-widest opacity-80">Seu Nome</label>
+                  <label className="text-[10px] font-black uppercase text-theme-muted ml-4 tracking-widest opacity-80">Como quer ser chamado(a)?</label>
                   <input
                     required
                     type="text"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
-                    className="w-full p-5 bg-theme-bg border border-theme-border rounded-[1.75rem] outline-none focus:ring-4 focus:ring-theme-accent-soft focus:border-theme-accent text-sm font-bold transition-all text-theme-text"
+                    placeholder="Ex: Maria Silva"
+                    className="w-full p-5 bg-theme-bg border border-theme-border rounded-[1.75rem] outline-none focus:ring-4 focus:ring-theme-accent-soft focus:border-theme-accent text-sm font-bold transition-all text-theme-text placeholder:opacity-20"
                   />
                 </div>
 
                 <div className="space-y-4 pt-2">
-                  <label className="text-[10px] font-black uppercase text-theme-muted text-center block tracking-widest opacity-80">Estilo Visual</label>
+                  <label className="text-[10px] font-black uppercase text-theme-muted text-center block tracking-widest opacity-80">Selecione seu Estilo</label>
                   <div className="grid grid-cols-4 gap-2">
                     {themes.map((t) => (
                       <button
@@ -128,8 +132,8 @@ const Auth: React.FC<AuthProps> = ({ onLogin }) => {
                         onClick={() => setSelectedTheme(t.id)}
                         className={`aspect-square rounded-2xl flex items-center justify-center border-2 transition-all ${
                           selectedTheme === t.id 
-                          ? 'border-theme-accent bg-theme-accent-soft shadow-sm scale-110' 
-                          : 'bg-theme-bg border-theme-border opacity-60 grayscale'
+                          ? 'border-theme-accent bg-theme-accent-soft shadow-premium scale-110' 
+                          : 'bg-theme-bg border-theme-border opacity-50 grayscale hover:opacity-100'
                         }`}
                         title={t.label}
                       >
@@ -150,7 +154,8 @@ const Auth: React.FC<AuthProps> = ({ onLogin }) => {
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full p-5 bg-theme-bg border border-theme-border rounded-[1.75rem] outline-none focus:ring-4 focus:ring-theme-accent-soft focus:border-theme-accent text-sm font-bold transition-all text-theme-text"
+                placeholder="exemplo@email.com"
+                className="w-full p-5 bg-theme-bg border border-theme-border rounded-[1.75rem] outline-none focus:ring-4 focus:ring-theme-accent-soft focus:border-theme-accent text-sm font-bold transition-all text-theme-text placeholder:opacity-20"
               />
             </div>
 
@@ -161,27 +166,28 @@ const Auth: React.FC<AuthProps> = ({ onLogin }) => {
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full p-5 bg-theme-bg border border-theme-border rounded-[1.75rem] outline-none focus:ring-4 focus:ring-theme-accent-soft focus:border-theme-accent text-sm font-bold transition-all text-theme-text"
+                placeholder="••••••••"
+                className="w-full p-5 bg-theme-bg border border-theme-border rounded-[1.75rem] outline-none focus:ring-4 focus:ring-theme-accent-soft focus:border-theme-accent text-sm font-bold transition-all text-theme-text placeholder:opacity-20"
               />
             </div>
 
             <button
               type="submit"
-              className="w-full py-6 rounded-[1.75rem] font-black text-lg shadow-premium transition-all active:scale-[0.98] mt-4 bg-theme-accent text-theme-card hover:opacity-90 uppercase tracking-widest"
+              className="w-full py-6 rounded-[1.75rem] font-black text-lg shadow-premium transition-all active:scale-[0.98] mt-4 bg-theme-accent text-theme-card hover:opacity-95 uppercase tracking-widest"
             >
-              {isRegistering ? 'Criar Conta' : 'Entrar'}
+              {isRegistering ? 'Criar minha Conta' : 'Entrar no iPlanner'}
             </button>
           </form>
 
           <div className="mt-10 text-center border-t border-theme-border pt-8">
             <button
               onClick={() => setIsRegistering(!isRegistering)}
-              className="text-[10px] font-black text-theme-muted hover:text-theme-text uppercase tracking-widest transition-all"
+              className="text-[10px] font-black text-theme-muted hover:text-theme-text uppercase tracking-widest transition-all px-4 py-2 hover:bg-theme-bg rounded-full"
             >
               {isRegistering ? (
-                'Já possui acesso? Clique aqui'
+                'Já possui conta? Clique para entrar'
               ) : (
-                'Primeira vez? Crie sua conta'
+                'Novo por aqui? Crie sua conta grátis'
               )}
             </button>
           </div>
