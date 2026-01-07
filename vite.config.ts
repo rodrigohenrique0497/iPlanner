@@ -10,11 +10,11 @@ export default defineConfig({
       strategies: 'injectManifest',
       srcDir: '.',
       filename: 'sw.js',
-      // Configurações específicas para injeção de manifest
       injectManifest: {
-        swSrc: 'sw.js',
-        swDest: 'dist/sw.js',
-        injectionPoint: 'self.__WB_MANIFEST'
+        // O Workbox injetará o manifesto aqui. 
+        // Não definimos swSrc/swDest aqui para evitar conflitos com srcDir/filename.
+        injectionPoint: 'self.__WB_MANIFEST',
+        maximumFileSizeToCacheInBytes: 3000000 // 3MB
       },
       registerType: 'autoUpdate',
       injectRegister: 'auto',
