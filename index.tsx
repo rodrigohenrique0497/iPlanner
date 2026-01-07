@@ -17,7 +17,9 @@ root.render(
 
 // O registro é gerenciado pelo VitePWA através do injectRegister: 'auto' no vite.config.ts
 // mas manter este bloco garante que o SW seja registrado mesmo se a injeção automática falhar.
-if ('serviceWorker' in navigator && import.meta.env.PROD) {
+// Fix: Use type assertion to any for import.meta to avoid TS error in index.tsx
+
+if ('serviceWorker' in navigator && (import.meta as any).env.PROD) {
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('/sw.js', { scope: '/' })
       .then(reg => console.log('iPlanner SW ativo:', reg.scope))
