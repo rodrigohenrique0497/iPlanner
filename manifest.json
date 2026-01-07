@@ -2,7 +2,8 @@
   "name": "iPlanner",
   "short_name": "iPlanner",
   "description": "Sua vida organizada em um só lugar.",
-  "start_url": "./index.html",
+  "start_url": "/",
+  "scope": "/",
   "display": "standalone",
   "orientation": "portrait",
   "background_color": "#FAFAFA",
@@ -10,15 +11,15 @@
   "categories": ["productivity", "finance", "lifestyle"],
   "icons": [
     {
-      "src": "https://api.dicebear.com/7.x/avataaars/svg?seed=iplanner&backgroundColor=0f172a",
+      "src": "/icon-192.png",
       "sizes": "192x192",
-      "type": "image/svg+xml",
+      "type": "image/png",
       "purpose": "any maskable"
     },
     {
-      "src": "https://api.dicebear.com/7.x/avataaars/svg?seed=iplanner&backgroundColor=0f172a",
+      "src": "/icon-512.png",
       "sizes": "512x512",
-      "type": "image/svg+xml",
+      "type": "image/png",
       "purpose": "any maskable"
     }
   ]
