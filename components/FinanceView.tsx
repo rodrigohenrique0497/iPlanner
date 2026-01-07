@@ -68,7 +68,7 @@ const FinanceView: React.FC<FinanceViewProps> = ({ transactions, onAdd, onDelete
         </div>
         <button 
           onClick={() => setIsAdding(true)}
-          className="btn-square-action bg-theme-accent text-theme-card shadow-premium hover:scale-105 active:scale-95 shrink-0"
+          className="btn-square-action bg-theme-accent text-theme-card shadow-premium hover:scale-105 active:scale-95 shrink-0 !w-[3.75rem] !h-[3.75rem]"
         >
           <span className="material-symbols-outlined !text-3xl">add</span>
         </button>
@@ -104,7 +104,7 @@ const FinanceView: React.FC<FinanceViewProps> = ({ transactions, onAdd, onDelete
 
       {isAdding && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-6 bg-black/30 backdrop-blur-md animate-in fade-in duration-300">
-          <form onSubmit={handleAdd} className="bg-theme-card w-full max-w-xl p-8 md:p-12 rounded-planner shadow-premium space-y-10 border border-theme-border animate-in zoom-in-95 duration-300">
+          <form onSubmit={handleAdd} className="bg-theme-card w-full max-w-xl p-10 md:p-12 rounded-planner shadow-premium space-y-10 border border-theme-border animate-in zoom-in-95 duration-300">
             <h3 className="text-2xl font-black text-theme-text tracking-tight">Nova Movimentação</h3>
             
             <div className="space-y-8">
@@ -133,7 +133,7 @@ const FinanceView: React.FC<FinanceViewProps> = ({ transactions, onAdd, onDelete
                   placeholder="Ex: Aluguel, Salário, Lazer" 
                   value={desc}
                   onChange={e => setDesc(e.target.value)}
-                  className="w-full px-6 bg-theme-bg rounded-2xl border border-theme-border outline-none font-bold text-base text-theme-text"
+                  className="w-full px-6 h-[3.75rem] bg-theme-bg rounded-2xl border border-theme-border outline-none font-bold text-base text-theme-text"
                 />
               </div>
 
@@ -146,7 +146,7 @@ const FinanceView: React.FC<FinanceViewProps> = ({ transactions, onAdd, onDelete
                     placeholder="0,00" 
                     value={amount}
                     onChange={e => setAmount(e.target.value)}
-                    className="w-full px-6 bg-theme-bg rounded-2xl border border-theme-border outline-none font-bold text-base text-theme-text"
+                    className="w-full px-6 h-[3.75rem] bg-theme-bg rounded-2xl border border-theme-border outline-none font-bold text-base text-theme-text"
                   />
                 </div>
                 <div className="space-y-2">
@@ -154,7 +154,7 @@ const FinanceView: React.FC<FinanceViewProps> = ({ transactions, onAdd, onDelete
                   <select 
                     value={category}
                     onChange={e => setCategory(e.target.value as FinanceCategory)}
-                    className="w-full px-6 bg-theme-bg rounded-2xl border border-theme-border outline-none font-black text-[11px] uppercase tracking-widest text-theme-text appearance-none cursor-pointer"
+                    className="w-full px-6 h-[3.75rem] bg-theme-bg rounded-2xl border border-theme-border outline-none font-black text-[11px] uppercase tracking-widest text-theme-text appearance-none cursor-pointer"
                   >
                     <option value="Salário">Salário</option>
                     <option value="Casa">Casa / Contas</option>
@@ -169,9 +169,9 @@ const FinanceView: React.FC<FinanceViewProps> = ({ transactions, onAdd, onDelete
               </div>
             </div>
 
-            {/* Reordenação: 1. Salvar, 2. Cancelar */}
+            {/* Reordenação Padronizada: 1. Salvar Registro, 2. Cancelar */}
             <div className="flex flex-col sm:flex-row gap-4">
-              <button type="submit" className="btn-action-primary flex-1 shadow-glow order-1">Salvar</button>
+              <button type="submit" className="btn-action-primary flex-1 shadow-glow order-1">Salvar Registro</button>
               <button type="button" onClick={() => setIsAdding(false)} className="btn-action-secondary flex-1 order-2">Cancelar</button>
             </div>
           </form>
@@ -180,9 +180,9 @@ const FinanceView: React.FC<FinanceViewProps> = ({ transactions, onAdd, onDelete
 
       {/* Transactions List */}
       <div className="bg-theme-card rounded-[3rem] border border-theme-border shadow-sm overflow-hidden">
-        <div className="p-8 border-b border-theme-border flex justify-between items-center bg-theme-bg/30">
+        <div className="p-10 border-b border-theme-border flex justify-between items-center bg-theme-bg/30">
           <h3 className="font-black text-theme-text tracking-tight uppercase text-xs tracking-[0.25em] opacity-60">Fluxo de Caixa</h3>
-          <span className="text-[10px] font-black uppercase text-theme-muted bg-theme-accent-soft px-4 py-2 rounded-full border border-theme-border/50">{transactions.length} registros</span>
+          <span className="text-[10px] font-black uppercase text-theme-muted bg-theme-accent-soft px-4 py-2 rounded-full border border-theme-border/50 tracking-widest">{transactions.length} registros</span>
         </div>
         
         <div className="divide-y divide-theme-border">

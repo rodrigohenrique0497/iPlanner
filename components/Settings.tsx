@@ -93,15 +93,15 @@ const Settings: React.FC<SettingsProps> = ({ user, onUpdate, onLogout, onExport 
       <div className="space-y-4">
         <h2 className="text-4xl md:text-5xl font-black tracking-tighter text-theme-text">Configurações</h2>
         <div className="flex items-center gap-2">
-          <div className="px-3 py-1 bg-theme-accent-soft rounded-lg border border-theme-border">
-             <span className="text-[10px] font-black uppercase text-theme-muted opacity-80 tracking-widest">Armazenamento: {storageUsage}</span>
+          <div className="px-4 py-1.5 bg-theme-accent-soft rounded-xl border border-theme-border">
+             <span className="text-[10px] font-black uppercase text-theme-muted opacity-80 tracking-[0.2em]">Sincronização: Nuvem Supabase</span>
           </div>
         </div>
       </div>
       
       {/* Temas Premium */}
       <div className="space-y-6">
-        <h3 className="text-lg font-black uppercase tracking-widest text-theme-muted opacity-50 px-4">Estilo Visual</h3>
+        <h3 className="text-sm font-black uppercase tracking-[0.25em] text-theme-muted opacity-50 px-4">Estilo Visual</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {themes.map(t => (
             <button
@@ -110,50 +110,50 @@ const Settings: React.FC<SettingsProps> = ({ user, onUpdate, onLogout, onExport 
                 onUpdate({ theme: t.id });
                 db.setGlobalTheme(t.id);
               }}
-              className={`p-6 rounded-[2rem] border-2 transition-all text-left flex items-center gap-5 active:scale-95 ${
+              className={`p-6 rounded-[2.25rem] border-2 transition-all text-left flex items-center gap-6 active:scale-95 ${
                 user.theme === t.id 
                 ? 'border-theme-accent bg-theme-card shadow-premium' 
                 : 'border-theme-border bg-theme-card/50 hover:border-theme-accent/30'
               }`}
             >
-              <div className={`w-12 h-12 rounded-xl flex items-center justify-center shadow-inner shrink-0 ${t.colorClass} border border-black/5`}>
+              <div className={`w-14 h-14 rounded-2xl flex items-center justify-center shadow-inner shrink-0 ${t.colorClass} border border-black/5`}>
                 <span className={`material-symbols-outlined !text-2xl ${t.id === 'dark' ? 'text-white' : (t.id === 'light' ? 'text-slate-900' : 'text-white')}`}>
                   {t.icon}
                 </span>
               </div>
-              <div>
+              <div className="min-w-0">
                 <p className="font-black text-theme-text text-base tracking-tight leading-none">{t.label}</p>
-                <p className="text-[10px] font-bold text-theme-muted mt-1 uppercase tracking-widest opacity-60">{t.description}</p>
+                <p className="text-[10px] font-bold text-theme-muted mt-2 uppercase tracking-widest opacity-60 truncate">{t.description}</p>
               </div>
             </button>
           ))}
         </div>
       </div>
 
-      <div className="p-8 md:p-10 rounded-planner border border-theme-border bg-theme-card shadow-premium space-y-10">
-        <header className="space-y-1.5">
-          <h3 className="text-lg font-black uppercase tracking-widest text-theme-muted opacity-50 px-4">Perfil</h3>
-          <div className="h-1 w-12 bg-theme-accent rounded-full ml-4 opacity-40"></div>
+      <div className="p-8 md:p-12 rounded-planner border border-theme-border bg-theme-card shadow-premium space-y-10">
+        <header className="space-y-2">
+          <h3 className="text-sm font-black uppercase tracking-[0.25em] text-theme-muted opacity-50 px-4">Perfil Pessoal</h3>
+          <div className="h-1 w-14 bg-theme-accent rounded-full ml-4 opacity-40"></div>
         </header>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          <div className="space-y-2">
+          <div className="space-y-3">
             <label className="text-[10px] font-black uppercase text-theme-muted ml-5 tracking-widest opacity-60">Seu Nome</label>
             <input 
               type="text" 
               value={name} 
               onChange={e => setName(e.target.value)} 
-              className="w-full bg-theme-bg px-6 py-4.5 rounded-2xl text-theme-text font-bold outline-none border border-theme-border transition-all focus:border-theme-accent" 
+              className="w-full h-[3.75rem] bg-theme-bg px-7 rounded-2xl text-theme-text font-bold outline-none border border-theme-border transition-all focus:border-theme-accent" 
               placeholder="Nome"
             />
           </div>
-          <div className="space-y-2">
+          <div className="space-y-3">
             <label className="text-[10px] font-black uppercase text-theme-muted ml-5 tracking-widest opacity-60">Foco Principal</label>
             <input 
               type="text" 
               value={goal} 
               onChange={e => setGoal(e.target.value)} 
-              className="w-full bg-theme-bg px-6 py-4.5 rounded-2xl text-theme-text font-bold outline-none border border-theme-border transition-all focus:border-theme-accent" 
+              className="w-full h-[3.75rem] bg-theme-bg px-7 rounded-2xl text-theme-text font-bold outline-none border border-theme-border transition-all focus:border-theme-accent" 
               placeholder="Ex: Minha produtividade"
             />
           </div>
@@ -161,40 +161,39 @@ const Settings: React.FC<SettingsProps> = ({ user, onUpdate, onLogout, onExport 
 
         <button 
           onClick={() => onUpdate({ name, focusGoal: goal })} 
-          className="btn-action-primary w-full !rounded-2xl shadow-glow"
+          className="btn-action-primary w-full !rounded-2xl shadow-glow !h-[3.75rem]"
         >
           Salvar Alterações
         </button>
       </div>
 
-      {/* Backup Section com Botões Padronizados */}
-      <div className="bg-theme-card p-8 md:p-10 rounded-planner border border-theme-border space-y-8 shadow-premium">
-        <h3 className="text-lg font-black uppercase tracking-widest text-theme-muted opacity-50 px-4">Dados & Backup</h3>
+      <div className="bg-theme-card p-8 md:p-12 rounded-planner border border-theme-border space-y-10 shadow-premium">
+        <h3 className="text-sm font-black uppercase tracking-[0.25em] text-theme-muted opacity-50 px-4">Segurança & Dados</h3>
         
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
           <button 
             onClick={handleExportData}
-            className="flex items-center gap-4 p-5 bg-theme-bg rounded-[1.75rem] border border-theme-border hover:border-theme-accent transition-all group shadow-sm active:scale-[0.98]"
+            className="flex items-center gap-5 p-6 bg-theme-bg rounded-[2rem] border border-theme-border hover:border-theme-accent transition-all group shadow-sm active:scale-[0.98] h-[5rem]"
           >
-            <div className="w-10 h-10 bg-theme-card rounded-xl flex items-center justify-center border border-theme-border group-hover:bg-theme-accent group-hover:text-theme-card transition-all">
-              <span className="material-symbols-outlined !text-xl">download</span>
+            <div className="w-12 h-12 bg-theme-card rounded-xl flex items-center justify-center border border-theme-border group-hover:bg-theme-accent group-hover:text-theme-card transition-all">
+              <span className="material-symbols-outlined !text-2xl">download</span>
             </div>
             <div className="text-left">
-              <span className="font-black text-theme-text uppercase text-[10px] tracking-widest block leading-none">Exportar JSON</span>
-              <p className="text-[8px] text-theme-muted mt-1 font-bold uppercase opacity-50">Baixar cópia</p>
+              <span className="font-black text-theme-text uppercase text-[11px] tracking-widest block leading-none">Exportar Backup</span>
+              <p className="text-[9px] text-theme-muted mt-2 font-bold uppercase opacity-40">Salvar cópia JSON</p>
             </div>
           </button>
 
           <button 
             onClick={handleImportClick}
-            className="flex items-center gap-4 p-5 bg-theme-bg rounded-[1.75rem] border border-theme-border hover:border-theme-accent transition-all group shadow-sm active:scale-[0.98]"
+            className="flex items-center gap-5 p-6 bg-theme-bg rounded-[2rem] border border-theme-border hover:border-theme-accent transition-all group shadow-sm active:scale-[0.98] h-[5rem]"
           >
-            <div className="w-10 h-10 bg-theme-card rounded-xl flex items-center justify-center border border-theme-border group-hover:bg-emerald-500 group-hover:text-white transition-all">
-              <span className="material-symbols-outlined !text-xl">upload</span>
+            <div className="w-12 h-12 bg-theme-card rounded-xl flex items-center justify-center border border-theme-border group-hover:bg-emerald-500 group-hover:text-white transition-all">
+              <span className="material-symbols-outlined !text-2xl">upload</span>
             </div>
             <div className="text-left">
-              <span className="font-black text-theme-text uppercase text-[10px] tracking-widest block leading-none">Importar JSON</span>
-              <p className="text-[8px] text-theme-muted mt-1 font-bold uppercase opacity-50">Restaurar dados</p>
+              <span className="font-black text-theme-text uppercase text-[11px] tracking-widest block leading-none">Importar Backup</span>
+              <p className="text-[9px] text-theme-muted mt-2 font-bold uppercase opacity-40">Restaurar dados</p>
             </div>
           </button>
         </div>
@@ -202,14 +201,14 @@ const Settings: React.FC<SettingsProps> = ({ user, onUpdate, onLogout, onExport 
         <input type="file" ref={fileInputRef} onChange={handleFileChange} accept=".json" className="hidden" />
       </div>
 
-      <div className="bg-rose-500/5 p-8 md:p-10 rounded-planner border border-rose-500/20 flex flex-col md:flex-row items-center justify-between gap-6">
+      <div className="bg-rose-500/5 p-10 md:p-12 rounded-planner border border-rose-500/20 flex flex-col md:flex-row items-center justify-between gap-8">
         <div className="text-center md:text-left">
-          <p className="font-black text-rose-600 text-lg md:text-xl tracking-tight leading-none">Encerrar Sessão</p>
-          <p className="text-rose-400 text-[9px] font-black uppercase tracking-widest mt-2 opacity-60">Sua conta permanecerá segura no dispositivo.</p>
+          <p className="font-black text-rose-600 text-xl md:text-2xl tracking-tight leading-none">Encerrar Sessão</p>
+          <p className="text-rose-400 text-[10px] font-black uppercase tracking-[0.2em] mt-3 opacity-60">Sua conta permanecerá segura em nossos servidores.</p>
         </div>
         <button 
           onClick={onLogout} 
-          className="bg-rose-600 text-white px-10 h-14 rounded-xl font-black shadow-premium hover:bg-rose-700 transition-all active:scale-95 w-full md:w-auto uppercase tracking-widest text-[11px]"
+          className="bg-rose-600 text-white px-12 h-[3.75rem] rounded-2xl font-black shadow-premium hover:bg-rose-700 transition-all active:scale-95 w-full md:w-auto uppercase tracking-[0.2em] text-[11px]"
         >
           Sair do iPlanner
         </button>

@@ -118,7 +118,6 @@
         border: 1px solid rgba(255, 255, 255, 0.12);
       }
 
-      /* Reversão para glass effect elegante e funcional */
       .glass-mobile-nav {
         backdrop-filter: blur(8px) saturate(120%);
         -webkit-backdrop-filter: blur(8px) saturate(120%);
@@ -148,15 +147,18 @@
       .no-scrollbar::-webkit-scrollbar { display: none; }
       .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
-      /* Robustez e Conforto de Inputs e Seleção */
+      /* Robustez de Inputs e Seleção - Padronização 3.75rem (60px) para sensação premium */
       input, select, textarea {
         background: var(--bg-card);
         color: var(--text-main);
         transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-        min-height: 3.5rem; 
+        min-height: 3.75rem; 
         font-weight: 600;
-        padding-left: 1.5rem;
-        padding-right: 1.5rem;
+        padding-left: 1.75rem;
+        padding-right: 1.75rem;
+        border-radius: 1.25rem;
+        border: 1px solid var(--border-color);
+        outline: none;
       }
       
       input:focus, select:focus, textarea:focus {
@@ -164,11 +166,11 @@
         box-shadow: 0 0 0 4px var(--accent-soft) !important;
       }
 
-      /* Padronização Global de Botões de Ação Primária */
+      /* Padronização Global de Botões de Ação Primária - Encorpados */
       .btn-action-primary {
-        height: 3.5rem;
-        padding-left: 2.5rem;
-        padding-right: 2.5rem;
+        height: 3.75rem;
+        padding-left: 2.75rem;
+        padding-right: 2.75rem;
         border-radius: 1.25rem;
         font-weight: 800;
         text-transform: uppercase;
@@ -182,6 +184,7 @@
         white-space: nowrap;
         background-color: var(--accent-main);
         color: var(--bg-card);
+        cursor: pointer;
       }
 
       .btn-action-primary:active {
@@ -190,9 +193,9 @@
 
       /* Padronização Global de Botões de Ação Secundária */
       .btn-action-secondary {
-        height: 3.5rem;
-        padding-left: 2.5rem;
-        padding-right: 2.5rem;
+        height: 3.75rem;
+        padding-left: 2.75rem;
+        padding-right: 2.75rem;
         border-radius: 1.25rem;
         font-weight: 800;
         text-transform: uppercase;
@@ -204,28 +207,30 @@
         gap: 0.75rem;
         transition: all 0.2s;
         border: 1px solid var(--border-color);
-        background: var(--bg-main);
+        background: var(--bg-card);
         color: var(--text-muted);
+        cursor: pointer;
       }
 
       .btn-action-secondary:active {
         transform: scale(0.96);
       }
 
-      /* Botões Quadrados de Ação (Add, Toggle, etc) */
+      /* Botões Quadrados de Ação (Add, Toggle, etc) - Padronização 3.75rem */
       .btn-square-action {
-        width: 3.5rem;
-        height: 3.5rem;
+        width: 3.75rem;
+        height: 3.75rem;
         border-radius: 1.25rem;
         display: flex;
         align-items: center;
         justify-content: center;
         transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
         flex-shrink: 0;
+        cursor: pointer;
       }
       
       .btn-square-action:active {
-        transform: scale(0.9);
+        transform: scale(0.92);
       }
     </style>
   
