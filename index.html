@@ -1,38 +1,49 @@
-
 <!DOCTYPE html>
 <html lang="pt-br">
   <head>
     <meta charset="UTF-8" />
+
     <meta
       name="viewport"
       content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no"
     />
-    <meta name="theme-color" content="#FAFAFA" />
+
+    <!-- PWA / Mobile -->
+    <meta name="theme-color" content="#0F172A" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="default" />
     <meta name="apple-mobile-web-app-title" content="iPlanner" />
     <meta name="mobile-web-app-capable" content="yes" />
 
-    <link rel="manifest" href="/manifest.json" />
-<meta name="theme-color" content="#0F172A" />
-<link rel="apple-touch-icon" href="/icon-192.png" />
+    <meta
+      name="description"
+      content="iPlanner - Excelência em Organização"
+    />
 
+    <!-- PWA -->
+    <link rel="manifest" href="/manifest.json" />
+    <link rel="apple-touch-icon" href="/icon-192.png" />
 
     <title>iPlanner - Excelência em Organização</title>
 
+    <!-- Tailwind -->
     <script src="https://cdn.tailwindcss.com"></script>
 
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
     <link
       href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
+
     <link
       rel="stylesheet"
       href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
     />
 
+    <!-- Tailwind Config -->
     <script>
       tailwind.config = {
         theme: {
@@ -52,23 +63,21 @@
               glass: "0 8px 32px 0 rgba(31, 38, 135, 0.04)",
             },
             borderRadius: {
-              'planner': 'var(--radius-planner)',
-              'planner-sm': 'var(--radius-planner-sm)',
+              planner: "var(--radius-planner)",
+              "planner-sm": "var(--radius-planner-sm)",
             },
-            animation: {
-              'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-            }
           },
         },
       };
     </script>
 
+    <!-- Themes -->
     <style>
       :root {
-        --bg-main: #f1f5f9; 
+        --bg-main: #f1f5f9;
         --bg-card: #ffffff;
-        --text-main: #020617; /* Texto quase preto para contraste máximo */
-        --text-muted: #475569; /* Cinza slate escuro (Passa no AA) */
+        --text-main: #020617;
+        --text-muted: #475569;
         --accent-main: #0f172a;
         --accent-soft: rgba(15, 23, 42, 0.06);
         --border-color: #cbd5e1;
@@ -76,13 +85,6 @@
         --shadow-glow: 0 0 20px 0 rgba(15, 23, 42, 0.05);
         --radius-planner: 2.5rem;
         --radius-planner-sm: 1.25rem;
-      }
-
-      @media (max-width: 768px) {
-        :root {
-          --radius-planner: 2rem;
-          --radius-planner-sm: 1rem;
-        }
       }
 
       .theme-dark {
@@ -93,78 +95,23 @@
         --accent-main: #f1f5f9;
         --accent-soft: rgba(241, 245, 249, 0.1);
         --border-color: #1e293b;
-        --shadow-main: 0 20px 50px -12px rgba(0, 0, 0, 0.5);
       }
 
-      .theme-rosa {
-        --bg-main: #fff1f2;
-        --bg-card: #ffffff;
-        --text-main: #4c0519;
-        --text-muted: #881337;
-        --accent-main: #9f1239;
-        --accent-soft: rgba(159, 18, 57, 0.08);
-        --border-color: #fecdd3;
-      }
-
-      .theme-azul {
-        --bg-main: #f0f9ff;
-        --bg-card: #ffffff;
-        --text-main: #0c4a6e;
-        --text-muted: #0369a1;
-        --accent-main: #0284c7;
-        --accent-soft: rgba(2, 132, 199, 0.08);
-        --border-color: #bae6fd;
-      }
-      
       body {
         font-family: "Plus Jakarta Sans", sans-serif;
         background: var(--bg-main);
         color: var(--text-main);
         -webkit-font-smoothing: antialiased;
-        letter-spacing: -0.01em;
-        transition: background 0.4s ease;
-        user-select: none;
-        -webkit-tap-highlight-color: transparent;
-      }
-
-      .material-symbols-outlined {
-        font-variation-settings: 'FILL' 0, 'wght' 600, 'GRAD' 0, 'opsz' 24;
-      }
-
-      .no-scrollbar::-webkit-scrollbar { display: none; } 
-      
-      .page-transition {
-        animation: premiumIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-      }
-      
-      @keyframes premiumIn {
-        from { opacity: 0; transform: translateY(10px); }
-        to { opacity: 1; transform: translateY(0); }
-      }
-
-      .glass-effect {
-        backdrop-filter: blur(12px);
-        -webkit-backdrop-filter: blur(12px);
+        transition: background 0.3s ease;
+        margin: 0;
       }
     </style>
-  
-<script type="importmap">
-{
-  "imports": {
-    "react": "https://esm.sh/react@^19.2.3",
-    "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
-    "react/": "https://esm.sh/react@^19.2.3/",
-    "@supabase/supabase-js": "https://esm.sh/@supabase/supabase-js@^2.89.0",
-    "vite": "https://esm.sh/vite@^7.3.0",
-    "@vitejs/plugin-react": "https://esm.sh/@vitejs/plugin-react@^5.1.2",
-    "@google/genai": "https://esm.sh/@google/genai@^1.34.0",
-    "vite-plugin-pwa": "https://esm.sh/vite-plugin-pwa@^1.2.0"
-  }
-}
-</script>
-</head>
+  </head>
+
   <body>
     <div id="root"></div>
-    <script type="module" src="./index.tsx"></script>
+
+    <!-- ENTRY POINT -->
+    <script type="module" src="/index.tsx"></script>
   </body>
 </html>
