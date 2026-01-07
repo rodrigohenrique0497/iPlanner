@@ -104,7 +104,7 @@ const FinanceView: React.FC<FinanceViewProps> = ({ transactions, onAdd, onDelete
 
       {isAdding && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-6 bg-black/30 backdrop-blur-md animate-in fade-in duration-300">
-          <form onSubmit={handleAdd} className="bg-theme-card w-full max-w-xl p-10 md:p-12 rounded-planner shadow-premium space-y-10 border border-theme-border animate-in zoom-in-95 duration-300">
+          <form onSubmit={handleAdd} className="bg-theme-card w-full max-w-xl p-8 md:p-12 rounded-planner shadow-premium space-y-10 border border-theme-border animate-in zoom-in-95 duration-300">
             <h3 className="text-2xl font-black text-theme-text tracking-tight">Nova Movimentação</h3>
             
             <div className="space-y-8">
@@ -169,9 +169,10 @@ const FinanceView: React.FC<FinanceViewProps> = ({ transactions, onAdd, onDelete
               </div>
             </div>
 
-            <div className="flex gap-5">
-              <button type="button" onClick={() => setIsAdding(false)} className="btn-action-secondary flex-1">Cancelar</button>
-              <button type="submit" className="btn-action-primary flex-1 shadow-glow">Salvar Registro</button>
+            {/* Reordenação: 1. Salvar, 2. Cancelar */}
+            <div className="flex flex-col sm:flex-row gap-4">
+              <button type="submit" className="btn-action-primary flex-1 shadow-glow order-1">Salvar</button>
+              <button type="button" onClick={() => setIsAdding(false)} className="btn-action-secondary flex-1 order-2">Cancelar</button>
             </div>
           </form>
         </div>
@@ -179,7 +180,7 @@ const FinanceView: React.FC<FinanceViewProps> = ({ transactions, onAdd, onDelete
 
       {/* Transactions List */}
       <div className="bg-theme-card rounded-[3rem] border border-theme-border shadow-sm overflow-hidden">
-        <div className="p-10 border-b border-theme-border flex justify-between items-center bg-theme-bg/30">
+        <div className="p-8 border-b border-theme-border flex justify-between items-center bg-theme-bg/30">
           <h3 className="font-black text-theme-text tracking-tight uppercase text-xs tracking-[0.25em] opacity-60">Fluxo de Caixa</h3>
           <span className="text-[10px] font-black uppercase text-theme-muted bg-theme-accent-soft px-4 py-2 rounded-full border border-theme-border/50">{transactions.length} registros</span>
         </div>

@@ -136,24 +136,24 @@ const Settings: React.FC<SettingsProps> = ({ user, onUpdate, onLogout, onExport 
           <div className="h-1 w-12 bg-theme-accent rounded-full ml-4 opacity-40"></div>
         </header>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           <div className="space-y-2">
-            <label className="text-[9px] font-black uppercase text-theme-muted ml-5 tracking-widest opacity-60">Seu Nome</label>
+            <label className="text-[10px] font-black uppercase text-theme-muted ml-5 tracking-widest opacity-60">Seu Nome</label>
             <input 
               type="text" 
               value={name} 
               onChange={e => setName(e.target.value)} 
-              className="w-full bg-theme-bg p-4.5 rounded-2xl text-theme-text font-bold outline-none border border-theme-border transition-all focus:border-theme-accent" 
+              className="w-full bg-theme-bg px-6 py-4.5 rounded-2xl text-theme-text font-bold outline-none border border-theme-border transition-all focus:border-theme-accent" 
               placeholder="Nome"
             />
           </div>
           <div className="space-y-2">
-            <label className="text-[9px] font-black uppercase text-theme-muted ml-5 tracking-widest opacity-60">Foco Principal</label>
+            <label className="text-[10px] font-black uppercase text-theme-muted ml-5 tracking-widest opacity-60">Foco Principal</label>
             <input 
               type="text" 
               value={goal} 
               onChange={e => setGoal(e.target.value)} 
-              className="w-full bg-theme-bg p-4.5 rounded-2xl text-theme-text font-bold outline-none border border-theme-border transition-all focus:border-theme-accent" 
+              className="w-full bg-theme-bg px-6 py-4.5 rounded-2xl text-theme-text font-bold outline-none border border-theme-border transition-all focus:border-theme-accent" 
               placeholder="Ex: Minha produtividade"
             />
           </div>
@@ -161,12 +161,13 @@ const Settings: React.FC<SettingsProps> = ({ user, onUpdate, onLogout, onExport 
 
         <button 
           onClick={() => onUpdate({ name, focusGoal: goal })} 
-          className="w-full py-5 rounded-2xl font-black text-xs md:text-sm shadow-glow transition-all active:scale-95 uppercase tracking-[0.2em] bg-theme-accent text-theme-card hover:opacity-95"
+          className="btn-action-primary w-full !rounded-2xl shadow-glow"
         >
           Salvar Alterações
         </button>
       </div>
 
+      {/* Backup Section com Botões Padronizados */}
       <div className="bg-theme-card p-8 md:p-10 rounded-planner border border-theme-border space-y-8 shadow-premium">
         <h3 className="text-lg font-black uppercase tracking-widest text-theme-muted opacity-50 px-4">Dados & Backup</h3>
         
@@ -201,14 +202,14 @@ const Settings: React.FC<SettingsProps> = ({ user, onUpdate, onLogout, onExport 
         <input type="file" ref={fileInputRef} onChange={handleFileChange} accept=".json" className="hidden" />
       </div>
 
-      <div className="bg-rose-500/10 p-8 md:p-10 rounded-planner border border-rose-500/20 flex flex-col md:flex-row items-center justify-between gap-6">
+      <div className="bg-rose-500/5 p-8 md:p-10 rounded-planner border border-rose-500/20 flex flex-col md:flex-row items-center justify-between gap-6">
         <div className="text-center md:text-left">
           <p className="font-black text-rose-600 text-lg md:text-xl tracking-tight leading-none">Encerrar Sessão</p>
-          <p className="text-rose-400 text-[9px] font-black uppercase tracking-widest mt-2 opacity-80">Sua conta permanecerá segura no dispositivo.</p>
+          <p className="text-rose-400 text-[9px] font-black uppercase tracking-widest mt-2 opacity-60">Sua conta permanecerá segura no dispositivo.</p>
         </div>
         <button 
           onClick={onLogout} 
-          className="bg-rose-600 text-white px-8 py-4 rounded-xl font-black shadow-premium hover:bg-rose-700 transition-all active:scale-95 w-full md:w-auto uppercase tracking-widest text-[10px]"
+          className="bg-rose-600 text-white px-10 h-14 rounded-xl font-black shadow-premium hover:bg-rose-700 transition-all active:scale-95 w-full md:w-auto uppercase tracking-widest text-[11px]"
         >
           Sair do iPlanner
         </button>

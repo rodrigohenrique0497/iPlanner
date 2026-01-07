@@ -26,7 +26,7 @@ const MobileNav: React.FC<MobileNavProps> = ({ currentView, setView }) => {
             onClick={() => setView(item.id as ViewState)}
             className={`flex flex-col items-center justify-center gap-1 p-2 transition-all active:scale-90 relative ${isActive ? 'text-theme-accent' : 'text-theme-muted'}`}
           >
-            <span className={`material-symbols-outlined !text-[24px] transition-all duration-300 ${isActive ? 'font-black scale-110 opacity-100' : 'opacity-60 hover:opacity-100'}`}>
+            <span className={`material-symbols-outlined !text-[24px] transition-all duration-300 ${isActive ? 'font-black scale-110 opacity-100' : 'opacity-50 group-hover:opacity-100'}`}>
               {item.icon}
             </span>
             <span className={`text-[8px] font-black uppercase tracking-widest transition-opacity ${isActive ? 'opacity-100' : 'opacity-40'}`}>

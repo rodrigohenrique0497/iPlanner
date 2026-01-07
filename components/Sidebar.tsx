@@ -43,44 +43,44 @@ const Sidebar: React.FC<SidebarProps> = ({ currentView, setView, user, onLogout,
         ${isOpen ? 'translate-x-0 shadow-2xl' : '-translate-x-full'}
         md:translate-x-0 md:static md:z-auto
       `}>
-        {/* Logo / Header Premium */}
-        <div className="px-6 pt-8 pb-6 flex items-center justify-between shrink-0">
+        {/* Logo / Header Premium - Compactado */}
+        <div className="px-6 pt-6 pb-4 flex items-center justify-between shrink-0">
           <div 
             className="flex items-center gap-3.5 cursor-pointer group" 
             onClick={() => handleNavClick('dashboard')}
           >
-            <div className="w-11 h-11 rounded-2xl bg-theme-accent overflow-hidden shadow-premium group-hover:rotate-6 transition-all flex items-center justify-center p-2.5">
-              <span className="material-symbols-outlined !text-2xl text-theme-card">menu_book</span>
+            <div className="w-10 h-10 rounded-xl bg-theme-accent overflow-hidden shadow-premium group-hover:rotate-6 transition-all flex items-center justify-center p-2">
+              <span className="material-symbols-outlined !text-xl text-theme-card">menu_book</span>
             </div>
-            <h1 className="text-2xl font-black tracking-tighter text-theme-text group-hover:translate-x-0.5 transition-transform">iPlanner</h1>
+            <h1 className="text-xl font-black tracking-tighter text-theme-text group-hover:translate-x-0.5 transition-transform">iPlanner</h1>
           </div>
           <button onClick={onClose} className="md:hidden p-2 text-theme-muted hover:text-theme-text transition-colors">
             <span className="material-symbols-outlined">close</span>
           </button>
         </div>
         
-        {/* Menu Principal */}
-        <nav className="flex-1 px-4 py-2 space-y-1 overflow-y-auto no-scrollbar flex flex-col justify-start">
-          <p className="text-[10px] font-black uppercase tracking-[0.3em] text-theme-muted opacity-40 mb-3 ml-4">Navegação</p>
-          <div className="space-y-1">
+        {/* Menu Principal - Espaçamento Vertical Refinado */}
+        <nav className="flex-1 px-4 py-2 space-y-0.5 overflow-y-auto no-scrollbar flex flex-col justify-start">
+          <p className="text-[10px] font-black uppercase tracking-[0.25em] text-theme-muted opacity-40 mb-2 ml-4">Navegação</p>
+          <div className="space-y-0.5">
             {navItems.map((item) => {
               const isActive = currentView === item.id;
               return (
                 <button
                   key={item.id}
                   onClick={() => handleNavClick(item.id as ViewState)}
-                  className={`w-full flex items-center space-x-3.5 px-4 py-3 rounded-xl transition-all duration-200 group relative ${
+                  className={`w-full flex items-center space-x-3.5 px-4 py-2.5 rounded-xl transition-all duration-200 group relative ${
                     isActive
-                      ? 'bg-theme-accent text-theme-card font-extrabold shadow-glow translate-x-1'
+                      ? 'bg-theme-accent text-theme-card font-extrabold shadow-glow'
                       : 'text-theme-text opacity-70 hover:opacity-100 hover:bg-theme-accent-soft'
                   }`}
                 >
-                  <span className={`material-symbols-outlined !text-[20px] ${isActive ? 'scale-105 opacity-100' : 'opacity-60 group-hover:opacity-100'}`}>
+                  <span className={`material-symbols-outlined !text-[18px] ${isActive ? 'scale-105 opacity-100' : 'opacity-60 group-hover:opacity-100'}`}>
                     {item.icon}
                   </span>
                   <span className="text-[13px] font-bold tracking-tight">{item.label}</span>
                   {isActive && (
-                    <span className="absolute right-4 w-1.5 h-1.5 bg-theme-card rounded-full shadow-glow"></span>
+                    <span className="absolute right-4 w-1.5 h-1.5 bg-theme-card rounded-full"></span>
                   )}
                 </button>
               );
@@ -88,22 +88,22 @@ const Sidebar: React.FC<SidebarProps> = ({ currentView, setView, user, onLogout,
           </div>
         </nav>
 
-        {/* Base da Sidebar - Conta e Sair Refinados */}
-        <div className="p-4 mt-auto shrink-0 border-t border-theme-border/30 bg-theme-card/10">
+        {/* Base da Sidebar - Conta e Sair Mais Visíveis */}
+        <div className="p-4 mt-auto shrink-0 border-t border-theme-border/30 bg-theme-card/5">
           <div className="space-y-2">
             <button 
               onClick={() => handleNavClick('settings')}
-              className={`w-full flex items-center gap-3.5 p-3 rounded-2xl transition-all group/profile border border-transparent ${currentView === 'settings' ? 'bg-theme-accent text-theme-card shadow-glow' : 'hover:bg-theme-accent-soft hover:border-theme-border/50'}`}
+              className={`w-full flex items-center gap-3.5 p-3 rounded-2xl transition-all group/profile border border-transparent ${currentView === 'settings' ? 'bg-theme-accent text-theme-card shadow-glow' : 'hover:bg-theme-accent-soft hover:border-theme-border/40'}`}
             >
-              <div className="w-10 h-10 rounded-full border-2 border-theme-accent/20 overflow-hidden shrink-0 shadow-sm group-hover/profile:scale-105 transition-transform">
+              <div className="w-10 h-10 rounded-full border-2 border-theme-accent/20 overflow-hidden shrink-0 shadow-sm transition-transform group-hover/profile:scale-105">
                 <img src={user.avatar} alt={user.name} className="w-full h-full object-cover" />
               </div>
               <div className="text-left min-w-0">
-                <p className={`text-sm font-black truncate leading-none ${currentView === 'settings' ? 'text-theme-card' : 'text-theme-text'}`}>
+                <p className={`text-[13px] font-black truncate leading-none ${currentView === 'settings' ? 'text-theme-card' : 'text-theme-text'}`}>
                   {user.name.split(' ')[0]}
                 </p>
-                <p className={`text-[9px] font-bold uppercase tracking-widest mt-1 opacity-60 ${currentView === 'settings' ? 'text-theme-card' : 'text-theme-muted'}`}>
-                  Ver Perfil
+                <p className={`text-[9px] font-bold uppercase tracking-widest mt-1 opacity-50 ${currentView === 'settings' ? 'text-theme-card' : 'text-theme-muted'}`}>
+                  Minha Conta
                 </p>
               </div>
             </button>
@@ -116,7 +116,7 @@ const Sidebar: React.FC<SidebarProps> = ({ currentView, setView, user, onLogout,
               <span className="text-[12px] font-extrabold uppercase tracking-widest">Sair da conta</span>
             </button>
           </div>
-          <p className="text-[8px] text-center mt-4 font-black text-theme-muted uppercase tracking-[0.5em] opacity-30">iPlanner Premium</p>
+          <p className="text-[8px] text-center mt-4 font-black text-theme-muted uppercase tracking-[0.4em] opacity-20">iPlanner Premium</p>
         </div>
       </aside>
     </>
