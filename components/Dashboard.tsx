@@ -19,6 +19,22 @@ const Dashboard: React.FC<DashboardProps> = ({ tasks, habits, goals, user, setVi
   const dayName = today.toLocaleDateString('pt-BR', { weekday: 'long' });
   const fullDate = today.toLocaleDateString('pt-BR', { day: 'numeric', month: 'long', year: 'numeric' });
 
+  // Calcula a saudação dinâmica baseada no fuso de Brasília
+  const getGreeting = () => {
+    const hour = parseInt(new Intl.DateTimeFormat('pt-BR', {
+      hour: 'numeric',
+      hour12: false,
+      timeZone: 'America/Sao_Paulo'
+    }).format(new Date()));
+
+    if (hour >= 5 && hour < 12) return 'Bom dia';
+    if (hour >= 12 && hour < 18) return 'Boa tarde';
+    return 'Boa noite';
+  };
+
+  const greeting = getGreeting();
+  const firstName = user.name.split(' ')[0];
+
   return (
     <div className="px-5 py-8 md:px-12 md:py-12 space-y-10 md:space-y-14 page-transition max-w-[1600px] mx-auto pb-32">
       {/* Header Premium com proporções refinadas */}
@@ -74,8 +90,7 @@ const Dashboard: React.FC<DashboardProps> = ({ tasks, habits, goals, user, setVi
                 <span className="material-symbols-outlined !text-4xl md:!text-6xl text-theme-card">menu_book</span>
              </div>
              <div className="space-y-6 md:space-y-8 relative z-10">
-                <span className="inline-block px-5 py-2 bg-theme-accent-soft text-theme-accent rounded-full text-[10px] font-black uppercase tracking-[0.4em] border border-theme-accent/10">Modo Premium</span>
-                <h3 className="text-4xl md:text-6xl font-black text-theme-text tracking-tighter leading-tight">Bom dia, {user.name.split(' ')[0]}!</h3>
+                <h3 className="text-4xl md:text-6xl font-black text-theme-text tracking-tighter leading-tight">{greeting}, {firstName}!</h3>
                 <p className="text-theme-muted font-bold text-lg md:text-2xl leading-relaxed max-w-xl opacity-80">
                   Pronto para transformar hoje em um dia <b className="text-theme-accent underline underline-offset-[12px] decoration-4">extraordinário</b>?
                 </p>
