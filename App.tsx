@@ -100,13 +100,6 @@ const App: React.FC = () => {
     document.body.className = `theme-${currentUser?.theme || db.getGlobalTheme()}`;
   }, [currentUser?.theme]);
 
-  const addXP = (amount: number) => {
-    if (!currentUser) return;
-    const newXP = currentUser.xp + amount;
-    const newLevel = Math.floor(newXP / 100) + 1;
-    handleUpdateProfile({ xp: newXP, level: newLevel });
-  };
-
   const handleUpdateProfile = (updates: Partial<User>) => {
     setCurrentUser(prev => prev ? { ...prev, ...updates } : null);
   };
@@ -119,7 +112,6 @@ const App: React.FC = () => {
   const toggleTask = (id: string) => {
     setTasks(prev => prev.map(t => {
       if (t.id === id) {
-        if (!t.completed) addXP(20);
         return { ...t, completed: !t.completed };
       }
       return t;
@@ -162,9 +154,9 @@ const App: React.FC = () => {
   const renderView = () => {
     switch (view) {
       case 'dashboard': return <Dashboard tasks={tasks} habits={habits} goals={goals} user={currentUser} setView={setView} />;
-      case 'daily': return <DailyView date={selectedDate} tasks={tasks.filter(t => t.dueDate === selectedDate)} onToggle={toggleTask} onSetEnergy={(level) => { const currentEnergies = currentUser.dailyEnergy || {}; handleUpdateProfile({ dailyEnergy: { ...currentEnergies, [selectedDate]: level } }); addXP(10); }} currentEnergy={currentUser.dailyEnergy?.[selectedDate] || 0} onStartFocus={() => setActiveTimer(true)} onSchedule={scheduleTask} onAddTask={addTask} setView={setView} />;
+      case 'daily': return <DailyView date={selectedDate} tasks={tasks.filter(t => t.dueDate === selectedDate)} onToggle={toggleTask} onSetEnergy={(level) => { const currentEnergies = currentUser.dailyEnergy || {}; handleUpdateProfile({ dailyEnergy: { ...currentEnergies, [selectedDate]: level } }); }} currentEnergy={currentUser.dailyEnergy?.[selectedDate] || 0} onStartFocus={() => setActiveTimer(true)} onSchedule={scheduleTask} onAddTask={addTask} setView={setView} />;
       case 'tasks': return <TaskList tasks={tasks} onToggle={toggleTask} onDelete={deleteTask} onAdd={addTask} userCategories={currentUser.categories} onUpdateCategories={(cats) => handleUpdateProfile({ categories: cats })} onNavigate={navigateToDate} />;
-      case 'habits': return <HabitTracker habits={habits} onToggle={(id) => { const today = new Date().toISOString().split('T')[0]; setHabits(prev => prev.map(h => { if (h.id === id && h.lastCompleted !== today) { addXP(15); return { ...h, streak: h.streak + 1, lastCompleted: today }; } return h; })); }} onAdd={(h) => setHabits(prev => [h, ...prev])} onDelete={(id) => setHabits(prev => prev.filter(h => h.id !== id))} />;
+      case 'habits': return <HabitTracker habits={habits} onToggle={(id) => { const today = new Date().toISOString().split('T')[0]; setHabits(prev => prev.map(h => { if (h.id === id && h.lastCompleted !== today) { return { ...h, streak: h.streak + 1, lastCompleted: today }; } return h; })); }} onAdd={(h) => setHabits(prev => [h, ...prev])} onDelete={(id) => setHabits(prev => prev.filter(h => h.id !== id))} />;
       case 'notes': return <NotesView notes={notes} onAdd={(n) => setNotes(prev => [n, ...prev])} onUpdate={(id, up) => setNotes(prev => prev.map(n => n.id === id ? { ...n, ...up } : n))} onDelete={(id) => setNotes(prev => prev.filter(n => n.id !== id))} />;
       case 'finance': return <FinanceView transactions={transactions} onAdd={(t) => setTransactions(prev => [t, ...prev])} onDelete={(id) => setTransactions(prev => prev.filter(t => t.id !== id))} />;
       case 'calendar': return <CalendarView tasks={tasks} onToggle={toggleTask} onNavigate={navigateToDate} setView={setView} />;
@@ -193,7 +185,7 @@ const App: React.FC = () => {
         {renderView()}
       </main>
       <MobileNav currentView={view} setView={setView} />
-      {activeTimer && <FocusTimer onClose={() => setActiveTimer(false)} onComplete={() => { addXP(50); setActiveTimer(false); }} />}
+      {activeTimer && <FocusTimer onClose={() => setActiveTimer(false)} onComplete={() => { setActiveTimer(false); }} />}
     </div>
   );
 };

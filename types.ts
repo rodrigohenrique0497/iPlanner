@@ -65,8 +65,6 @@ export interface User {
   name: string;
   email: string;
   avatar: string;
-  xp: number;
-  level: number;
   joinedAt: string;
   focusGoal: string;
   theme: ThemeType;
@@ -88,7 +86,6 @@ export type ViewState =
   | 'insights' 
   | 'settings';
 
-// Fix: Define AIPlanResponse interface for GenAI structured output
 export interface AIPlanResponse {
   insight: string;
   tasks: {

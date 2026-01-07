@@ -34,13 +34,12 @@ const Auth: React.FC<AuthProps> = ({ onLogin }) => {
       if (isRegistering) {
         const authUser = await db.signUp(email, password, name);
         if (authUser) {
+          // Fix: Removed xp and level properties as they are not present in the User type definition in types.ts
           const newUser: User = {
             id: authUser.id,
             name: name.trim(),
             email: email.trim(),
             avatar: `https://api.dicebear.com/7.x/avataaars/svg?seed=${name.trim()}`,
-            xp: 0,
-            level: 1,
             joinedAt: new Date().toISOString(),
             focusGoal: 'Focar na minha produtividade',
             theme: selectedTheme,
@@ -58,13 +57,12 @@ const Auth: React.FC<AuthProps> = ({ onLogin }) => {
             db.setSession(profile);
             onLogin(profile);
           } else {
+            // Fix: Removed xp and level properties as they are not present in the User type definition in types.ts
             const defaultUser: User = { 
               id: authUser.id, 
               name: authUser.user_metadata?.full_name || 'Usuário', 
               email: authUser.email || '', 
               avatar: '', 
-              xp: 0, 
-              level: 1, 
               joinedAt: new Date().toISOString(), 
               focusGoal: 'Produtividade', 
               theme: db.getGlobalTheme(), 

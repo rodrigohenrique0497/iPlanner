@@ -1,3 +1,4 @@
+
 import { User, ThemeType } from '../types'
 import { supabase } from '../lib/supabase'
 
@@ -54,8 +55,6 @@ export const db = {
         id: authUser.id,
         name: user.name,
         email: user.email,
-        xp: user.xp,
-        level: user.level,
         focus_goal: user.focusGoal,
         theme: user.theme,
         categories: user.categories,
@@ -82,8 +81,6 @@ export const db = {
       id: data.id,
       name: data.name,
       email: data.email,
-      xp: data.xp,
-      level: data.level,
       focusGoal: data.focus_goal,
       theme: data.theme as ThemeType,
       categories: data.categories || [],
