@@ -16,9 +16,15 @@ const TaskList: React.FC<TaskListProps> = ({ tasks, onToggle, onDelete, onAdd, u
   const [isAdding, setIsAdding] = useState(false);
   const [newTitle, setNewTitle] = useState('');
   const [newCategory, setNewCategory] = useState(userCategories[0] || 'Geral');
+  const [newPriority, setNewPriority] = useState<Priority>(Priority.MEDIUM);
   const [newDueDate, setNewDueDate] = useState(new Date().toISOString().split('T')[0]);
+  
   const [searchQuery, setSearchQuery] = useState('');
   const [filterCategory, setFilterCategory] = useState<string>('all');
+  const [filterPriority, setFilterPriority] = useState<string>('all');
+
+  const [isManagingCats, setIsManagingCats] = useState(false);
+  const [tempCategory, setTempCategory] = useState('');
 
   const todayStr = new Date().toISOString().split('T')[0];
 
@@ -26,9 +32,10 @@ const TaskList: React.FC<TaskListProps> = ({ tasks, onToggle, onDelete, onAdd, u
     return tasks.filter(task => {
       const matchesSearch = task.title.toLowerCase().includes(searchQuery.toLowerCase());
       const matchesCategory = filterCategory === 'all' || task.category === filterCategory;
-      return matchesSearch && matchesCategory;
+      const matchesPriority = filterPriority === 'all' || task.priority === filterPriority;
+      return matchesSearch && matchesCategory && matchesPriority;
     });
-  }, [tasks, searchQuery, filterCategory]);
+  }, [tasks, searchQuery, filterCategory, filterPriority]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -36,13 +43,32 @@ const TaskList: React.FC<TaskListProps> = ({ tasks, onToggle, onDelete, onAdd, u
     onAdd({
       title: newTitle,
       completed: false,
-      priority: Priority.MEDIUM,
+      priority: newPriority,
       category: newCategory,
       dueDate: newDueDate,
       notified: false
     });
     setNewTitle('');
     setIsAdding(false);
+  };
+
+  const handleAddCategory = () => {
+    if (!tempCategory.trim() || userCategories.includes(tempCategory.trim())) return;
+    onUpdateCategories([...userCategories, tempCategory.trim()]);
+    setNewCategory(tempCategory.trim());
+    setTempCategory('');
+    setIsManagingCats(false);
+  };
+
+  const removeCategory = (cat: string) => {
+    if (cat === 'Geral') return;
+    onUpdateCategories(userCategories.filter(c => c !== cat));
+  };
+
+  const priorityColors = {
+    [Priority.LOW]: 'text-blue-500 bg-blue-500/10 border-blue-500/20',
+    [Priority.MEDIUM]: 'text-amber-500 bg-amber-500/10 border-amber-500/20',
+    [Priority.HIGH]: 'text-rose-500 bg-rose-500/10 border-rose-500/20',
   };
 
   return (
@@ -58,13 +84,51 @@ const TaskList: React.FC<TaskListProps> = ({ tasks, onToggle, onDelete, onAdd, u
           </div>
         </div>
 
-        <button
-          onClick={() => setIsAdding(!isAdding)}
-          className={`w-14 h-14 rounded-full flex items-center justify-center shadow-premium transition-all active:scale-90 ${isAdding ? 'bg-rose-500 text-white rotate-45 scale-90' : 'bg-theme-accent text-theme-card'}`}
-        >
-          <span className="material-symbols-outlined !text-2xl">add</span>
-        </button>
+        <div className="flex gap-2">
+          <button
+            onClick={() => setIsManagingCats(!isManagingCats)}
+            className={`w-14 h-14 rounded-full flex items-center justify-center border transition-all active:scale-90 ${isManagingCats ? 'bg-theme-accent text-theme-card border-theme-accent' : 'bg-theme-card text-theme-muted border-theme-border'}`}
+            title="Gerenciar Categorias"
+          >
+            <span className="material-symbols-outlined !text-2xl">category</span>
+          </button>
+          <button
+            onClick={() => setIsAdding(!isAdding)}
+            className={`w-14 h-14 rounded-full flex items-center justify-center shadow-premium transition-all active:scale-90 ${isAdding ? 'bg-rose-500 text-white rotate-45 scale-90' : 'bg-theme-accent text-theme-card'}`}
+          >
+            <span className="material-symbols-outlined !text-2xl">add</span>
+          </button>
+        </div>
       </header>
+
+      {/* Gerenciador de Categorias */}
+      {isManagingCats && (
+        <div className="bg-theme-card p-8 rounded-planner border border-theme-border shadow-premium space-y-6 animate-in slide-in-from-top-4 duration-300">
+          <h3 className="text-[10px] font-black uppercase tracking-widest text-theme-muted">Minhas Categorias</h3>
+          <div className="flex flex-wrap gap-2">
+            {userCategories.map(cat => (
+              <div key={cat} className="flex items-center gap-2 px-4 py-2 bg-theme-bg rounded-xl border border-theme-border group">
+                <span className="text-[11px] font-bold text-theme-text">{cat}</span>
+                {cat !== 'Geral' && (
+                  <button onClick={() => removeCategory(cat)} className="text-theme-muted hover:text-rose-500 transition-colors">
+                    <span className="material-symbols-outlined !text-sm">close</span>
+                  </button>
+                )}
+              </div>
+            ))}
+          </div>
+          <div className="flex gap-2">
+            <input 
+              type="text" 
+              placeholder="Nome da nova categoria..." 
+              value={tempCategory}
+              onChange={e => setTempCategory(e.target.value)}
+              className="flex-1 px-5 py-3 bg-theme-bg border border-theme-border rounded-xl text-xs font-bold outline-none focus:border-theme-accent transition-all"
+            />
+            <button onClick={handleAddCategory} className="px-6 py-3 bg-theme-accent text-theme-card rounded-xl text-[10px] font-black uppercase tracking-widest">Adicionar</button>
+          </div>
+        </div>
+      )}
 
       {isAdding && (
         <form onSubmit={handleSubmit} className="bg-theme-card p-8 md:p-10 rounded-planner border border-theme-border shadow-premium space-y-8 animate-in slide-in-from-bottom-4 duration-300">
@@ -76,33 +140,88 @@ const TaskList: React.FC<TaskListProps> = ({ tasks, onToggle, onDelete, onAdd, u
             onChange={e => setNewTitle(e.target.value)}
             className="w-full text-2xl font-bold bg-transparent border-none outline-none text-theme-text placeholder:opacity-30"
           />
-          <div className="flex flex-wrap gap-4 items-center">
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="flex flex-col gap-2">
                <label className="text-[9px] font-black uppercase text-theme-muted opacity-60 ml-2 tracking-widest">Categoria</label>
-               <select value={newCategory} onChange={e => setNewCategory(e.target.value)} className="bg-theme-bg px-5 py-3 rounded-2xl text-[11px] font-black uppercase outline-none border border-theme-border cursor-pointer">
+               <select value={newCategory} onChange={e => setNewCategory(e.target.value)} className="bg-theme-bg px-5 py-3 rounded-2xl text-[11px] font-black uppercase outline-none border border-theme-border cursor-pointer appearance-none">
                  {userCategories.map(c => <option key={c} value={c}>{c}</option>)}
                </select>
             </div>
+            
+            <div className="flex flex-col gap-2">
+               <label className="text-[9px] font-black uppercase text-theme-muted opacity-60 ml-2 tracking-widest">Prioridade</label>
+               <div className="flex bg-theme-bg p-1 rounded-2xl border border-theme-border">
+                  {[
+                    { id: Priority.LOW, label: 'Baixa' },
+                    { id: Priority.MEDIUM, label: 'Média' },
+                    { id: Priority.HIGH, label: 'Alta' }
+                  ].map(p => (
+                    <button 
+                      key={p.id}
+                      type="button"
+                      onClick={() => setNewPriority(p.id)}
+                      className={`flex-1 py-2 rounded-xl text-[9px] font-black uppercase transition-all ${newPriority === p.id ? 'bg-theme-accent text-theme-card shadow-sm' : 'text-theme-muted opacity-50'}`}
+                    >
+                      {p.label}
+                    </button>
+                  ))}
+               </div>
+            </div>
+
             <div className="flex flex-col gap-2">
                <label className="text-[9px] font-black uppercase text-theme-muted opacity-60 ml-2 tracking-widest">Data Limite</label>
                <input type="date" value={newDueDate} onChange={e => setNewDueDate(e.target.value)} className="bg-theme-bg px-5 py-3 rounded-2xl text-[11px] font-black outline-none border border-theme-border" />
             </div>
-            <button type="submit" className="ml-auto bg-theme-accent text-theme-card px-10 py-4 rounded-2xl text-[11px] font-black uppercase shadow-glow active:scale-95 transition-all self-end">Salvar Plano</button>
+          </div>
+          
+          <div className="flex justify-end pt-4">
+            <button type="submit" className="bg-theme-accent text-theme-card px-12 py-4 rounded-2xl text-[11px] font-black uppercase shadow-glow active:scale-95 transition-all">Agendar Tarefa</button>
           </div>
         </form>
       )}
 
-      <div className="relative">
-        <input 
-          type="text" 
-          placeholder="Filtrar tarefas..." 
-          value={searchQuery}
-          onChange={e => setSearchQuery(e.target.value)}
-          className="w-full pl-14 pr-6 py-5 bg-theme-card rounded-[1.25rem] border border-theme-border outline-none font-bold text-sm shadow-sm focus:border-theme-accent/40 transition-all text-theme-text"
-        />
-        <span className="absolute left-5 top-1/2 -translate-y-1/2 text-theme-muted opacity-60">
-          <span className="material-symbols-outlined !text-2xl">search</span>
-        </span>
+      {/* Seção de Filtros */}
+      <div className="space-y-4">
+        <div className="relative">
+          <input 
+            type="text" 
+            placeholder="Buscar tarefas..." 
+            value={searchQuery}
+            onChange={e => setSearchQuery(e.target.value)}
+            className="w-full pl-14 pr-6 py-5 bg-theme-card rounded-[1.25rem] border border-theme-border outline-none font-bold text-sm shadow-sm focus:border-theme-accent/40 transition-all text-theme-text"
+          />
+          <span className="absolute left-5 top-1/2 -translate-y-1/2 text-theme-muted opacity-60">
+            <span className="material-symbols-outlined !text-2xl">search</span>
+          </span>
+        </div>
+
+        <div className="flex flex-col sm:flex-row gap-4">
+          <div className="flex-1 flex gap-2 overflow-x-auto no-scrollbar py-1">
+            <button 
+              onClick={() => setFilterCategory('all')}
+              className={`px-6 py-2.5 rounded-full text-[10px] font-black uppercase tracking-widest transition-all shrink-0 border ${filterCategory === 'all' ? 'bg-theme-accent text-theme-card border-theme-accent shadow-glow' : 'bg-theme-card text-theme-muted border-theme-border opacity-70'}`}
+            >
+              Todas
+            </button>
+            {userCategories.map(cat => (
+              <button 
+                key={cat}
+                onClick={() => setFilterCategory(cat)}
+                className={`px-6 py-2.5 rounded-full text-[10px] font-black uppercase tracking-widest transition-all shrink-0 border ${filterCategory === cat ? 'bg-theme-accent text-theme-card border-theme-accent shadow-glow' : 'bg-theme-card text-theme-muted border-theme-border opacity-70'}`}
+              >
+                {cat}
+              </button>
+            ))}
+          </div>
+
+          <div className="bg-theme-card p-1.5 rounded-2xl border border-theme-border flex gap-1 shrink-0">
+             <button onClick={() => setFilterPriority('all')} className={`px-4 py-2 rounded-xl text-[9px] font-black uppercase ${filterPriority === 'all' ? 'bg-theme-bg text-theme-text shadow-sm' : 'text-theme-muted opacity-50'}`}>Todas</button>
+             <button onClick={() => setFilterPriority(Priority.LOW)} className={`px-4 py-2 rounded-xl text-[9px] font-black uppercase ${filterPriority === Priority.LOW ? 'bg-blue-500 text-white' : 'text-theme-muted opacity-50'}`}>Baixa</button>
+             <button onClick={() => setFilterPriority(Priority.MEDIUM)} className={`px-4 py-2 rounded-xl text-[9px] font-black uppercase ${filterPriority === Priority.MEDIUM ? 'bg-amber-500 text-white' : 'text-theme-muted opacity-50'}`}>Média</button>
+             <button onClick={() => setFilterPriority(Priority.HIGH)} className={`px-4 py-2 rounded-xl text-[9px] font-black uppercase ${filterPriority === Priority.HIGH ? 'bg-rose-500 text-white' : 'text-theme-muted opacity-50'}`}>Alta</button>
+          </div>
+        </div>
       </div>
 
       <div className="space-y-4">
@@ -128,6 +247,11 @@ const TaskList: React.FC<TaskListProps> = ({ tasks, onToggle, onDelete, onAdd, u
                    <span className={`text-[9px] font-black uppercase tracking-widest px-2 py-0.5 rounded ${task.completed ? 'bg-theme-muted/10 text-theme-muted' : 'bg-theme-accent-soft text-theme-accent'}`}>
                      {task.category}
                    </span>
+                   {!task.completed && (
+                     <span className={`text-[9px] font-black uppercase tracking-widest px-2 py-0.5 rounded border ${priorityColors[task.priority as Priority]}`}>
+                       {task.priority === Priority.LOW ? 'Baixa' : task.priority === Priority.MEDIUM ? 'Média' : 'Alta'}
+                     </span>
+                   )}
                    {isOverdue && (
                      <span className="text-[9px] font-black text-rose-600 uppercase tracking-widest flex items-center gap-1 bg-rose-500/10 px-2 py-0.5 rounded">
                        <span className="w-1 h-1 bg-rose-600 rounded-full animate-pulse"></span> Atrasado
@@ -149,7 +273,8 @@ const TaskList: React.FC<TaskListProps> = ({ tasks, onToggle, onDelete, onAdd, u
         {filteredTasks.length === 0 && (
           <div className="py-24 text-center space-y-4 opacity-40">
             <span className="material-symbols-outlined !text-6xl text-theme-muted">inventory_2</span>
-            <p className="font-black uppercase tracking-[0.2em] text-[11px] text-theme-muted">Nenhuma tarefa encontrada</p>
+            <p className="font-black uppercase tracking-[0.2em] text-[11px] text-theme-muted">Nenhum resultado para estes filtros</p>
+            <button onClick={() => { setFilterCategory('all'); setFilterPriority('all'); setSearchQuery(''); }} className="text-[10px] font-black text-theme-accent uppercase underline tracking-widest">Limpar Filtros</button>
           </div>
         )}
       </div>
