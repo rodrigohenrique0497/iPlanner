@@ -66,22 +66,22 @@
 
     <style>
       :root {
-        --bg-main: #f8fafc; /* Um pouco mais claro para contraste com o card */
+        --bg-main: #f1f5f9; 
         --bg-card: #ffffff;
-        --text-main: #0f172a;
-        --text-muted: #334155; /* Escurecido para melhor contraste (AA) */
+        --text-main: #020617; /* Texto quase preto para contraste máximo */
+        --text-muted: #475569; /* Cinza slate escuro (Passa no AA) */
         --accent-main: #0f172a;
-        --accent-soft: rgba(15, 23, 42, 0.08);
-        --border-color: #cbd5e1; /* Borda mais definida */
-        --shadow-main: 0 12px 30px -10px rgba(15, 23, 42, 0.15);
-        --shadow-glow: 0 0 25px 0 rgba(15, 23, 42, 0.08);
+        --accent-soft: rgba(15, 23, 42, 0.06);
+        --border-color: #cbd5e1;
+        --shadow-main: 0 20px 40px -15px rgba(15, 23, 42, 0.12);
+        --shadow-glow: 0 0 20px 0 rgba(15, 23, 42, 0.05);
         --radius-planner: 2.5rem;
         --radius-planner-sm: 1.25rem;
       }
 
       @media (max-width: 768px) {
         :root {
-          --radius-planner: 1.75rem;
+          --radius-planner: 2rem;
           --radius-planner-sm: 1rem;
         }
       }
@@ -92,34 +92,29 @@
         --text-main: #f8fafc;
         --text-muted: #94a3b8;
         --accent-main: #f1f5f9;
-        --accent-soft: rgba(241, 245, 249, 0.12);
+        --accent-soft: rgba(241, 245, 249, 0.1);
         --border-color: #1e293b;
-        --shadow-main: 0 20px 50px -12px rgba(0, 0, 0, 0.8);
-        --shadow-glow: 0 0 35px 0 rgba(255, 255, 255, 0.02);
+        --shadow-main: 0 20px 50px -12px rgba(0, 0, 0, 0.5);
       }
 
       .theme-rosa {
         --bg-main: #fff1f2;
         --bg-card: #ffffff;
         --text-main: #4c0519;
-        --text-muted: #881337; /* Rosa mais saturado para legibilidade */
+        --text-muted: #881337;
         --accent-main: #9f1239;
-        --accent-soft: rgba(159, 18, 57, 0.1);
+        --accent-soft: rgba(159, 18, 57, 0.08);
         --border-color: #fecdd3;
-        --shadow-main: 0 12px 30px -10px rgba(159, 18, 57, 0.15);
-        --shadow-glow: 0 0 25px 0 rgba(159, 18, 57, 0.06);
       }
 
       .theme-azul {
         --bg-main: #f0f9ff;
         --bg-card: #ffffff;
         --text-main: #0c4a6e;
-        --text-muted: #0369a1; /* Azul mais profundo */
+        --text-muted: #0369a1;
         --accent-main: #0284c7;
-        --accent-soft: rgba(2, 132, 199, 0.1);
+        --accent-soft: rgba(2, 132, 199, 0.08);
         --border-color: #bae6fd;
-        --shadow-main: 0 12px 30px -10px rgba(2, 132, 199, 0.15);
-        --shadow-glow: 0 0 25px 0 rgba(2, 132, 199, 0.06);
       }
       
       body {
@@ -134,7 +129,7 @@
       }
 
       .material-symbols-outlined {
-        font-variation-settings: 'FILL' 0, 'wght' 500, 'GRAD' 0, 'opsz' 24;
+        font-variation-settings: 'FILL' 0, 'wght' 600, 'GRAD' 0, 'opsz' 24;
       }
 
       .no-scrollbar::-webkit-scrollbar { display: none; }
@@ -149,8 +144,8 @@
       }
 
       .glass-effect {
-        backdrop-filter: blur(16px);
-        -webkit-backdrop-filter: blur(16px);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
       }
     </style>
   
