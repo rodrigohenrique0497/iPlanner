@@ -34,6 +34,7 @@ const Auth: React.FC<AuthProps> = ({ onLogin }) => {
       if (isRegistering) {
         const authUser = await db.signUp(email, password, name);
         if (authUser) {
+          // Fix: Removed xp and level properties as they are not present in the User type definition in types.ts
           const newUser: User = {
             id: authUser.id,
             name: name.trim(),
@@ -56,6 +57,7 @@ const Auth: React.FC<AuthProps> = ({ onLogin }) => {
             db.setSession(profile);
             onLogin(profile);
           } else {
+            // Fix: Removed xp and level properties as they are not present in the User type definition in types.ts
             const defaultUser: User = { 
               id: authUser.id, 
               name: authUser.user_metadata?.full_name || 'Usuário', 
@@ -85,8 +87,8 @@ const Auth: React.FC<AuthProps> = ({ onLogin }) => {
         
         {/* Header Compacto no Mobile */}
         <div className="text-center space-y-3">
-          <div className="w-16 h-16 md:w-20 md:h-20 bg-theme-accent rounded-[2rem] mx-auto flex items-center justify-center shadow-premium transform hover:rotate-3 transition-all overflow-hidden p-2">
-             <img src="/icon-192.png" alt="iPlanner Logo" className="w-full h-full object-contain" />
+          <div className="w-16 h-16 md:w-20 md:h-20 bg-theme-accent rounded-[2rem] mx-auto flex items-center justify-center shadow-premium transform hover:rotate-3 transition-all">
+             <span className="material-symbols-outlined !text-3xl md:!text-4xl text-theme-card">menu_book</span>
           </div>
           <div>
             <h2 className="text-4xl md:text-5xl font-black tracking-tighter text-theme-text leading-none">iPlanner</h2>

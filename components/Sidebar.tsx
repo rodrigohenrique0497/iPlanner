@@ -49,8 +49,8 @@ const Sidebar: React.FC<SidebarProps> = ({ currentView, setView, user, onLogout,
             className="flex items-center gap-3 cursor-pointer group" 
             onClick={() => handleNavClick('dashboard')}
           >
-            <div className="w-9 h-9 rounded-xl bg-theme-accent overflow-hidden shadow-premium group-hover:rotate-6 transition-transform flex items-center justify-center">
-              <img src="/icon-192.png" alt="iPlanner Logo" className="w-full h-full object-cover p-1" />
+            <div className="w-9 h-9 rounded-xl bg-theme-accent flex items-center justify-center shadow-premium group-hover:rotate-6 transition-transform">
+              <span className="material-symbols-outlined !text-xl text-theme-card">menu_book</span>
             </div>
             <h1 className="text-xl font-black tracking-tighter text-theme-text">iPlanner</h1>
           </div>
