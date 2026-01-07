@@ -15,13 +15,12 @@ root.render(
   </React.StrictMode>
 );
 
-// Registro do Service Worker para PWA (Produção)
-if ('serviceWorker' in navigator) {
+// O registro é gerenciado pelo VitePWA através do injectRegister: 'auto' no vite.config.ts
+// mas manter este bloco garante que o SW seja registrado mesmo se a injeção automática falhar.
+if ('serviceWorker' in navigator && import.meta.env.PROD) {
   window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/sw.js').then(registration => {
-      console.log('SW registrado com sucesso:', registration.scope);
-    }).catch(error => {
-      console.log('Falha ao registrar SW:', error);
-    });
+    navigator.serviceWorker.register('/sw.js', { scope: '/' })
+      .then(reg => console.log('iPlanner SW ativo:', reg.scope))
+      .catch(err => console.error('Erro SW:', err));
   });
 }
