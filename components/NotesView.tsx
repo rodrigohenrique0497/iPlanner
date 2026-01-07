@@ -50,23 +50,23 @@ const NotesView: React.FC<NotesViewProps> = ({ notes, onAdd, onUpdate, onDelete 
           <h2 className="text-4xl md:text-5xl font-black text-theme-text tracking-tighter leading-none">Notas</h2>
           <p className="text-theme-muted font-medium text-base md:text-lg mt-2 italic opacity-80">Capture suas ideias.</p>
         </div>
-        <div className="w-full md:w-auto flex gap-3 items-center">
-          <div className="relative flex-1 md:w-64">
+        <div className="w-full md:w-auto flex gap-4 items-center">
+          <div className="relative flex-1 md:w-80 group">
             <input 
               type="text" 
-              placeholder="Buscar..." 
+              placeholder="Buscar em suas notas..." 
               value={search}
               onChange={e => setSearch(e.target.value)}
-              className="w-full pl-11 pr-5 py-3.5 bg-theme-card rounded-2xl border border-theme-border shadow-sm focus:ring-4 focus:ring-theme-accent-soft outline-none font-bold text-xs text-theme-text"
+              className="w-full pl-14 pr-7 h-[3.75rem] bg-theme-card rounded-[1.5rem] border border-theme-border shadow-sm focus:ring-4 focus:ring-theme-accent-soft outline-none font-bold text-sm text-theme-text transition-all"
             />
-            <span className="absolute left-4 top-1/2 -translate-y-1/2 opacity-30">
-               <span className="material-symbols-outlined !text-xl leading-none">search</span>
+            <span className="absolute left-5 top-1/2 -translate-y-1/2 opacity-30 group-focus-within:text-theme-accent group-focus-within:opacity-100 transition-all">
+               <span className="material-symbols-outlined !text-2xl leading-none">search</span>
             </span>
           </div>
           
           <button 
             onClick={() => setIsCreating(true)}
-            className="w-12 h-12 md:w-14 md:h-14 bg-theme-accent text-theme-card rounded-full flex items-center justify-center shadow-premium hover:scale-105 active:scale-95 transition-all shrink-0"
+            className="w-16 h-16 bg-theme-accent text-theme-card rounded-2xl flex items-center justify-center shadow-premium hover:scale-105 active:scale-95 transition-all shrink-0"
           >
             <span className="material-symbols-outlined !text-3xl leading-none">add</span>
           </button>
@@ -74,8 +74,19 @@ const NotesView: React.FC<NotesViewProps> = ({ notes, onAdd, onUpdate, onDelete 
       </header>
 
       {isCreating && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-6 bg-black/40 backdrop-blur-md animate-in fade-in duration-300">
-          <div className="bg-theme-card w-full max-w-2xl p-8 md:p-12 rounded-planner shadow-premium space-y-8 border border-theme-border animate-in zoom-in-95 duration-300">
+        <div className="modal-backdrop">
+          <div className="bg-theme-card w-full max-w-2xl p-8 md:p-12 rounded-[2.5rem] shadow-2xl space-y-10 border border-theme-border relative animate-in zoom-in-95 duration-300">
+            <div className="flex justify-between items-center">
+              <h3 className="text-2xl font-black text-theme-text tracking-tight">Nova Nota</h3>
+              <button 
+                type="button"
+                onClick={() => setIsCreating(false)}
+                className="btn-close-modal"
+              >
+                <span className="material-symbols-outlined">close</span>
+              </button>
+            </div>
+
             <div className="space-y-6">
               <input 
                 autoFocus
@@ -83,26 +94,27 @@ const NotesView: React.FC<NotesViewProps> = ({ notes, onAdd, onUpdate, onDelete 
                 placeholder="Título da nota" 
                 value={newTitle}
                 onChange={e => setNewTitle(e.target.value)}
-                className="w-full text-2xl md:text-3xl font-black text-theme-text placeholder:opacity-20 outline-none bg-transparent"
+                className="w-full text-2xl md:text-3xl font-black text-theme-text placeholder:opacity-20 outline-none bg-transparent border-none p-0 min-h-0"
               />
               <textarea 
                 placeholder="Comece a escrever..." 
                 value={newContent}
                 onChange={e => setNewContent(e.target.value)}
                 rows={8}
-                className="w-full text-base md:text-lg font-medium text-theme-muted placeholder:opacity-20 outline-none bg-transparent resize-none leading-relaxed"
+                className="w-full text-lg md:text-xl font-medium text-theme-muted placeholder:opacity-20 outline-none bg-transparent resize-none leading-relaxed border-none p-0"
               />
             </div>
-            <div className="flex gap-4">
+
+            <div className="flex flex-col gap-4">
               <button 
                 onClick={handleAddNote}
-                className="flex-1 py-4 bg-theme-accent text-theme-card rounded-2xl font-black uppercase tracking-widest hover:opacity-95 shadow-glow active:scale-95 transition-all text-xs"
+                className="btn-action-primary w-full shadow-glow"
               >
                 Salvar Nota
               </button>
               <button 
                 onClick={() => setIsCreating(false)}
-                className="px-8 py-4 bg-theme-bg text-theme-muted rounded-2xl font-black uppercase tracking-widest border border-theme-border active:scale-95 transition-all text-xs"
+                className="btn-action-secondary w-full"
               >
                 Cancelar
               </button>

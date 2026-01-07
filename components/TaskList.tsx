@@ -87,23 +87,28 @@ const TaskList: React.FC<TaskListProps> = ({ tasks, onToggle, onDelete, onAdd, u
         <div className="flex gap-3">
           <button
             onClick={() => setIsManagingCats(!isManagingCats)}
-            className={`btn-square-action border transition-all ${isManagingCats ? 'bg-theme-accent text-theme-card border-theme-accent shadow-glow' : 'bg-theme-card text-theme-muted border-theme-border shadow-sm active:scale-95'}`}
+            className={`w-14 h-14 rounded-2xl flex items-center justify-center border transition-all active:scale-95 ${isManagingCats ? 'bg-theme-accent text-theme-card border-theme-accent shadow-glow' : 'bg-theme-card text-theme-muted border-theme-border shadow-sm'}`}
             title="Categorias"
           >
             <span className="material-symbols-outlined !text-2xl">category</span>
           </button>
           <button
             onClick={() => setIsAdding(!isAdding)}
-            className={`btn-square-action shadow-premium transition-all ${isAdding ? 'bg-rose-500 text-white rotate-45 scale-95' : 'bg-theme-accent text-theme-card'}`}
+            className={`w-14 h-14 rounded-2xl flex items-center justify-center shadow-premium transition-all active:scale-90 ${isAdding ? 'bg-rose-500 text-white rotate-45' : 'bg-theme-accent text-theme-card'}`}
           >
-            <span className="material-symbols-outlined !text-3xl">add</span>
+            <span className="material-symbols-outlined !text-[2.5rem]">add</span>
           </button>
         </div>
       </header>
 
       {isManagingCats && (
-        <div className="bg-theme-card p-6 md:p-10 rounded-planner border border-theme-border shadow-premium space-y-8 animate-in slide-in-from-top-4 duration-300">
-          <h3 className="text-[11px] font-black uppercase tracking-[0.25em] text-theme-muted">Gerenciar Categorias</h3>
+        <div className="bg-theme-card p-8 md:p-10 rounded-planner border border-theme-border shadow-premium space-y-8 animate-in slide-in-from-top-4 duration-300 relative">
+          <div className="flex justify-between items-center">
+            <h3 className="text-[11px] font-black uppercase tracking-[0.25em] text-theme-muted">Gerenciar Categorias</h3>
+            <button onClick={() => setIsManagingCats(false)} className="btn-close-modal !w-10 !h-10">
+              <span className="material-symbols-outlined">close</span>
+            </button>
+          </div>
           <div className="flex flex-wrap gap-3">
             {userCategories.map(cat => (
               <div key={cat} className="flex items-center gap-3 px-5 py-3 bg-theme-bg rounded-xl border border-theme-border group">
@@ -116,14 +121,13 @@ const TaskList: React.FC<TaskListProps> = ({ tasks, onToggle, onDelete, onAdd, u
               </div>
             ))}
           </div>
-          {/* Formulário com correção de transbordo e espaçamento robusto */}
           <div className="flex flex-col sm:flex-row gap-4 pt-2">
             <input 
               type="text" 
               placeholder="Nova categoria..." 
               value={tempCategory}
               onChange={e => setTempCategory(e.target.value)}
-              className="flex-1 bg-theme-bg border border-theme-border rounded-2xl text-sm font-bold outline-none focus:border-theme-accent transition-all min-h-[3.75rem] px-6"
+              className="flex-1 px-7 h-[3.75rem] bg-theme-bg border border-theme-border rounded-2xl text-sm font-bold outline-none focus:border-theme-accent transition-all"
             />
             <button onClick={handleAddCategory} className="btn-action-primary !h-[3.75rem] shadow-glow">Adicionar</button>
           </div>
@@ -131,7 +135,14 @@ const TaskList: React.FC<TaskListProps> = ({ tasks, onToggle, onDelete, onAdd, u
       )}
 
       {isAdding && (
-        <form onSubmit={handleSubmit} className="bg-theme-card p-10 md:p-12 rounded-planner border border-theme-border shadow-premium space-y-10 animate-in slide-in-from-bottom-4 duration-300">
+        <form onSubmit={handleSubmit} className="bg-theme-card p-10 md:p-12 rounded-planner border border-theme-border shadow-premium space-y-10 animate-in slide-in-from-bottom-4 duration-300 relative">
+          <div className="flex justify-between items-center mb-2">
+            <span className="text-[10px] font-black uppercase tracking-widest text-theme-accent opacity-60">Novo Registro</span>
+            <button type="button" onClick={() => setIsAdding(false)} className="btn-close-modal !w-10 !h-10">
+              <span className="material-symbols-outlined">close</span>
+            </button>
+          </div>
+          
           <input 
             autoFocus
             type="text" 
@@ -270,14 +281,6 @@ const TaskList: React.FC<TaskListProps> = ({ tasks, onToggle, onDelete, onAdd, u
             </div>
           );
         })}
-        
-        {filteredTasks.length === 0 && (
-          <div className="py-24 text-center space-y-6 opacity-40">
-            <span className="material-symbols-outlined !text-8xl text-theme-muted">inventory_2</span>
-            <p className="font-black uppercase tracking-[0.3em] text-sm text-theme-muted">Nenhum resultado para os filtros</p>
-            <button onClick={() => { setFilterCategory('all'); setFilterPriority('all'); setSearchQuery(''); }} className="text-xs font-black text-theme-accent uppercase underline underline-offset-8 tracking-widest active:scale-95">Limpar Tudo</button>
-          </div>
-        )}
       </div>
     </div>
   );

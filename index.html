@@ -112,17 +112,32 @@
       }
 
       .glass-premium {
-        backdrop-filter: blur(12px) saturate(140%);
-        -webkit-backdrop-filter: blur(12px) saturate(140%);
+        backdrop-filter: blur(24px) saturate(160%);
+        -webkit-backdrop-filter: blur(24px) saturate(160%);
         background: var(--bg-glass);
         border: 1px solid rgba(255, 255, 255, 0.12);
       }
 
       .glass-mobile-nav {
-        backdrop-filter: blur(8px) saturate(120%);
-        -webkit-backdrop-filter: blur(8px) saturate(120%);
+        backdrop-filter: blur(12px) saturate(130%);
+        -webkit-backdrop-filter: blur(12px) saturate(130%);
         background: color-mix(in srgb, var(--bg-card) 94%, black 6%);
         border: 1px solid rgba(255, 255, 255, 0.08);
+      }
+
+      /* Backdrop Full-Screen Refinado */
+      .modal-backdrop {
+        position: fixed;
+        inset: 0;
+        z-index: 100;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 1.5rem;
+        background-color: rgba(0, 0, 0, 0.4);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        animation: fadeIn 0.3s ease-out;
       }
 
       body {
@@ -147,7 +162,7 @@
       .no-scrollbar::-webkit-scrollbar { display: none; }
       .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
-      /* Robustez de Inputs e Seleção - Padronização 3.75rem (60px) para sensação premium */
+      /* Robustez de Inputs Premium */
       input, select, textarea {
         background: var(--bg-card);
         color: var(--text-main);
@@ -166,7 +181,7 @@
         box-shadow: 0 0 0 4px var(--accent-soft) !important;
       }
 
-      /* Padronização Global de Botões de Ação Primária - Encorpados */
+      /* Padronização Global de Botões de Ação - 60px altura */
       .btn-action-primary {
         height: 3.75rem;
         padding-left: 2.75rem;
@@ -185,13 +200,14 @@
         background-color: var(--accent-main);
         color: var(--bg-card);
         cursor: pointer;
+        border: none;
       }
 
       .btn-action-primary:active {
         transform: scale(0.96);
+        opacity: 0.9;
       }
 
-      /* Padronização Global de Botões de Ação Secundária */
       .btn-action-secondary {
         height: 3.75rem;
         padding-left: 2.75rem;
@@ -214,23 +230,25 @@
 
       .btn-action-secondary:active {
         transform: scale(0.96);
+        background-color: var(--bg-main);
       }
 
-      /* Botões Quadrados de Ação (Add, Toggle, etc) - Padronização 3.75rem */
-      .btn-square-action {
-        width: 3.75rem;
-        height: 3.75rem;
-        border-radius: 1.25rem;
+      .btn-close-modal {
+        width: 3rem;
+        height: 3rem;
+        border-radius: 1rem;
         display: flex;
         align-items: center;
         justify-content: center;
-        transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-        flex-shrink: 0;
+        background: var(--bg-main);
+        color: var(--text-muted);
+        transition: all 0.2s;
         cursor: pointer;
       }
       
-      .btn-square-action:active {
-        transform: scale(0.92);
+      .btn-close-modal:hover {
+        background: var(--accent-soft);
+        color: var(--accent-main);
       }
     </style>
   
