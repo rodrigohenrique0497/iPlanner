@@ -7,12 +7,18 @@ export default defineConfig({
   plugins: [
     react(),
     VitePWA({
-      strategies: 'injectManifest', // Alterado para injectManifest para usar o seu sw.js customizado
+      strategies: 'injectManifest',
       srcDir: '.',
       filename: 'sw.js',
+      // Configurações específicas para injeção de manifest
+      injectManifest: {
+        swSrc: 'sw.js',
+        swDest: 'dist/sw.js',
+        injectionPoint: 'self.__WB_MANIFEST'
+      },
       registerType: 'autoUpdate',
       injectRegister: 'auto',
-      manifest: false, // Mantido false para usar o seu public/manifest.json manual
+      manifest: false, // Usando o manifest.json manual da pasta public
       devOptions: {
         enabled: true,
         type: 'module'

@@ -1,3 +1,11 @@
+
+/* global self */
+
+// Esta linha é obrigatória para o funcionamento do injectManifest. 
+// O Workbox injetará a lista de arquivos para cache aqui.
+// eslint-disable-next-line no-unused-vars
+const manifest = self.__WB_MANIFEST;
+
 const CACHE_NAME = 'iplanner-v2';
 const ASSETS_TO_CACHE = [
   '/',
