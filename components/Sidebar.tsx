@@ -50,7 +50,7 @@ const Sidebar: React.FC<SidebarProps> = ({ currentView, setView, user, onLogout,
             onClick={() => handleNavClick('dashboard')}
           >
             <div className="w-11 h-11 rounded-2xl bg-theme-accent overflow-hidden shadow-premium group-hover:rotate-6 transition-all flex items-center justify-center p-2">
-              <img src="/icon-192.png" alt="iPlanner Logo" className="w-full h-full object-contain" />
+              <span className="material-symbols-outlined !text-2xl text-theme-card">menu_book</span>
             </div>
             <h1 className="text-2xl font-black tracking-tighter text-theme-text group-hover:translate-x-0.5 transition-transform">iPlanner</h1>
           </div>
