@@ -68,7 +68,7 @@ const FinanceView: React.FC<FinanceViewProps> = ({ transactions, onAdd, onDelete
         </div>
         <button 
           onClick={() => setIsAdding(true)}
-          className="w-12 h-12 md:w-14 md:h-14 bg-theme-accent text-theme-card rounded-full flex items-center justify-center shadow-premium hover:scale-105 active:scale-95 transition-all shrink-0"
+          className="w-13 h-13 md:w-15 md:h-15 bg-theme-accent text-theme-card rounded-2xl flex items-center justify-center shadow-premium hover:scale-105 active:scale-95 transition-all shrink-0"
         >
           <span className="material-symbols-outlined !text-3xl leading-none">add</span>
         </button>
@@ -103,58 +103,58 @@ const FinanceView: React.FC<FinanceViewProps> = ({ transactions, onAdd, onDelete
       </div>
 
       {isAdding && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-6 bg-black/40 backdrop-blur-md animate-in fade-in duration-300">
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-6 bg-black/30 backdrop-blur-md animate-in fade-in duration-300">
           <form onSubmit={handleAdd} className="bg-theme-card w-full max-w-xl p-8 md:p-10 rounded-planner shadow-premium space-y-8 border border-theme-border animate-in zoom-in-95 duration-300">
             <h3 className="text-xl md:text-2xl font-black text-theme-text tracking-tight">Nova Movimentação</h3>
             
             <div className="space-y-6">
-              <div className="flex bg-theme-bg p-1 rounded-xl border border-theme-border">
+              <div className="flex bg-theme-bg p-1.5 rounded-xl border border-theme-border h-14 items-center">
                 <button 
                   type="button"
                   onClick={() => setType('expense')}
-                  className={`flex-1 py-2.5 rounded-lg text-[11px] font-black uppercase transition-all ${type === 'expense' ? 'bg-theme-card shadow-sm text-rose-600' : 'text-theme-muted'}`}
+                  className={`flex-1 h-full rounded-lg text-[11px] font-black uppercase transition-all ${type === 'expense' ? 'bg-theme-card shadow-sm text-rose-600' : 'text-theme-muted opacity-50'}`}
                 >
                   Saída
                 </button>
                 <button 
                   type="button"
                   onClick={() => setType('income')}
-                  className={`flex-1 py-2.5 rounded-lg text-[11px] font-black uppercase transition-all ${type === 'income' ? 'bg-theme-card shadow-sm text-emerald-600' : 'text-theme-muted'}`}
+                  className={`flex-1 h-full rounded-lg text-[11px] font-black uppercase transition-all ${type === 'income' ? 'bg-theme-card shadow-sm text-emerald-600' : 'text-theme-muted opacity-50'}`}
                 >
                   Entrada
                 </button>
               </div>
 
               <div className="space-y-1.5">
-                <label className="text-[9px] font-black uppercase text-theme-muted ml-3 tracking-widest opacity-60">Descrição</label>
+                <label className="text-[9px] font-black uppercase text-theme-muted ml-4 tracking-widest opacity-60">Descrição</label>
                 <input 
                   autoFocus
                   type="text" 
                   placeholder="Ex: Aluguel, Salário, Lazer" 
                   value={desc}
                   onChange={e => setDesc(e.target.value)}
-                  className="w-full p-4 bg-theme-bg rounded-xl border border-theme-border outline-none font-bold text-sm text-theme-text"
+                  className="w-full px-5 py-4 bg-theme-bg rounded-xl border border-theme-border outline-none font-bold text-sm text-theme-text"
                 />
               </div>
 
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-2 gap-5">
                 <div className="space-y-1.5">
-                  <label className="text-[9px] font-black uppercase text-theme-muted ml-3 tracking-widest opacity-60">Valor (R$)</label>
+                  <label className="text-[9px] font-black uppercase text-theme-muted ml-4 tracking-widest opacity-60">Valor (R$)</label>
                   <input 
                     type="number" 
                     step="0.01"
                     placeholder="0,00" 
                     value={amount}
                     onChange={e => setAmount(e.target.value)}
-                    className="w-full p-4 bg-theme-bg rounded-xl border border-theme-border outline-none font-bold text-sm text-theme-text"
+                    className="w-full px-5 py-4 bg-theme-bg rounded-xl border border-theme-border outline-none font-bold text-sm text-theme-text"
                   />
                 </div>
                 <div className="space-y-1.5">
-                  <label className="text-[9px] font-black uppercase text-theme-muted ml-3 tracking-widest opacity-60">Categoria</label>
+                  <label className="text-[9px] font-black uppercase text-theme-muted ml-4 tracking-widest opacity-60">Categoria</label>
                   <select 
                     value={category}
                     onChange={e => setCategory(e.target.value as FinanceCategory)}
-                    className="w-full p-4 bg-theme-bg rounded-xl border border-theme-border outline-none font-bold text-[11px] font-black uppercase text-theme-text appearance-none cursor-pointer"
+                    className="w-full px-5 py-4 bg-theme-bg rounded-xl border border-theme-border outline-none font-bold text-[11px] font-black uppercase text-theme-text appearance-none cursor-pointer"
                   >
                     <option value="Salário">Salário</option>
                     <option value="Casa">Casa / Contas</option>
@@ -170,20 +170,20 @@ const FinanceView: React.FC<FinanceViewProps> = ({ transactions, onAdd, onDelete
 
               {category === 'Parcela' && (
                 <div className="space-y-1.5">
-                  <label className="text-[9px] font-black uppercase px-4 opacity-40">Total de Parcelas</label>
+                  <label className="text-[9px] font-black uppercase px-4 opacity-40 tracking-widest">Total de Parcelas</label>
                   <input 
                     type="number" 
                     value={installments}
                     onChange={e => setInstallments(e.target.value)}
-                    className="w-full p-4 bg-theme-bg rounded-xl font-bold text-sm text-theme-text border border-theme-border"
+                    className="w-full px-5 py-4 bg-theme-bg rounded-xl font-bold text-sm text-theme-text border border-theme-border"
                   />
                 </div>
               )}
             </div>
 
             <div className="flex gap-4">
-              <button type="submit" className="flex-1 py-4 bg-theme-accent text-theme-card rounded-2xl font-black uppercase tracking-widest hover:opacity-95 shadow-glow active:scale-95 transition-all text-xs">Salvar</button>
-              <button type="button" onClick={() => setIsAdding(false)} className="px-8 py-4 bg-theme-bg text-theme-muted rounded-2xl font-black uppercase tracking-widest border border-theme-border active:scale-95 transition-all text-xs">Cancelar</button>
+              <button type="submit" className="flex-1 py-4.5 bg-theme-accent text-theme-card rounded-2xl font-black uppercase tracking-widest hover:opacity-95 shadow-glow active:scale-95 transition-all text-[11px]">Salvar</button>
+              <button type="button" onClick={() => setIsAdding(false)} className="px-10 py-4.5 bg-theme-bg text-theme-muted rounded-2xl font-black uppercase tracking-widest border border-theme-border active:scale-95 transition-all text-[11px]">Cancelar</button>
             </div>
           </form>
         </div>
@@ -193,30 +193,25 @@ const FinanceView: React.FC<FinanceViewProps> = ({ transactions, onAdd, onDelete
       <div className="bg-theme-card rounded-[2.5rem] border border-theme-border shadow-sm overflow-hidden">
         <div className="p-8 border-b border-theme-border flex justify-between items-center">
           <h3 className="font-black text-theme-text tracking-tight uppercase text-[11px] tracking-widest opacity-60">Fluxo de Caixa</h3>
-          <span className="text-[9px] font-black uppercase text-theme-muted bg-theme-accent-soft px-3 py-1 rounded-full">{transactions.length} registros</span>
+          <span className="text-[9px] font-black uppercase text-theme-muted bg-theme-accent-soft px-3 py-1.5 rounded-full">{transactions.length} registros</span>
         </div>
         
         <div className="divide-y divide-theme-border">
           {transactions.length > 0 ? [...transactions].reverse().map(t => (
             <div key={t.id} className="p-6 md:p-8 flex items-center justify-between group hover:bg-theme-bg transition-all">
               <div className="flex items-center gap-5">
-                <div className="w-12 h-12 bg-theme-bg rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform border border-theme-border/50">
-                  <span className="material-symbols-outlined !text-2xl text-theme-text leading-none flex items-center justify-center">{getCategoryIcon(t.category)}</span>
+                <div className="w-12 h-12 bg-theme-bg rounded-xl flex items-center justify-center group-hover:scale-105 transition-transform border border-theme-border/50">
+                  <span className="material-symbols-outlined !text-2xl text-theme-text opacity-70 leading-none flex items-center justify-center">{getCategoryIcon(t.category)}</span>
                 </div>
                 <div>
                   <h4 className="font-black text-[15px] text-theme-text leading-tight">{t.description}</h4>
-                  <div className="flex items-center gap-3 mt-1.5">
-                    <span className="text-[8px] font-black uppercase tracking-widest bg-theme-bg text-theme-muted px-2 py-0.5 rounded border border-theme-border">
+                  <div className="flex items-center gap-3 mt-2">
+                    <span className="text-[8px] font-black uppercase tracking-widest bg-theme-bg text-theme-muted px-2.5 py-1 rounded-lg border border-theme-border">
                       {t.category}
                     </span>
-                    <span className="text-[8px] font-bold text-theme-muted opacity-60 uppercase">
+                    <span className="text-[8px] font-bold text-theme-muted opacity-40 uppercase">
                       {new Date(t.date).toLocaleDateString('pt-BR', { day: 'numeric', month: 'short' })}
                     </span>
-                    {t.installments && (
-                      <span className="text-[8px] font-black text-theme-accent bg-theme-accent/10 px-2 py-0.5 rounded">
-                        P {t.installments.current}/{t.installments.total}
-                      </span>
-                    )}
                   </div>
                 </div>
               </div>
@@ -226,7 +221,7 @@ const FinanceView: React.FC<FinanceViewProps> = ({ transactions, onAdd, onDelete
                 </p>
                 <button 
                   onClick={() => onDelete(t.id)}
-                  className="opacity-0 group-hover:opacity-100 w-10 h-10 flex items-center justify-center rounded-xl text-theme-muted hover:text-rose-600 active:bg-rose-500/10 transition-all"
+                  className="opacity-0 group-hover:opacity-100 w-11 h-11 flex items-center justify-center rounded-xl text-theme-muted hover:text-rose-600 active:bg-rose-500/10 transition-all"
                 >
                   <span className="material-symbols-outlined !text-xl leading-none">delete</span>
                 </button>

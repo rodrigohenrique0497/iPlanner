@@ -45,7 +45,7 @@
             boxShadow: {
               premium: "var(--shadow-main)",
               glow: "var(--shadow-glow)",
-              glass: "0 8px 32px 0 rgba(0, 0, 0, 0.12)",
+              glass: "0 8px 32px 0 rgba(0, 0, 0, 0.08)",
             },
             borderRadius: {
               planner: "var(--radius-planner)",
@@ -61,14 +61,14 @@
       :root {
         --bg-main: #f8fafc;
         --bg-card: #ffffff;
-        --bg-glass: rgba(255, 255, 255, 0.7);
+        --bg-glass: rgba(255, 255, 255, 0.85);
         --text-main: #0f172a;
         --text-muted: #64748b;
         --accent-main: #0f172a;
         --accent-soft: rgba(15, 23, 42, 0.05);
         --border-color: #e2e8f0;
-        --shadow-main: 0 25px 50px -12px rgba(0, 0, 0, 0.08);
-        --shadow-glow: 0 0 15px 0 rgba(15, 23, 42, 0.1);
+        --shadow-main: 0 25px 50px -12px rgba(0, 0, 0, 0.06);
+        --shadow-glow: 0 0 15px 0 rgba(15, 23, 42, 0.08);
         --radius-planner: 2rem;
         --radius-planner-sm: 1rem;
       }
@@ -76,54 +76,54 @@
       .theme-dark {
         --bg-main: #020617;
         --bg-card: #0f172a;
-        --bg-glass: rgba(15, 23, 42, 0.75);
+        --bg-glass: rgba(15, 23, 42, 0.85);
         --text-main: #f8fafc;
         --text-muted: #94a3b8;
         --accent-main: #f1f5f9;
         --accent-soft: rgba(241, 245, 249, 0.08);
         --border-color: #1e293b;
-        --shadow-main: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        --shadow-main: 0 25px 50px -12px rgba(0, 0, 0, 0.2);
       }
 
       .theme-rosa {
         --bg-main: #fff1f2;
         --bg-card: #ffffff;
-        --bg-glass: rgba(255, 255, 255, 0.75);
+        --bg-glass: rgba(255, 255, 255, 0.85);
         --text-main: #881337;
         --text-muted: #e11d48;
         --accent-main: #fb7185;
         --accent-soft: rgba(251, 113, 133, 0.1);
         --border-color: #fecdd3;
-        --shadow-main: 0 25px 50px -12px rgba(136, 19, 55, 0.1);
-        --shadow-glow: 0 0 15px 0 rgba(251, 113, 133, 0.2);
+        --shadow-main: 0 25px 50px -12px rgba(136, 19, 55, 0.08);
+        --shadow-glow: 0 0 15px 0 rgba(251, 113, 133, 0.15);
       }
 
       .theme-azul {
         --bg-main: #eff6ff;
         --bg-card: #ffffff;
-        --bg-glass: rgba(255, 255, 255, 0.75);
+        --bg-glass: rgba(255, 255, 255, 0.85);
         --text-main: #1e3a8a;
         --text-muted: #2563eb;
         --accent-main: #3b82f6;
         --accent-soft: rgba(59, 130, 246, 0.1);
         --border-color: #dbeafe;
-        --shadow-main: 0 25px 50px -12px rgba(30, 58, 138, 0.1);
-        --shadow-glow: 0 0 15px 0 rgba(59, 130, 246, 0.2);
+        --shadow-main: 0 25px 50px -12px rgba(30, 58, 138, 0.08);
+        --shadow-glow: 0 0 15px 0 rgba(59, 130, 246, 0.15);
       }
 
       .glass-premium {
-        backdrop-filter: blur(20px) saturate(160%);
-        -webkit-backdrop-filter: blur(20px) saturate(160%);
+        backdrop-filter: blur(16px) saturate(140%);
+        -webkit-backdrop-filter: blur(16px) saturate(140%);
         background: var(--bg-glass);
-        border: 1px solid rgba(255, 255, 255, 0.15);
+        border: 1px solid rgba(255, 255, 255, 0.12);
       }
 
-      /* Estilo aprimorado para o fundo do menu mobile */
+      /* Reversão do efeito glass para estado funcional e elegante */
       .glass-mobile-nav {
-        backdrop-filter: blur(24px) saturate(180%);
-        -webkit-backdrop-filter: blur(24px) saturate(180%);
-        background: color-mix(in srgb, var(--bg-card) 85%, black 15%);
-        border: 1px solid rgba(255, 255, 255, 0.08);
+        backdrop-filter: blur(12px) saturate(130%);
+        -webkit-backdrop-filter: blur(12px) saturate(130%);
+        background: color-mix(in srgb, var(--bg-card) 92%, black 8%);
+        border: 1px solid rgba(255, 255, 255, 0.1);
       }
 
       body {
@@ -148,16 +148,31 @@
       .no-scrollbar::-webkit-scrollbar { display: none; }
       .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
-      /* Estilo dos Inputs Premium */
+      /* Estilo dos Inputs Premium - Foco em Conforto e Robustez */
       input, select, textarea {
         background: var(--bg-card);
         color: var(--text-main);
-        transition: all 0.3s ease;
+        transition: all 0.2s ease-out;
+        min-height: 3.25rem; /* Altura mínima confortável para toque */
       }
       
       input:focus, select:focus, textarea:focus {
         border-color: var(--accent-main) !important;
         box-shadow: 0 0 0 4px var(--accent-soft) !important;
+      }
+
+      /* Botões Padronizados */
+      .btn-primary {
+        min-height: 3.25rem;
+        padding-left: 2rem;
+        padding-right: 2rem;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        transition: all 0.2s ease-out;
       }
     </style>
   
