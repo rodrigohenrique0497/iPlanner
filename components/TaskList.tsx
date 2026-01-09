@@ -89,7 +89,7 @@ const TaskList: React.FC<TaskListProps> = ({ tasks, onToggle, onDelete, onAdd, u
       {isAdding && (
         <div className="animate-in slide-in-from-top-6 duration-500">
           <form onSubmit={handleSubmit} className="bg-theme-card p-6 md:p-12 rounded-[2.5rem] border border-theme-border shadow-premium space-y-8 overflow-hidden">
-            <h3 className="text-2xl font-black text-theme-text uppercase text-center">Nova Tarefa</h3>
+            <h3 className="text-xl font-black text-theme-text uppercase tracking-tight">Nova Tarefa</h3>
             <div className="space-y-6">
               <input 
                 autoFocus
@@ -97,20 +97,20 @@ const TaskList: React.FC<TaskListProps> = ({ tasks, onToggle, onDelete, onAdd, u
                 placeholder="O que você precisa fazer?"
                 value={newTitle}
                 onChange={e => setNewTitle(e.target.value)}
-                className="w-full text-2xl font-black bg-transparent border-none outline-none text-theme-text placeholder:opacity-20 p-0 text-center"
+                className="w-full text-2xl font-black bg-transparent border-none outline-none text-theme-text placeholder:opacity-20 p-0 text-left"
               />
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
-                <div className="space-y-2 min-w-0">
-                  <label className="text-[10px] font-black uppercase text-theme-muted tracking-widest opacity-40 block text-center">Categoria</label>
+                <div className="space-y-2.5">
+                  <label className="text-[10px] font-black uppercase text-theme-muted tracking-widest opacity-60 block px-4">Categoria</label>
                   <div className="relative">
-                    <select value={newCategory} onChange={e => setNewCategory(e.target.value)} className="input-premium appearance-none text-xs uppercase w-full">
+                    <select value={newCategory} onChange={e => setNewCategory(e.target.value)} className="input-premium input-picker-premium appearance-none text-[11px] uppercase w-full">
                       {userCategories.map(c => <option key={c} value={c}>{c}</option>)}
                     </select>
                     <span className="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none opacity-30 text-sm">expand_more</span>
                   </div>
                 </div>
-                <div className="space-y-2 min-w-0">
-                  <label className="text-[10px] font-black uppercase text-theme-muted tracking-widest opacity-40 block text-center">Prioridade</label>
+                <div className="space-y-2.5">
+                  <label className="text-[10px] font-black uppercase text-theme-muted tracking-widest opacity-60 block px-4">Prioridade</label>
                   <div className="flex bg-theme-bg p-1.5 rounded-2xl border border-theme-border h-[4.5rem] w-full">
                     {[Priority.LOW, Priority.MEDIUM, Priority.HIGH].map(p => (
                       <button key={p} type="button" onClick={() => setNewPriority(p)} className={`flex-1 rounded-[0.75rem] text-[10px] font-black uppercase transition-all ${newPriority === p ? priorityStyleMap[p].solid : 'text-theme-muted opacity-50'}`}>
@@ -119,13 +119,13 @@ const TaskList: React.FC<TaskListProps> = ({ tasks, onToggle, onDelete, onAdd, u
                     ))}
                   </div>
                 </div>
-                <div className="space-y-2 min-w-0">
-                  <label className="text-[10px] font-black uppercase text-theme-muted tracking-widest opacity-40 block text-center">Data</label>
-                  <input type="date" value={newDueDate} onChange={e => setNewDueDate(e.target.value)} className="input-premium text-xs w-full" />
+                <div className="space-y-2.5">
+                  <label className="text-[10px] font-black uppercase text-theme-muted tracking-widest opacity-60 block px-4">Data</label>
+                  <input type="date" value={newDueDate} onChange={e => setNewDueDate(e.target.value)} className="input-premium input-picker-premium text-[11px] w-full" />
                 </div>
-                <div className="space-y-2 min-w-0">
-                  <label className="text-[10px] font-black uppercase text-theme-muted tracking-widest opacity-40 block text-center">Lembrete</label>
-                  <input type="time" value={newReminderTime} onChange={e => setNewReminderTime(e.target.value)} className="input-premium text-xs w-full" />
+                <div className="space-y-2.5">
+                  <label className="text-[10px] font-black uppercase text-theme-muted tracking-widest opacity-60 block px-4">Lembrete</label>
+                  <input type="time" value={newReminderTime} onChange={e => setNewReminderTime(e.target.value)} className="input-premium input-picker-premium text-[11px] w-full" />
                 </div>
               </div>
             </div>

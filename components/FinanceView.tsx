@@ -79,11 +79,11 @@ const FinanceView: React.FC<FinanceViewProps> = ({ transactions, onAdd, onDelete
         <div className="animate-in slide-in-from-top-6 duration-500">
           <form onSubmit={handleAdd} className="bg-theme-card p-6 md:p-12 rounded-[2.5rem] border border-theme-border shadow-premium space-y-8">
             <div className="flex justify-between items-center mb-2">
-              <h3 className="text-2xl font-black text-theme-text tracking-tight uppercase">Nova Movimentação</h3>
+              <h3 className="text-xl font-black text-theme-text tracking-tight uppercase">Nova Movimentação</h3>
             </div>
             
             <div className="space-y-6">
-              {/* Seletor de Entrada/Saída - Restaurado com Cores Plenas e Altura 4.5rem */}
+              {/* Seletor de Entrada/Saída */}
               <div className="flex bg-theme-bg/50 p-2 rounded-[1.25rem] border border-theme-border h-[4.5rem] items-center">
                 <button 
                   type="button"
@@ -102,7 +102,7 @@ const FinanceView: React.FC<FinanceViewProps> = ({ transactions, onAdd, onDelete
               </div>
 
               <div className="space-y-2.5">
-                <label className="text-[10px] font-black uppercase text-theme-muted ml-5 tracking-widest opacity-40">Descrição</label>
+                <label className="text-[10px] font-black uppercase text-theme-muted ml-5 tracking-widest opacity-60">Descrição</label>
                 <input 
                   autoFocus
                   type="text" 
@@ -115,23 +115,23 @@ const FinanceView: React.FC<FinanceViewProps> = ({ transactions, onAdd, onDelete
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-2.5">
-                  <label className="text-[10px] font-black uppercase text-theme-muted ml-5 tracking-widest opacity-40">Valor (R$)</label>
+                  <label className="text-[10px] font-black uppercase text-theme-muted ml-5 tracking-widest opacity-60">Valor (R$)</label>
                   <input 
                     type="number" 
                     step="0.01"
                     placeholder="0,00" 
                     value={amount}
                     onChange={e => setAmount(e.target.value)}
-                    className="input-premium"
+                    className="input-premium input-picker-premium"
                   />
                 </div>
                 <div className="space-y-2.5">
-                  <label className="text-[10px] font-black uppercase text-theme-muted ml-5 tracking-widest opacity-40">Categoria</label>
+                  <label className="text-[10px] font-black uppercase text-theme-muted ml-5 tracking-widest opacity-60">Categoria</label>
                   <div className="relative">
                     <select 
                       value={category}
                       onChange={e => setCategory(e.target.value as FinanceCategory)}
-                      className="input-premium appearance-none cursor-pointer uppercase tracking-widest text-[11px]"
+                      className="input-premium input-picker-premium appearance-none cursor-pointer uppercase tracking-widest text-[11px]"
                     >
                       <option value="Salário">Salário</option>
                       <option value="Casa">Casa / Contas</option>

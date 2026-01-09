@@ -123,20 +123,20 @@
       .no-scrollbar::-webkit-scrollbar { display: none; }
       .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
-      /* BOTÕES DE AÇÃO - PADRÃO PREMIUM DE ALTURA (4.5rem = 72px) - RETANGULAR */
+      /* BOTÕES DE AÇÃO - PADRÃO PREMIUM */
       .btn-action-primary {
         width: 100%;
         height: var(--btn-height) !important;
         min-height: var(--btn-height) !important;
         background: var(--accent-main);
         color: var(--bg-card);
-        border-radius: 1rem;
+        border-radius: 1.25rem;
         font-weight: 800;
-        font-size: 1rem;
+        font-size: 0.95rem;
         display: flex;
         align-items: center;
         justify-content: center;
-        box-shadow: 0 10px 30px -5px rgba(0,0,0,0.15);
+        box-shadow: 0 12px 30px -8px rgba(0,0,0,0.2);
         transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         cursor: pointer;
         border: none;
@@ -144,7 +144,7 @@
         letter-spacing: 0.15em;
       }
 
-      .btn-action-primary:active { transform: scale(0.96); opacity: 0.9; }
+      .btn-action-primary:active { transform: scale(0.97); opacity: 0.95; }
 
       .btn-action-secondary {
         width: 100%;
@@ -153,21 +153,19 @@
         background: transparent;
         color: var(--text-muted);
         font-weight: 700;
-        font-size: 0.9rem;
+        font-size: 0.85rem;
         display: flex;
         align-items: center;
         justify-content: center;
         transition: all 0.2s;
         cursor: pointer;
         border: 2px solid var(--border-color);
-        border-radius: 1rem;
+        border-radius: 1.25rem;
         text-transform: uppercase;
         letter-spacing: 0.15em;
       }
 
-      .btn-action-secondary:active { opacity: 0.6; background: var(--theme-accent-soft); }
-
-      /* INPUTS PREMIUM - PADRÃO PREMIUM DE ALTURA (4.5rem = 72px) - RETANGULAR */
+      /* INPUTS PREMIUM - REFINAMENTO DE ALINHAMENTO */
       .input-premium {
         width: 100%;
         max-width: 100%;
@@ -175,54 +173,44 @@
         min-height: var(--btn-height) !important;
         background: var(--bg-main);
         border: 2px solid var(--border-color);
-        border-radius: 1rem;
+        border-radius: 1.25rem;
         padding: 0 1.5rem;
         font-weight: 700;
         color: var(--text-main);
         outline: none;
-        transition: all 0.3s ease;
-        font-size: 1.1rem;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        font-size: 1rem; /* Ideal para iOS não dar zoom automático */
         box-sizing: border-box;
-        text-align: center; /* Centralização do texto base */
-        display: flex;
-        align-items: center;
-        justify-content: center;
+        text-align: left; /* Padrão de apps para digitação */
       }
 
       .input-premium:focus {
         border-color: var(--accent-main);
-        box-shadow: 0 0 0 4px var(--accent-soft);
+        background: var(--bg-card);
+        box-shadow: 0 10px 25px -10px var(--accent-soft), 0 0 0 4px var(--accent-soft);
+        transform: translateY(-1px);
       }
 
-      /* CORREÇÃO DEFINITIVA PARA DATA E HORA NO MOBILE (iOS/Android) */
-      input[type="date"].input-premium,
-      input[type="time"].input-premium {
-        appearance: none;
-        -webkit-appearance: none;
-        text-align: center;
-        justify-content: center;
+      /* MODIFICADOR PARA SELETORES (DATA/HORA/SELECT) */
+      .input-picker-premium {
+        text-align: center !important;
       }
 
-      /* Centralização do valor exibido em navegadores Webkit (Safari Mobile / Chrome Android) */
-      input[type="date"].input-premium::-webkit-date-and-time-value,
-      input[type="time"].input-premium::-webkit-date-and-time-value {
+      /* CORREÇÃO PARA DATA E HORA NO MOBILE */
+      input[type="date"].input-picker-premium::-webkit-date-and-time-value,
+      input[type="time"].input-picker-premium::-webkit-date-and-time-value {
         text-align: center;
         width: 100%;
-        margin: 0;
         display: flex;
         align-items: center;
         justify-content: center;
         min-height: calc(var(--btn-height) - 4px);
       }
 
-      /* Estilização do ícone nativo para não quebrar o centro */
       ::-webkit-calendar-picker-indicator {
         position: absolute;
         right: 1.25rem;
         opacity: 0.4;
-        cursor: pointer;
-        padding: 0;
-        margin: 0;
       }
 
       /* HEADER & NAV MOBILE GLASS */
@@ -231,7 +219,6 @@
         -webkit-backdrop-filter: blur(40px) saturate(180%);
         background: var(--bg-glass);
         border-bottom: 1px solid var(--border-color);
-        z-index: 50;
       }
 
       .glass-mobile-nav {
@@ -239,7 +226,6 @@
         -webkit-backdrop-filter: blur(48px) saturate(200%);
         background: var(--bg-glass);
         border-top: 1px solid var(--border-color);
-        z-index: 60;
       }
     </style>
   
