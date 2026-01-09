@@ -104,66 +104,66 @@ const FinanceView: React.FC<FinanceViewProps> = ({ transactions, onAdd, onDelete
 
       {isAdding && (
         <div className="modal-backdrop">
-          <form onSubmit={handleAdd} className="bg-theme-card w-full max-w-xl p-8 md:p-12 rounded-[2.5rem] shadow-2xl space-y-10 border border-theme-border relative animate-in zoom-in-95 duration-300">
-            <div className="flex justify-between items-center">
+          <form onSubmit={handleAdd} className="modal-container w-full max-w-xl p-8 md:p-12 space-y-8 relative">
+            <div className="flex justify-between items-center mb-2">
               <h3 className="text-2xl font-black text-theme-text tracking-tight">Nova Movimentação</h3>
               <button 
                 type="button"
                 onClick={() => setIsAdding(false)}
                 className="btn-close-modal"
               >
-                <span className="material-symbols-outlined">close</span>
+                <span className="material-symbols-outlined !text-3xl">close</span>
               </button>
             </div>
             
-            <div className="space-y-8">
-              <div className="flex bg-theme-bg p-1.5 rounded-2xl border border-theme-border h-16 items-center shadow-inner">
+            <div className="space-y-6">
+              <div className="flex bg-theme-bg/50 p-1.5 rounded-2xl border border-theme-border h-16 items-center">
                 <button 
                   type="button"
                   onClick={() => setType('expense')}
-                  className={`flex-1 h-full rounded-xl text-[11px] font-black uppercase tracking-widest transition-all ${type === 'expense' ? 'bg-theme-card shadow-sm text-rose-600' : 'text-theme-muted opacity-50'}`}
+                  className={`flex-1 h-full rounded-xl text-[11px] font-black uppercase tracking-widest transition-all ${type === 'expense' ? 'bg-white shadow-sm text-rose-600 border border-theme-border/20' : 'text-theme-muted opacity-50'}`}
                 >
                   Saída
                 </button>
                 <button 
                   type="button"
                   onClick={() => setType('income')}
-                  className={`flex-1 h-full rounded-xl text-[11px] font-black uppercase tracking-widest transition-all ${type === 'income' ? 'bg-theme-card shadow-sm text-emerald-600' : 'text-theme-muted opacity-50'}`}
+                  className={`flex-1 h-full rounded-xl text-[11px] font-black uppercase tracking-widest transition-all ${type === 'income' ? 'bg-white shadow-sm text-emerald-600 border border-theme-border/20' : 'text-theme-muted opacity-50'}`}
                 >
                   Entrada
                 </button>
               </div>
 
-              <div className="space-y-3">
-                <label className="text-[10px] font-black uppercase text-theme-muted ml-5 tracking-widest opacity-60">Descrição</label>
+              <div className="space-y-2.5">
+                <label className="text-[10px] font-black uppercase text-theme-muted ml-5 tracking-widest opacity-40">Descrição</label>
                 <input 
                   autoFocus
                   type="text" 
                   placeholder="Ex: Aluguel, Salário, Lazer" 
                   value={desc}
                   onChange={e => setDesc(e.target.value)}
-                  className="w-full px-7 h-[3.75rem] bg-theme-bg rounded-2xl border border-theme-border outline-none font-bold text-base text-theme-text"
+                  className="w-full px-7 h-[4.5rem] bg-theme-bg/40 rounded-2xl border border-theme-border/50 outline-none font-bold text-base text-theme-text placeholder:opacity-40"
                 />
               </div>
 
               <div className="grid grid-cols-2 gap-6">
-                <div className="space-y-3">
-                  <label className="text-[10px] font-black uppercase text-theme-muted ml-5 tracking-widest opacity-60">Valor (R$)</label>
+                <div className="space-y-2.5">
+                  <label className="text-[10px] font-black uppercase text-theme-muted ml-5 tracking-widest opacity-40">Valor (R$)</label>
                   <input 
                     type="number" 
                     step="0.01"
                     placeholder="0,00" 
                     value={amount}
                     onChange={e => setAmount(e.target.value)}
-                    className="w-full px-7 h-[3.75rem] bg-theme-bg rounded-2xl border border-theme-border outline-none font-bold text-base text-theme-text"
+                    className="w-full px-7 h-[4.5rem] bg-theme-bg/40 rounded-2xl border border-theme-border/50 outline-none font-bold text-base text-theme-text"
                   />
                 </div>
-                <div className="space-y-3">
-                  <label className="text-[10px] font-black uppercase text-theme-muted ml-5 tracking-widest opacity-60">Categoria</label>
+                <div className="space-y-2.5">
+                  <label className="text-[10px] font-black uppercase text-theme-muted ml-5 tracking-widest opacity-40">Categoria</label>
                   <select 
                     value={category}
                     onChange={e => setCategory(e.target.value as FinanceCategory)}
-                    className="w-full px-7 h-[3.75rem] bg-theme-bg rounded-2xl border border-theme-border outline-none font-black text-[11px] uppercase tracking-widest text-theme-text appearance-none cursor-pointer"
+                    className="w-full px-7 h-[4.5rem] bg-theme-bg/40 rounded-2xl border border-theme-border/50 outline-none font-black text-[11px] uppercase tracking-widest text-theme-text appearance-none cursor-pointer"
                   >
                     <option value="Salário">Salário</option>
                     <option value="Casa">Casa / Contas</option>
@@ -178,10 +178,9 @@ const FinanceView: React.FC<FinanceViewProps> = ({ transactions, onAdd, onDelete
               </div>
             </div>
 
-            {/* Otimização UX: Salvar antes de Cancelar */}
-            <div className="flex flex-col gap-4">
-              <button type="submit" className="btn-action-primary w-full shadow-glow">Salvar Registro</button>
-              <button type="button" onClick={() => setIsAdding(false)} className="btn-action-secondary w-full">Cancelar</button>
+            <div className="flex flex-col gap-2 pt-2">
+              <button type="submit" className="btn-action-primary">Salvar</button>
+              <button type="button" onClick={() => setIsAdding(false)} className="btn-action-secondary">Cancelar</button>
             </div>
           </form>
         </div>

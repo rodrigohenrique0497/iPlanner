@@ -103,11 +103,11 @@ const TaskList: React.FC<TaskListProps> = ({ tasks, onToggle, onDelete, onAdd, u
 
       {isManagingCats && (
         <div className="modal-backdrop">
-          <div className="modal-container w-full max-w-xl p-8 md:p-12 rounded-planner space-y-10 relative">
-            <div className="flex justify-between items-center">
+          <div className="modal-container w-full max-w-xl p-8 md:p-12 space-y-8 relative">
+            <div className="flex justify-between items-center mb-4">
               <h3 className="text-2xl font-black text-theme-text">Categorias</h3>
               <button onClick={() => setIsManagingCats(false)} className="btn-close-modal">
-                <span className="material-symbols-outlined">close</span>
+                <span className="material-symbols-outlined !text-3xl">close</span>
               </button>
             </div>
             <div className="flex flex-wrap gap-2.5">
@@ -122,15 +122,15 @@ const TaskList: React.FC<TaskListProps> = ({ tasks, onToggle, onDelete, onAdd, u
                 </div>
               ))}
             </div>
-            <div className="flex flex-col gap-4">
+            <div className="flex flex-col gap-3 pt-6">
               <input 
                 type="text" 
                 placeholder="Nova categoria..." 
                 value={tempCategory}
                 onChange={e => setTempCategory(e.target.value)}
-                className="w-full px-7 h-[3.75rem] bg-theme-bg border border-theme-border rounded-2xl text-sm font-bold outline-none"
+                className="w-full px-7 h-[4.5rem] bg-theme-bg border border-theme-border rounded-2xl text-sm font-bold outline-none mb-2"
               />
-              <button onClick={handleAddCategory} className="btn-action-primary shadow-glow">Adicionar Categoria</button>
+              <button onClick={handleAddCategory} className="btn-action-primary">Adicionar</button>
               <button onClick={() => setIsManagingCats(false)} className="btn-action-secondary">Fechar</button>
             </div>
           </div>
@@ -139,15 +139,15 @@ const TaskList: React.FC<TaskListProps> = ({ tasks, onToggle, onDelete, onAdd, u
 
       {isAdding && (
         <div className="modal-backdrop">
-          <form onSubmit={handleSubmit} className="modal-container w-full max-w-xl p-8 md:p-12 rounded-planner space-y-10 relative">
-            <div className="flex justify-between items-center">
+          <form onSubmit={handleSubmit} className="modal-container w-full max-w-xl p-8 md:p-12 space-y-8 relative">
+            <div className="flex justify-between items-center mb-4">
               <h3 className="text-2xl font-black text-theme-text">Nova Tarefa</h3>
               <button type="button" onClick={() => setIsAdding(false)} className="btn-close-modal">
-                <span className="material-symbols-outlined">close</span>
+                <span className="material-symbols-outlined !text-3xl">close</span>
               </button>
             </div>
             
-            <div className="space-y-8">
+            <div className="space-y-6">
               <input 
                 autoFocus
                 type="text" 
@@ -159,14 +159,14 @@ const TaskList: React.FC<TaskListProps> = ({ tasks, onToggle, onDelete, onAdd, u
               
               <div className="space-y-4">
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black uppercase text-theme-muted ml-3 tracking-widest">Categoria</label>
-                  <select value={newCategory} onChange={e => setNewCategory(e.target.value)} className="w-full px-6 h-[3.75rem] rounded-2xl uppercase outline-none border border-theme-border bg-theme-bg text-xs font-black">
+                  <label className="text-[10px] font-black uppercase text-theme-muted ml-3 tracking-widest opacity-40">Categoria</label>
+                  <select value={newCategory} onChange={e => setNewCategory(e.target.value)} className="w-full px-6 h-[4.5rem] rounded-2xl uppercase outline-none border border-theme-border bg-theme-bg text-xs font-black">
                     {userCategories.map(c => <option key={c} value={c}>{c}</option>)}
                   </select>
                 </div>
                 
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black uppercase text-theme-muted ml-3 tracking-widest">Prioridade</label>
+                  <label className="text-[10px] font-black uppercase text-theme-muted ml-3 tracking-widest opacity-40">Prioridade</label>
                   <div className="flex bg-theme-bg p-1.5 rounded-2xl border border-theme-border h-16 items-center">
                     {[
                       { id: Priority.LOW, label: 'Baixa' },
@@ -177,7 +177,7 @@ const TaskList: React.FC<TaskListProps> = ({ tasks, onToggle, onDelete, onAdd, u
                         key={p.id}
                         type="button"
                         onClick={() => setNewPriority(p.id)}
-                        className={`flex-1 h-full rounded-xl text-[10px] font-black uppercase transition-all ${newPriority === p.id ? 'bg-theme-accent text-theme-card shadow-sm' : 'text-theme-muted opacity-50'}`}
+                        className={`flex-1 h-full rounded-xl text-[10px] font-black uppercase transition-all ${newPriority === p.id ? 'bg-white shadow-sm text-theme-accent' : 'text-theme-muted opacity-50'}`}
                       >
                         {p.label}
                       </button>
@@ -186,14 +186,14 @@ const TaskList: React.FC<TaskListProps> = ({ tasks, onToggle, onDelete, onAdd, u
                 </div>
 
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black uppercase text-theme-muted ml-3 tracking-widest">Data Limite</label>
-                  <input type="date" value={newDueDate} onChange={e => setNewDueDate(e.target.value)} className="w-full px-6 h-[3.75rem] rounded-2xl outline-none border border-theme-border bg-theme-bg text-xs font-black" />
+                  <label className="text-[10px] font-black uppercase text-theme-muted ml-3 tracking-widest opacity-40">Data Limite</label>
+                  <input type="date" value={newDueDate} onChange={e => setNewDueDate(e.target.value)} className="w-full px-6 h-[4.5rem] rounded-2xl outline-none border border-theme-border bg-theme-bg text-xs font-black" />
                 </div>
               </div>
             </div>
             
-            <div className="flex flex-col gap-4">
-              <button type="submit" className="btn-action-primary shadow-glow">Agendar Tarefa</button>
+            <div className="flex flex-col gap-2 pt-4">
+              <button type="submit" className="btn-action-primary">Salvar</button>
               <button type="button" onClick={() => setIsAdding(false)} className="btn-action-secondary">Cancelar</button>
             </div>
           </form>
