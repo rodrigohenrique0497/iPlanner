@@ -121,14 +121,14 @@ const FinanceView: React.FC<FinanceViewProps> = ({ transactions, onAdd, onDelete
                 <button 
                   type="button"
                   onClick={() => setType('expense')}
-                  className={`flex-1 h-full rounded-xl text-[11px] font-black uppercase tracking-widest transition-all ${type === 'expense' ? 'bg-white shadow-sm text-rose-600 border border-theme-border/20' : 'text-theme-muted opacity-50'}`}
+                  className={`flex-1 h-full rounded-xl text-[11px] font-black uppercase tracking-widest transition-all ${type === 'expense' ? 'bg-theme-card shadow-sm text-rose-600' : 'text-theme-muted opacity-50'}`}
                 >
                   Saída
                 </button>
                 <button 
                   type="button"
                   onClick={() => setType('income')}
-                  className={`flex-1 h-full rounded-xl text-[11px] font-black uppercase tracking-widest transition-all ${type === 'income' ? 'bg-white shadow-sm text-emerald-600 border border-theme-border/20' : 'text-theme-muted opacity-50'}`}
+                  className={`flex-1 h-full rounded-xl text-[11px] font-black uppercase tracking-widest transition-all ${type === 'income' ? 'bg-theme-card shadow-sm text-emerald-600' : 'text-theme-muted opacity-50'}`}
                 >
                   Entrada
                 </button>
