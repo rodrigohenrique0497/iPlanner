@@ -25,7 +25,7 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 
     <script>
@@ -66,7 +66,7 @@
         --accent-soft: rgba(15, 23, 42, 0.05);
         --border-color: #e2e8f0;
         --shadow-main: 0 30px 60px -12px rgba(0, 0, 0, 0.03);
-        --shadow-glow: 0 0 20px 0 rgba(15, 23, 42, 0.05);
+        --shadow-glow: 0 10px 40px -10px rgba(15, 23, 42, 0.3);
         --radius-planner: 2.5rem;
         --radius-planner-sm: 1.25rem;
         --btn-height: 4.5rem;
@@ -82,6 +82,7 @@
         --accent-soft: rgba(241, 245, 249, 0.08);
         --border-color: #1e293b;
         --shadow-main: 0 30px 60px -12px rgba(0, 0, 0, 0.25);
+        --shadow-glow: 0 10px 40px -10px rgba(248, 250, 252, 0.15);
       }
 
       .theme-rosa {
@@ -94,6 +95,7 @@
         --accent-soft: rgba(251, 113, 133, 0.1);
         --border-color: #fecdd3;
         --shadow-main: 0 30px 60px -12px rgba(136, 19, 55, 0.05);
+        --shadow-glow: 0 10px 40px -10px rgba(251, 113, 133, 0.3);
       }
 
       .theme-azul {
@@ -106,6 +108,7 @@
         --accent-soft: rgba(59, 130, 246, 0.1);
         --border-color: #dbeafe;
         --shadow-main: 0 30px 60px -12px rgba(30, 58, 138, 0.05);
+        --shadow-glow: 0 10px 40px -10px rgba(59, 130, 246, 0.3);
       }
 
       /* GLOBAL RESET & CONTAINMENT */
@@ -131,22 +134,21 @@
       .no-scrollbar::-webkit-scrollbar { display: none; }
       .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
-      /* PREMIUM INPUTS & SELECTS - MOBILE OPTIMIZED */
+      /* PREMIUM INPUTS & SELECTS */
       .input-premium {
         width: 100% !important;
         max-width: 100% !important;
         height: var(--btn-height) !important;
         background: var(--bg-main);
         border: 2px solid var(--border-color);
-        border-radius: 1.25rem;
-        padding: 0 1.25rem;
+        border-radius: 1.5rem;
+        padding: 0 1.5rem;
         font-weight: 700;
         color: var(--text-main);
         outline: none;
         transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        font-size: 16px; /* Evita auto-zoom no iOS */
+        font-size: 16px;
         display: block;
-        text-align: left;
       }
 
       .input-premium:focus {
@@ -155,46 +157,37 @@
         box-shadow: 0 0 0 4px var(--accent-soft);
       }
 
-      /* PICKER VARIANT (DATE/TIME/SELECT) */
       .input-picker-premium {
         text-align: center !important;
         cursor: pointer;
         appearance: none;
         -webkit-appearance: none;
-        display: flex;
-        align-items: center;
-        justify-content: center;
       }
 
-      /* iOS/Chrome Date/Time Centering */
-      input[type="date"].input-picker-premium::-webkit-date-and-time-value,
-      input[type="time"].input-picker-premium::-webkit-date-and-time-value {
-        text-align: center;
-        width: 100%;
-        margin: 0 auto;
-        min-height: calc(var(--btn-height) - 4px);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
-
+      /* BOTÕES DE AÇÃO RESTAURADOS - PADRÃO PREMIUM */
       .btn-action-primary {
         width: 100%;
         height: var(--btn-height) !important;
         background: var(--accent-main);
         color: var(--bg-card);
-        border-radius: 1.25rem;
-        font-weight: 800;
-        font-size: 0.95rem;
+        border-radius: 1.5rem;
+        font-weight: 900;
+        font-size: 0.9rem;
         display: flex;
         align-items: center;
         justify-content: center;
-        box-shadow: 0 12px 30px -8px rgba(0,0,0,0.2);
-        transition: all 0.3s;
+        box-shadow: var(--shadow-glow);
+        transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         text-transform: uppercase;
-        letter-spacing: 0.15em;
+        letter-spacing: 0.2em;
         border: none;
         cursor: pointer;
+        padding: 0 2rem;
+      }
+
+      .btn-action-primary:active {
+        transform: scale(0.96);
+        box-shadow: none;
       }
 
       .btn-action-secondary {
@@ -202,26 +195,28 @@
         height: var(--btn-height) !important;
         background: transparent;
         color: var(--text-muted);
-        font-weight: 700;
+        font-weight: 800;
         border: 2px solid var(--border-color);
-        border-radius: 1.25rem;
+        border-radius: 1.5rem;
         text-transform: uppercase;
-        letter-spacing: 0.1em;
+        letter-spacing: 0.15em;
         cursor: pointer;
+        transition: all 0.3s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0 2rem;
+        font-size: 0.85rem;
       }
 
-      .glass-header-mobile {
-        backdrop-filter: blur(40px) saturate(180%);
-        -webkit-backdrop-filter: blur(40px) saturate(180%);
-        background: var(--bg-glass);
-        border-bottom: 1px solid var(--border-color);
+      .btn-action-secondary:hover {
+        border-color: var(--accent-main);
+        color: var(--text-main);
+        background: var(--accent-soft);
       }
 
-      .glass-mobile-nav {
-        backdrop-filter: blur(48px) saturate(200%);
-        -webkit-backdrop-filter: blur(48px) saturate(200%);
-        background: var(--bg-glass);
-        border: 1px solid var(--border-color);
+      .btn-action-secondary:active {
+        transform: scale(0.96);
       }
     </style>
   

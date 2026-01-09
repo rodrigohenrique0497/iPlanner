@@ -37,7 +37,6 @@ const Settings: React.FC<SettingsProps> = ({ user, onUpdate, onLogout, onExport 
   };
 
   const handleThemeChange = (themeId: ThemeType) => {
-    // Aplicação imediata no estado global via prop onUpdate
     onUpdate({ theme: themeId });
   };
 
@@ -80,12 +79,12 @@ const Settings: React.FC<SettingsProps> = ({ user, onUpdate, onLogout, onExport 
             <p className="font-black text-theme-text text-lg">Alertas em Tempo Real</p>
             <p className="text-theme-muted text-[10px] font-bold uppercase tracking-widest mt-1">Sincronizado com o Supabase SQL.</p>
           </div>
-          <div className="flex gap-3">
+          <div className="flex gap-3 w-full md:w-auto">
             {pushEnabled && (
               <button 
                 onClick={handleTestPush}
                 disabled={isTesting}
-                className="px-6 h-[3.75rem] rounded-2xl font-black text-[10px] uppercase tracking-widest border-2 border-theme-accent text-theme-accent hover:bg-theme-accent hover:text-theme-card transition-all"
+                className="btn-action-secondary !h-[3.75rem]"
               >
                 {isTesting ? '...' : 'TESTAR'}
               </button>
@@ -93,7 +92,7 @@ const Settings: React.FC<SettingsProps> = ({ user, onUpdate, onLogout, onExport 
             <button 
               onClick={handleTogglePush}
               disabled={pushEnabled}
-              className={`px-8 h-[3.75rem] rounded-2xl font-black text-[10px] uppercase tracking-widest transition-all ${pushEnabled ? 'bg-emerald-500 text-white cursor-default' : 'bg-theme-accent text-theme-card hover:shadow-glow'}`}
+              className={`btn-action-primary !h-[3.75rem] ${pushEnabled ? '!bg-emerald-500 !text-white cursor-default shadow-none' : ''}`}
             >
               {pushEnabled ? 'ATIVADO' : 'ATIVAR PUSH'}
             </button>
@@ -127,8 +126,14 @@ const Settings: React.FC<SettingsProps> = ({ user, onUpdate, onLogout, onExport 
           <h3 className="text-sm font-black uppercase tracking-[0.25em] text-theme-muted opacity-50 px-4">Perfil Pessoal</h3>
         </header>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          <input type="text" value={name} onChange={e => setName(e.target.value)} className="input-premium" placeholder="Nome" />
-          <input type="text" value={goal} onChange={e => setGoal(e.target.value)} className="input-premium" placeholder="Foco Principal" />
+          <div className="space-y-2">
+            <label className="text-[9px] font-black uppercase text-theme-muted ml-4 tracking-widest opacity-80">Nome de Exibição</label>
+            <input type="text" value={name} onChange={e => setName(e.target.value)} className="input-premium" />
+          </div>
+          <div className="space-y-2">
+            <label className="text-[9px] font-black uppercase text-theme-muted ml-4 tracking-widest opacity-80">Objetivo Principal</label>
+            <input type="text" value={goal} onChange={e => setGoal(e.target.value)} className="input-premium" />
+          </div>
         </div>
         <button onClick={() => onUpdate({ name, focusGoal: goal })} className="btn-action-primary">Salvar Alterações</button>
       </div>
@@ -138,7 +143,7 @@ const Settings: React.FC<SettingsProps> = ({ user, onUpdate, onLogout, onExport 
           <p className="font-black text-rose-600 text-xl tracking-tight leading-none">Encerrar Sessão</p>
           <p className="text-rose-400 text-[10px] font-black uppercase tracking-widest mt-2 opacity-60">Sua conta permanecerá segura na nuvem.</p>
         </div>
-        <button onClick={onLogout} className="bg-rose-600 text-white px-12 h-[4.5rem] rounded-2xl font-black uppercase tracking-widest text-[11px] shadow-premium">Sair</button>
+        <button onClick={onLogout} className="btn-action-primary !bg-rose-600 !w-auto !px-12">Sair da Conta</button>
       </div>
     </div>
   );
