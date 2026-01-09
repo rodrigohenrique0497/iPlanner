@@ -1,3 +1,4 @@
+
 import React, { useState, useMemo } from 'react';
 import { Task, Priority, ViewState } from '../types';
 
@@ -64,10 +65,20 @@ const TaskList: React.FC<TaskListProps> = ({ tasks, onToggle, onDelete, onAdd, u
     onUpdateCategories(userCategories.filter(c => c !== cat));
   };
 
-  const priorityColors = {
-    [Priority.LOW]: 'text-blue-500 bg-blue-500/10 border-blue-500/20',
-    [Priority.MEDIUM]: 'text-amber-500 bg-amber-500/10 border-amber-500/20',
-    [Priority.HIGH]: 'text-rose-500 bg-rose-500/10 border-rose-500/20',
+  // Cores unificadas para as prioridades
+  const priorityStyleMap = {
+    [Priority.LOW]: {
+      badge: 'text-blue-500 bg-blue-500/10 border-blue-500/20',
+      solid: 'bg-blue-500 text-white shadow-sm'
+    },
+    [Priority.MEDIUM]: {
+      badge: 'text-amber-500 bg-amber-500/10 border-amber-500/20',
+      solid: 'bg-amber-500 text-white shadow-sm'
+    },
+    [Priority.HIGH]: {
+      badge: 'text-rose-500 bg-rose-500/10 border-rose-500/20',
+      solid: 'bg-rose-500 text-white shadow-sm'
+    },
   };
 
   return (
@@ -168,7 +179,7 @@ const TaskList: React.FC<TaskListProps> = ({ tasks, onToggle, onDelete, onAdd, u
                         key={p}
                         type="button"
                         onClick={() => setNewPriority(p)}
-                        className={`flex-1 h-full rounded-[0.75rem] text-[10px] font-black uppercase transition-all ${newPriority === p ? 'bg-theme-card shadow-sm text-theme-accent' : 'text-theme-muted opacity-50'}`}
+                        className={`flex-1 h-full rounded-[0.75rem] text-[10px] font-black uppercase transition-all ${newPriority === p ? priorityStyleMap[p].solid : 'text-theme-muted opacity-50'}`}
                       >
                         {p === Priority.LOW ? 'Baixa' : p === Priority.MEDIUM ? 'Média' : 'Alta'}
                       </button>
@@ -178,12 +189,12 @@ const TaskList: React.FC<TaskListProps> = ({ tasks, onToggle, onDelete, onAdd, u
 
                 <div className="space-y-2">
                   <label className="text-[10px] font-black uppercase text-theme-muted ml-3 tracking-widest opacity-40">Data Limite</label>
-                  <div className="relative w-full max-w-full overflow-hidden rounded-xl">
+                  <div className="relative w-full overflow-hidden rounded-xl">
                     <input 
                       type="date" 
                       value={newDueDate} 
                       onChange={e => setNewDueDate(e.target.value)} 
-                      className="input-premium uppercase tracking-widest text-[11px] w-full block border-box max-w-full appearance-none"
+                      className="input-premium uppercase tracking-widest text-[11px] w-full block appearance-none"
                       style={{ minWidth: '0', maxWidth: '100%', boxSizing: 'border-box' }}
                     />
                   </div>
@@ -235,9 +246,9 @@ const TaskList: React.FC<TaskListProps> = ({ tasks, onToggle, onDelete, onAdd, u
 
           <div className="bg-theme-card p-1.5 rounded-2xl border border-theme-border flex gap-1.5 shrink-0 h-[3.5rem] items-center shadow-sm">
              <button onClick={() => setFilterPriority('all')} className={`px-5 h-full rounded-xl text-[9px] font-black uppercase tracking-widest ${filterPriority === 'all' ? 'bg-theme-bg text-theme-text shadow-sm' : 'text-theme-muted opacity-40'}`}>Todas</button>
-             <button onClick={() => setFilterPriority(Priority.LOW)} className={`px-5 h-full rounded-xl text-[9px] font-black uppercase tracking-widest ${filterPriority === Priority.LOW ? 'bg-blue-500 text-white' : 'text-theme-muted opacity-40'}`}>Baixa</button>
-             <button onClick={() => setFilterPriority(Priority.MEDIUM)} className={`px-5 h-full rounded-xl text-[9px] font-black uppercase tracking-widest ${filterPriority === Priority.MEDIUM ? 'bg-amber-500 text-white' : 'text-theme-muted opacity-40'}`}>Média</button>
-             <button onClick={() => setFilterPriority(Priority.HIGH)} className={`px-5 h-full rounded-xl text-[9px] font-black uppercase tracking-widest ${filterPriority === Priority.HIGH ? 'bg-rose-500 text-white' : 'text-theme-muted opacity-40'}`}>Alta</button>
+             <button onClick={() => setFilterPriority(Priority.LOW)} className={`px-5 h-full rounded-xl text-[9px] font-black uppercase tracking-widest ${filterPriority === Priority.LOW ? priorityStyleMap[Priority.LOW].solid : 'text-theme-muted opacity-40'}`}>Baixa</button>
+             <button onClick={() => setFilterPriority(Priority.MEDIUM)} className={`px-5 h-full rounded-xl text-[9px] font-black uppercase tracking-widest ${filterPriority === Priority.MEDIUM ? priorityStyleMap[Priority.MEDIUM].solid : 'text-theme-muted opacity-40'}`}>Média</button>
+             <button onClick={() => setFilterPriority(Priority.HIGH)} className={`px-5 h-full rounded-xl text-[9px] font-black uppercase tracking-widest ${filterPriority === Priority.HIGH ? priorityStyleMap[Priority.HIGH].solid : 'text-theme-muted opacity-40'}`}>Alta</button>
           </div>
         </div>
       </div>
@@ -245,6 +256,7 @@ const TaskList: React.FC<TaskListProps> = ({ tasks, onToggle, onDelete, onAdd, u
       <div className="space-y-5">
         {filteredTasks.map((task) => {
           const isOverdue = !task.completed && task.dueDate < todayStr;
+          const currentPriority = task.priority as Priority;
           return (
             <div
               key={task.id}
@@ -266,7 +278,7 @@ const TaskList: React.FC<TaskListProps> = ({ tasks, onToggle, onDelete, onAdd, u
                      {task.category}
                    </span>
                    {!task.completed && (
-                     <span className={`text-[9px] font-black uppercase tracking-[0.15em] px-2.5 py-1.5 rounded-lg border whitespace-nowrap ${priorityColors[task.priority as Priority]}`}>
+                     <span className={`text-[9px] font-black uppercase tracking-[0.15em] px-2.5 py-1.5 rounded-lg border whitespace-nowrap ${priorityStyleMap[currentPriority].badge}`}>
                        {task.priority === Priority.LOW ? 'Baixa' : task.priority === Priority.MEDIUM ? 'Média' : 'Alta'}
                      </span>
                    )}
