@@ -103,9 +103,9 @@ const TaskList: React.FC<TaskListProps> = ({ tasks, onToggle, onDelete, onAdd, u
 
       {isManagingCats && (
         <div className="modal-backdrop">
-          <div className="modal-container w-full max-w-xl p-8 md:p-12 space-y-8 relative">
+          <div className="modal-container p-8 md:p-12 space-y-8">
             <div className="flex justify-between items-center mb-4">
-              <h3 className="text-2xl font-black text-theme-text">Categorias</h3>
+              <h3 className="text-2xl font-black text-theme-text uppercase">Categorias</h3>
               <button onClick={() => setIsManagingCats(false)} className="btn-close-modal">
                 <span className="material-symbols-outlined !text-3xl">close</span>
               </button>
@@ -139,9 +139,9 @@ const TaskList: React.FC<TaskListProps> = ({ tasks, onToggle, onDelete, onAdd, u
 
       {isAdding && (
         <div className="modal-backdrop">
-          <form onSubmit={handleSubmit} className="modal-container w-full max-w-xl p-8 md:p-12 space-y-8 relative">
+          <form onSubmit={handleSubmit} className="modal-container p-8 md:p-12 space-y-8">
             <div className="flex justify-between items-center mb-4">
-              <h3 className="text-2xl font-black text-theme-text">Nova Tarefa</h3>
+              <h3 className="text-2xl font-black text-theme-text uppercase">Nova Tarefa</h3>
               <button type="button" onClick={() => setIsAdding(false)} className="btn-close-modal">
                 <span className="material-symbols-outlined !text-3xl">close</span>
               </button>

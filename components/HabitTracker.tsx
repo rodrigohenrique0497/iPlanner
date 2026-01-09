@@ -45,9 +45,9 @@ const HabitTracker: React.FC<HabitTrackerProps> = ({ habits, onToggle, onAdd, on
 
       {isAdding && (
         <div className="modal-backdrop">
-          <form onSubmit={handleAdd} className="modal-container w-full max-w-xl p-8 md:p-12 rounded-planner space-y-10 relative">
+          <form onSubmit={handleAdd} className="modal-container p-8 md:p-12 space-y-10">
             <div className="flex justify-between items-center">
-              <h3 className="text-2xl font-black text-theme-text">Novo Hábito</h3>
+              <h3 className="text-2xl font-black text-theme-text uppercase">Novo Hábito</h3>
               <button type="button" onClick={() => setIsAdding(false)} className="btn-close-modal">
                 <span className="material-symbols-outlined">close</span>
               </button>

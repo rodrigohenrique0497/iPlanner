@@ -104,9 +104,9 @@ const FinanceView: React.FC<FinanceViewProps> = ({ transactions, onAdd, onDelete
 
       {isAdding && (
         <div className="modal-backdrop">
-          <form onSubmit={handleAdd} className="modal-container w-full max-w-xl p-8 md:p-12 space-y-8 relative">
+          <form onSubmit={handleAdd} className="modal-container p-8 md:p-12 space-y-8">
             <div className="flex justify-between items-center mb-2">
-              <h3 className="text-2xl font-black text-theme-text tracking-tight">Nova Movimentação</h3>
+              <h3 className="text-2xl font-black text-theme-text tracking-tight uppercase">Nova Movimentação</h3>
               <button 
                 type="button"
                 onClick={() => setIsAdding(false)}

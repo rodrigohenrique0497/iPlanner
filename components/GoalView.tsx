@@ -50,9 +50,9 @@ const GoalView: React.FC<GoalViewProps> = ({ type, goals, onAdd, onUpdate }) => 
 
       {isAdding && (
         <div className="modal-backdrop">
-          <div className="modal-container w-full max-w-xl p-8 md:p-12 rounded-planner space-y-10 relative">
+          <div className="modal-container p-8 md:p-12 space-y-10">
             <div className="flex justify-between items-center">
-              <h3 className="text-2xl font-black text-theme-text">Definir Meta</h3>
+              <h3 className="text-2xl font-black text-theme-text uppercase">Definir Meta</h3>
               <button onClick={() => setIsAdding(false)} className="btn-close-modal">
                 <span className="material-symbols-outlined">close</span>
               </button>

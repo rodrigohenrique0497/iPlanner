@@ -79,7 +79,7 @@
         --bg-glass: rgba(15, 23, 42, 0.45);
         --text-main: #f8fafc;
         --text-muted: #94a3b8;
-        --accent-main: #f8fafc; /* Inverte para melhor contraste no dark */
+        --accent-main: #f8fafc;
         --accent-soft: rgba(241, 245, 249, 0.08);
         --border-color: #1e293b;
         --shadow-main: 0 30px 60px -12px rgba(0, 0, 0, 0.25);
@@ -109,11 +109,11 @@
         --shadow-main: 0 30px 60px -12px rgba(30, 58, 138, 0.05);
       }
 
-      /* Liquid Glass Backdrop - Sobrepõe Tudo */
+      /* Liquid Glass Backdrop - Imersão Absoluta */
       .modal-backdrop {
         position: fixed;
         inset: 0;
-        z-index: 1000; /* Supera o header z-50 e nav z-60 */
+        z-index: 2000; /* Supera Header (50) e Nav (60) */
         display: flex;
         align-items: center;
         justify-content: center;
@@ -122,6 +122,7 @@
         backdrop-filter: blur(64px) saturate(220%);
         -webkit-backdrop-filter: blur(64px) saturate(220%);
         animation: liquidFade 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        overscroll-behavior: contain;
       }
 
       @keyframes liquidFade {
@@ -159,15 +160,18 @@
       .no-scrollbar::-webkit-scrollbar { display: none; }
       .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
-      /* Modais Liquid Glass Otimizados */
+      /* Modais Liquid Glass Fixos e Proporcionais */
       .modal-container {
         background: var(--bg-card);
         border: 1px solid rgba(255, 255, 255, 0.1);
         box-shadow: 0 40px 120px -20px rgba(0, 0, 0, 0.2);
         animation: modalEntrance 0.5s cubic-bezier(0.16, 1, 0.3, 1);
         border-radius: 2.5rem;
-        max-height: 90dvh;
+        max-height: 85dvh;
+        width: 100%;
+        max-width: 500px;
         overflow-y: auto;
+        position: relative;
         scrollbar-width: none;
       }
 
@@ -178,7 +182,7 @@
         to { opacity: 1; transform: translateY(0) scale(1); }
       }
 
-      /* Botões de Ação Dinâmicos (Fiéis ao Tema) */
+      /* Botões de Ação Dinâmicos - Texto em Maiúsculo */
       .btn-action-primary {
         width: 100%;
         height: 4.5rem;
@@ -194,7 +198,8 @@
         transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         cursor: pointer;
         border: none;
-        text-transform: none;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
       }
 
       .btn-action-primary:active { transform: scale(0.96); opacity: 0.9; }
@@ -205,13 +210,15 @@
         background: transparent;
         color: var(--text-muted);
         font-weight: 700;
-        font-size: 0.95rem;
+        font-size: 0.9rem;
         display: flex;
         align-items: center;
         justify-content: center;
         transition: all 0.2s;
         cursor: pointer;
         border: none;
+        text-transform: uppercase;
+        letter-spacing: 0.15em;
       }
 
       .btn-action-secondary:active { opacity: 0.6; }

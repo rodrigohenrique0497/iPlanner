@@ -75,9 +75,9 @@ const NotesView: React.FC<NotesViewProps> = ({ notes, onAdd, onUpdate, onDelete 
 
       {isCreating && (
         <div className="modal-backdrop">
-          <div className="bg-theme-card w-full max-w-2xl p-8 md:p-12 rounded-[2.5rem] shadow-2xl space-y-10 border border-theme-border relative animate-in zoom-in-95 duration-300">
+          <div className="modal-container p-8 md:p-12 space-y-10">
             <div className="flex justify-between items-center">
-              <h3 className="text-2xl font-black text-theme-text tracking-tight">Nova Nota</h3>
+              <h3 className="text-2xl font-black text-theme-text tracking-tight uppercase">Nova Nota</h3>
               <button 
                 type="button"
                 onClick={() => setIsCreating(false)}
@@ -105,7 +105,6 @@ const NotesView: React.FC<NotesViewProps> = ({ notes, onAdd, onUpdate, onDelete 
               />
             </div>
 
-            {/* Otimização UX: Salvar antes de Cancelar */}
             <div className="flex flex-col gap-4">
               <button 
                 onClick={handleAddNote}
