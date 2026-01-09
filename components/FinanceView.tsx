@@ -83,19 +83,19 @@ const FinanceView: React.FC<FinanceViewProps> = ({ transactions, onAdd, onDelete
             </div>
             
             <div className="space-y-6">
-              {/* Seletor de Entrada/Saída com Cores Reais e Vibrantes */}
-              <div className="flex bg-theme-bg/50 p-2 rounded-2xl border border-theme-border h-[5rem] items-center">
+              {/* Seletor de Entrada/Saída - Restaurado com Cores Plenas e Altura 4.5rem */}
+              <div className="flex bg-theme-bg/50 p-2 rounded-[1.25rem] border border-theme-border h-[4.5rem] items-center">
                 <button 
                   type="button"
                   onClick={() => setType('expense')}
-                  className={`flex-1 h-full rounded-xl text-[12px] font-black uppercase tracking-widest transition-all ${type === 'expense' ? 'bg-red-600 text-white shadow-lg' : 'text-theme-muted opacity-50 hover:opacity-100'}`}
+                  className={`flex-1 h-full rounded-[0.75rem] text-[12px] font-black uppercase tracking-widest transition-all ${type === 'expense' ? 'bg-red-600 text-white shadow-lg' : 'text-theme-muted opacity-50 hover:opacity-100'}`}
                 >
                   Saída
                 </button>
                 <button 
                   type="button"
                   onClick={() => setType('income')}
-                  className={`flex-1 h-full rounded-xl text-[12px] font-black uppercase tracking-widest transition-all ${type === 'income' ? 'bg-green-600 text-white shadow-lg' : 'text-theme-muted opacity-50 hover:opacity-100'}`}
+                  className={`flex-1 h-full rounded-[0.75rem] text-[12px] font-black uppercase tracking-widest transition-all ${type === 'income' ? 'bg-green-600 text-white shadow-lg' : 'text-theme-muted opacity-50 hover:opacity-100'}`}
                 >
                   Entrada
                 </button>

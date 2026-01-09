@@ -71,6 +71,7 @@
         --shadow-glow: 0 0 20px 0 rgba(15, 23, 42, 0.05);
         --radius-planner: 2.5rem;
         --radius-planner-sm: 1.25rem;
+        --btn-height: 4.5rem;
       }
 
       .theme-dark {
@@ -122,15 +123,16 @@
       .no-scrollbar::-webkit-scrollbar { display: none; }
       .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
-      /* BOTÕES DE AÇÃO - PADRÃO PREMIUM DE ALTURA (4.5rem = 72px) */
+      /* BOTÕES DE AÇÃO - PADRÃO PREMIUM DE ALTURA (4.5rem = 72px) - RETANGULAR */
       .btn-action-primary {
         width: 100%;
-        height: 4.5rem !important;
+        height: var(--btn-height) !important;
+        min-height: var(--btn-height) !important;
         background: var(--accent-main);
         color: var(--bg-card);
-        border-radius: 1.5rem;
+        border-radius: 1rem;
         font-weight: 800;
-        font-size: 0.95rem;
+        font-size: 1rem;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -146,37 +148,39 @@
 
       .btn-action-secondary {
         width: 100%;
-        height: 4.5rem !important;
+        height: var(--btn-height) !important;
+        min-height: var(--btn-height) !important;
         background: transparent;
         color: var(--text-muted);
         font-weight: 700;
-        font-size: 0.85rem;
+        font-size: 0.9rem;
         display: flex;
         align-items: center;
         justify-content: center;
         transition: all 0.2s;
         cursor: pointer;
         border: 2px solid var(--border-color);
-        border-radius: 1.5rem;
+        border-radius: 1rem;
         text-transform: uppercase;
         letter-spacing: 0.15em;
       }
 
       .btn-action-secondary:active { opacity: 0.6; background: var(--theme-accent-soft); }
 
-      /* INPUTS PREMIUM - PADRÃO PREMIUM DE ALTURA (4.5rem = 72px) */
+      /* INPUTS PREMIUM - PADRÃO PREMIUM DE ALTURA (4.5rem = 72px) - RETANGULAR */
       .input-premium {
         width: 100%;
-        height: 4.5rem !important;
+        height: var(--btn-height) !important;
+        min-height: var(--btn-height) !important;
         background: var(--bg-main);
         border: 2px solid var(--border-color);
-        border-radius: 1.5rem;
+        border-radius: 1rem;
         padding: 0 1.5rem;
         font-weight: 700;
         color: var(--text-main);
         outline: none;
         transition: all 0.3s ease;
-        font-size: 1rem;
+        font-size: 1.1rem;
       }
 
       .input-premium:focus {
@@ -184,10 +188,12 @@
         box-shadow: 0 0 0 4px var(--accent-soft);
       }
 
-      /* SELETOR DE DATA - AJUSTE PARA CONTAINER */
+      /* SELETOR DE DATA - AJUSTE PARA CONTAINER E RESPONSIVIDADE */
       input[type="date"].input-premium {
         position: relative;
         overflow: hidden;
+        display: flex;
+        align-items: center;
       }
 
       /* HEADER & NAV MOBILE GLASS */

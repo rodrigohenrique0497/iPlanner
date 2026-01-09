@@ -169,7 +169,7 @@ const TaskList: React.FC<TaskListProps> = ({ tasks, onToggle, onDelete, onAdd, u
                         key={p}
                         type="button"
                         onClick={() => setNewPriority(p)}
-                        className={`flex-1 h-full rounded-xl text-[10px] font-black uppercase transition-all ${newPriority === p ? 'bg-theme-card shadow-sm text-theme-accent' : 'text-theme-muted opacity-50'}`}
+                        className={`flex-1 h-full rounded-[0.75rem] text-[10px] font-black uppercase transition-all ${newPriority === p ? 'bg-theme-card shadow-sm text-theme-accent' : 'text-theme-muted opacity-50'}`}
                       >
                         {p === Priority.LOW ? 'Baixa' : p === Priority.MEDIUM ? 'Média' : 'Alta'}
                       </button>
