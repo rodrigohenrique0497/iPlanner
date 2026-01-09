@@ -170,6 +170,7 @@
       /* INPUTS PREMIUM - PADRÃO PREMIUM DE ALTURA (4.5rem = 72px) - RETANGULAR */
       .input-premium {
         width: 100%;
+        max-width: 100%;
         height: var(--btn-height) !important;
         min-height: var(--btn-height) !important;
         background: var(--bg-main);
@@ -181,6 +182,7 @@
         outline: none;
         transition: all 0.3s ease;
         font-size: 1.1rem;
+        box-sizing: border-box;
       }
 
       .input-premium:focus {
@@ -188,12 +190,14 @@
         box-shadow: 0 0 0 4px var(--accent-soft);
       }
 
-      /* SELETOR DE DATA - AJUSTE PARA CONTAINER E RESPONSIVIDADE */
-      input[type="date"].input-premium {
+      /* SELETOR DE DATA E HORA - AJUSTE PARA CONTAINER E RESPONSIVIDADE */
+      input[type="date"].input-premium,
+      input[type="time"].input-premium {
+        display: block;
         position: relative;
-        overflow: hidden;
-        display: flex;
-        align-items: center;
+        appearance: none;
+        -webkit-appearance: none;
+        min-width: 0;
       }
 
       /* HEADER & NAV MOBILE GLASS */
