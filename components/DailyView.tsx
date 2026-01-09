@@ -18,6 +18,7 @@ const DailyView: React.FC<DailyViewProps> = ({ date, tasks, onToggle, onSetEnerg
   const [quickTaskTitle, setQuickTaskTitle] = useState('');
   const [creatingHour, setCreatingHour] = useState<number | null>(null);
 
+  // Expansão para as 24 horas do dia
   const hours = Array.from({ length: 24 }, (_, i) => i);
   const getTaskForHour = (h: number) => tasks.find(t => t.scheduledHour === h);
 
@@ -56,7 +57,7 @@ const DailyView: React.FC<DailyViewProps> = ({ date, tasks, onToggle, onSetEnerg
           <p className="text-theme-muted font-bold uppercase tracking-[0.3em] text-[10px] opacity-100 truncate">{fullDate}</p>
         </div>
 
-        <div className="bg-theme-card/80 glass-effect p-1.5 rounded-2xl flex gap-1 border border-theme-border shadow-sm w-full sm:w-auto overflow-hidden">
+        <div className="bg-theme-card/80 glass-effect p-1.5 rounded-2xl flex gap-1 border border-theme-border shadow-sm w-full sm:w-auto">
           <button onClick={() => setView('daily')} className="flex-1 sm:flex-none px-4 py-2 bg-theme-accent text-theme-card rounded-xl shadow-glow text-[10px] font-black uppercase tracking-widest transition-all">Dia</button>
           <button onClick={() => setView('weekly')} className="flex-1 sm:flex-none px-4 py-2 rounded-xl text-[10px] font-black uppercase text-theme-muted hover:text-theme-text transition-all">Semana</button>
           <button onClick={() => setView('calendar')} className="flex-1 sm:flex-none px-4 py-2 rounded-xl text-[10px] font-black uppercase text-theme-muted hover:text-theme-text transition-all">Mês</button>
@@ -83,7 +84,7 @@ const DailyView: React.FC<DailyViewProps> = ({ date, tasks, onToggle, onSetEnerg
                         value={quickTaskTitle}
                         onChange={(e) => setQuickTaskTitle(e.target.value)}
                         placeholder={`O que fará às ${formattedHour}:00?`}
-                        className="w-full h-16 rounded-2xl border-3 border-theme-accent bg-theme-card px-6 font-bold text-sm outline-none shadow-premium text-theme-text"
+                        className="w-full h-16 rounded-2xl border-2 border-theme-accent bg-theme-card px-6 font-bold text-sm outline-none shadow-premium text-theme-text"
                       />
                       <button 
                         type="submit"
@@ -95,12 +96,12 @@ const DailyView: React.FC<DailyViewProps> = ({ date, tasks, onToggle, onSetEnerg
                   ) : (
                     <div 
                       onClick={() => !task && setCreatingHour(h)}
-                      className={`flex-1 h-16 rounded-2xl border-2 transition-all cursor-pointer flex items-center px-6 relative group/slot ${
+                      className={`flex-1 h-16 rounded-2xl border transition-all cursor-pointer flex items-center px-6 relative group/slot ${
                         task 
                         ? task.completed 
                           ? 'bg-theme-bg border-transparent text-theme-muted opacity-50' 
                           : 'bg-theme-accent border-theme-accent text-theme-card shadow-premium' 
-                        : 'border-theme-border bg-theme-card hover:border-theme-accent/50 shadow-sm'
+                        : 'border-theme-border bg-theme-card hover:border-theme-accent/50 hover:bg-theme-accent-soft/40 shadow-sm'
                       }`}
                     >
                       {task ? (
@@ -114,7 +115,7 @@ const DailyView: React.FC<DailyViewProps> = ({ date, tasks, onToggle, onSetEnerg
                         <div className="flex justify-between items-center w-full transition-opacity">
                           <div className="flex items-center gap-3">
                             <span className="material-symbols-outlined !text-xl text-theme-accent opacity-60 group-hover/slot:opacity-100 group-hover/slot:scale-110 transition-all">add_circle</span>
-                            <span className="text-[10px] font-black uppercase text-theme-accent opacity-80 tracking-widest group-hover/slot:opacity-100">Agendar</span>
+                            <span className="text-[10px] font-black uppercase text-theme-accent opacity-80 tracking-widest group-hover/slot:opacity-100 animate-pulse-slow group-hover/slot:animate-none">Agendar</span>
                           </div>
                           <span className="text-[9px] font-bold text-theme-muted opacity-30 group-hover/slot:opacity-60 transition-opacity uppercase tracking-tighter">Espaço Livre</span>
                         </div>
@@ -128,7 +129,7 @@ const DailyView: React.FC<DailyViewProps> = ({ date, tasks, onToggle, onSetEnerg
         </div>
 
         <div className="lg:col-span-5">
-          <div className="bg-theme-card p-10 rounded-planner border-2 border-theme-border shadow-premium space-y-10 lg:sticky lg:top-8 overflow-hidden">
+          <div className="bg-theme-card p-10 rounded-planner border border-theme-border shadow-premium space-y-10 lg:sticky lg:top-8">
             <div className="space-y-1 text-center">
               <h4 className="text-[11px] font-black uppercase tracking-[0.4em] text-theme-text">Estado de Energia</h4>
               <div className="h-1 w-10 bg-theme-accent rounded-full mx-auto mt-2"></div>
@@ -150,13 +151,13 @@ const DailyView: React.FC<DailyViewProps> = ({ date, tasks, onToggle, onSetEnerg
               ))}
             </div>
 
-            <div className="space-y-4 pt-4 border-t-2 border-theme-border">
+            <div className="space-y-4 pt-4 border-t border-theme-border">
               <button 
                 onClick={onStartFocus} 
-                className={`btn-action-primary ${currentEnergy > 0 ? '' : 'opacity-50 cursor-not-allowed'}`}
-                disabled={currentEnergy === 0}
+                className={`w-full py-7 rounded-2xl font-black text-sm shadow-premium transition-all active:scale-[0.98] flex items-center justify-center gap-4 uppercase tracking-widest ${currentEnergy > 0 ? 'bg-theme-accent text-theme-card hover:opacity-95' : 'bg-theme-bg border border-theme-border text-theme-muted cursor-not-allowed opacity-50'}`}
               >
-                FOCO PROFUNDO
+                <span className="material-symbols-outlined !text-2xl">timer</span>
+                Foco Profundo
               </button>
               <p className="text-[9px] font-black text-theme-muted text-center uppercase tracking-[0.2em] opacity-80">Sessão Pomodoro Recomendada</p>
             </div>

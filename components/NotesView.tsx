@@ -78,7 +78,7 @@ const NotesView: React.FC<NotesViewProps> = ({ notes, onAdd, onUpdate, onDelete 
         <div className="animate-in slide-in-from-top-6 duration-500">
           <div className="bg-theme-card p-8 md:p-12 rounded-[2.5rem] border border-theme-border shadow-premium space-y-10">
             <div className="flex justify-between items-center">
-              <h3 className="text-xl font-black text-theme-text tracking-tight uppercase">Nova Nota</h3>
+              <h3 className="text-2xl font-black text-theme-text tracking-tight uppercase">Nova Nota</h3>
             </div>
 
             <div className="space-y-6">
@@ -88,14 +88,14 @@ const NotesView: React.FC<NotesViewProps> = ({ notes, onAdd, onUpdate, onDelete 
                 placeholder="Título da nota" 
                 value={newTitle}
                 onChange={e => setNewTitle(e.target.value)}
-                className="w-full text-2xl md:text-4xl font-black text-theme-text placeholder:opacity-20 outline-none bg-transparent border-none p-0 min-h-0 text-left"
+                className="w-full text-2xl md:text-3xl font-black text-theme-text placeholder:opacity-20 outline-none bg-transparent border-none p-0 min-h-0"
               />
               <textarea 
                 placeholder="Comece a escrever..." 
                 value={newContent}
                 onChange={e => setNewContent(e.target.value)}
                 rows={8}
-                className="w-full text-lg md:text-xl font-medium text-theme-muted placeholder:opacity-20 outline-none bg-transparent resize-none leading-relaxed border-none p-0 text-left"
+                className="w-full text-lg md:text-xl font-medium text-theme-muted placeholder:opacity-20 outline-none bg-transparent resize-none leading-relaxed border-none p-0"
               />
             </div>
 
@@ -129,8 +129,8 @@ const NotesView: React.FC<NotesViewProps> = ({ notes, onAdd, onUpdate, onDelete 
             >
               <span className="material-symbols-outlined !text-xl leading-none">delete</span>
             </button>
-            <h3 className="text-xl font-black text-theme-text mb-3 line-clamp-2 leading-tight text-left">{note.title}</h3>
-            <p className="text-theme-text/70 font-medium leading-relaxed flex-1 line-clamp-5 whitespace-pre-wrap text-sm text-left">{note.content}</p>
+            <h3 className="text-xl font-black text-theme-text mb-3 line-clamp-2 leading-tight">{note.title}</h3>
+            <p className="text-theme-text/70 font-medium leading-relaxed flex-1 line-clamp-5 whitespace-pre-wrap text-sm">{note.content}</p>
           </div>
         ))}
       </div>

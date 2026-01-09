@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { User, ThemeType } from '../types';
 import { db } from '../services/databaseService';
+import { supabase } from '../lib/supabase';
 
 interface AuthProps {
   onLogin: (user: User) => void;
@@ -33,6 +34,7 @@ const Auth: React.FC<AuthProps> = ({ onLogin }) => {
       if (isRegistering) {
         const authUser = await db.signUp(email, password, name);
         if (authUser) {
+          // Fix: Removed xp and level properties as they are not present in the User type definition in types.ts
           const newUser: User = {
             id: authUser.id,
             name: name.trim(),
@@ -55,6 +57,7 @@ const Auth: React.FC<AuthProps> = ({ onLogin }) => {
             db.setSession(profile);
             onLogin(profile);
           } else {
+            // Fix: Removed xp and level properties as they are not present in the User type definition in types.ts
             const defaultUser: User = { 
               id: authUser.id, 
               name: authUser.user_metadata?.full_name || 'Usuário', 
@@ -79,17 +82,22 @@ const Auth: React.FC<AuthProps> = ({ onLogin }) => {
   const currentThemeClass = isRegistering ? selectedTheme : db.getGlobalTheme();
 
   return (
-    <div className={`min-h-screen transition-all duration-700 flex items-center justify-center p-4 md:p-6 theme-${currentThemeClass} bg-theme-bg overflow-x-hidden`}>
+    <div className={`min-h-screen transition-all duration-700 flex items-center justify-center p-4 md:p-6 theme-${currentThemeClass} bg-theme-bg`}>
       <div className="max-w-xl w-full space-y-6 md:space-y-10 animate-in fade-in slide-in-from-bottom-6 duration-700">
+        
+        {/* Header Compacto no Mobile */}
         <div className="text-center space-y-3">
           <div className="w-16 h-16 md:w-20 md:h-20 bg-theme-accent rounded-[2rem] mx-auto flex items-center justify-center shadow-premium transform hover:rotate-3 transition-all">
              <span className="material-symbols-outlined !text-3xl md:!text-4xl text-theme-card">menu_book</span>
           </div>
-          <h2 className="text-4xl md:text-5xl font-black tracking-tighter text-theme-text leading-none">iPlanner</h2>
-          <p className="text-[9px] md:text-[10px] font-black uppercase tracking-[0.3em] text-theme-muted opacity-80">Excelência em Organização</p>
+          <div>
+            <h2 className="text-4xl md:text-5xl font-black tracking-tighter text-theme-text leading-none">iPlanner</h2>
+            <p className="text-[9px] md:text-[10px] font-black uppercase tracking-[0.3em] text-theme-muted opacity-80 mt-2">Excelência em Organização</p>
+          </div>
         </div>
 
-        <div className="bg-theme-card p-6 md:p-12 rounded-[3rem] border-2 border-theme-border shadow-premium relative overflow-hidden transition-all">
+        {/* Card Otimizado para Mobile */}
+        <div className="bg-theme-card p-6 md:p-12 rounded-[2.5rem] md:rounded-[4rem] border border-theme-border shadow-premium relative overflow-hidden transition-all">
           {isLoading && (
             <div className="absolute inset-0 bg-theme-card/90 backdrop-blur-md z-50 flex flex-col items-center justify-center space-y-4">
               <div className="w-12 h-12 border-4 border-theme-border border-t-theme-accent rounded-full animate-spin"></div>
@@ -97,54 +105,94 @@ const Auth: React.FC<AuthProps> = ({ onLogin }) => {
             </div>
           )}
 
-          <form onSubmit={handleAction} className="space-y-6 w-full">
+          <form onSubmit={handleAction} className="space-y-4 md:space-y-6">
             {isRegistering && (
-              <div className="space-y-6">
-                <div className="space-y-2">
-                  <label className="text-[9px] font-black uppercase text-theme-muted ml-4 tracking-widest opacity-80">Nome Completo</label>
-                  <input required type="text" value={name} onChange={(e) => setName(e.target.value)} placeholder="Ex: Maria Silva" className="input-premium" />
+              <>
+                <div className="space-y-1.5">
+                  <label className="text-[9px] font-black uppercase text-theme-muted ml-4 tracking-widest opacity-80">Como quer ser chamado(a)?</label>
+                  <input
+                    required
+                    type="text"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    placeholder="Ex: Maria Silva"
+                    className="w-full p-4 md:p-5 bg-theme-bg border border-theme-border rounded-[1.5rem] outline-none focus:ring-4 focus:ring-theme-accent-soft focus:border-theme-accent text-sm font-bold transition-all text-theme-text placeholder:opacity-30"
+                  />
                 </div>
-                <div className="grid grid-cols-1 gap-3">
-                  <label className="text-[9px] font-black uppercase text-theme-muted text-center tracking-widest opacity-80">Escolha seu Estilo</label>
+
+                <div className="space-y-4 pt-2">
+                  <label className="text-[9px] font-black uppercase text-theme-muted text-center block tracking-widest opacity-80">Escolha seu Estilo</label>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     {themes.map((t) => (
                       <button
                         key={t.id}
                         type="button"
                         onClick={() => setSelectedTheme(t.id)}
-                        className={`p-4 rounded-2xl border-2 transition-all flex items-center gap-3 ${selectedTheme === t.id ? 'border-theme-accent bg-theme-card' : 'border-theme-border bg-theme-bg/50 opacity-60'}`}
+                        className={`p-3 md:p-4 rounded-[1.5rem] border-2 transition-all text-left flex items-center gap-3 ${
+                          selectedTheme === t.id 
+                          ? 'border-theme-accent bg-theme-card shadow-md ring-2 ring-theme-accent-soft' 
+                          : 'border-theme-border bg-theme-bg/50 opacity-60'
+                        }`}
                       >
-                        <div className={`w-8 h-8 rounded-xl shrink-0 ${t.colorClass} border border-black/5`}></div>
-                        <p className="font-black text-theme-text text-[11px] uppercase tracking-widest">{t.label}</p>
+                        <div className={`w-8 h-8 md:w-10 md:h-10 rounded-xl flex items-center justify-center shrink-0 ${t.colorClass} border border-black/5`}>
+                          <span className={`material-symbols-outlined !text-xl ${t.id === 'light' ? 'text-slate-900' : 'text-white'}`}>
+                            {t.icon}
+                          </span>
+                        </div>
+                        <div className="min-w-0">
+                          <p className="font-black text-theme-text text-[11px] tracking-tight truncate leading-none">{t.label}</p>
+                        </div>
                       </button>
                     ))}
                   </div>
                 </div>
-              </div>
+              </>
             )}
             
-            <div className="space-y-6">
-              <div className="space-y-2">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="space-y-1.5">
                 <label className="text-[9px] font-black uppercase text-theme-muted ml-4 tracking-widest opacity-80">E-mail</label>
-                <input required type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="exemplo@email.com" className="input-premium" />
+                <input
+                  required
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="exemplo@email.com"
+                  className="w-full p-4 md:p-5 bg-theme-bg border border-theme-border rounded-[1.5rem] outline-none focus:ring-4 focus:ring-theme-accent-soft focus:border-theme-accent text-sm font-bold transition-all text-theme-text placeholder:opacity-30"
+                />
               </div>
-              <div className="space-y-2">
+
+              <div className="space-y-1.5">
                 <label className="text-[9px] font-black uppercase text-theme-muted ml-4 tracking-widest opacity-80">Senha</label>
-                <input required type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="••••••••" className="input-premium" />
+                <input
+                  required
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="••••••••"
+                  className="w-full p-4 md:p-5 bg-theme-bg border border-theme-border rounded-[1.5rem] outline-none focus:ring-4 focus:ring-theme-accent-soft focus:border-theme-accent text-sm font-bold transition-all text-theme-text placeholder:opacity-30"
+                />
               </div>
             </div>
 
-            <button type="submit" className="btn-action-primary mt-4">
-              {isRegistering ? 'CRIAR MINHA CONTA' : 'ENTRAR NO IPLANNER'}
+            <button
+              type="submit"
+              className="w-full py-5 md:py-6 rounded-[1.75rem] font-black text-base md:text-lg shadow-premium transition-all active:scale-[0.98] mt-4 bg-theme-accent text-theme-card hover:opacity-95 uppercase tracking-[0.2em]"
+            >
+              {isRegistering ? 'Criar minha Conta' : 'Entrar no iPlanner'}
             </button>
           </form>
 
-          <div className="mt-10 text-center border-t border-theme-border pt-6 flex flex-col items-center space-y-4">
+          {/* Rodapé com Quebra de Linha e Botões Reais */}
+          <div className="mt-8 md:mt-12 text-center border-t border-theme-border pt-6 md:pt-10 flex flex-col items-center space-y-3">
             <p className="text-[10px] font-black text-theme-muted uppercase tracking-widest opacity-70">
               {isRegistering ? 'Já possui conta?' : 'Novo por aqui?'}
             </p>
-            <button onClick={() => setIsRegistering(!isRegistering)} className="px-10 py-4 bg-theme-bg border-2 border-theme-border rounded-full text-[10px] font-black text-theme-text uppercase tracking-widest transition-all hover:bg-theme-accent hover:text-theme-card">
-              {isRegistering ? 'CLIQUE PARA ENTRAR' : 'CRIE SUA CONTA GRÁTIS'}
+            <button
+              onClick={() => setIsRegistering(!isRegistering)}
+              className="px-8 py-3 bg-theme-bg border border-theme-border rounded-full text-[10px] font-black text-theme-text uppercase tracking-widest transition-all hover:bg-theme-accent hover:text-theme-card hover:shadow-premium active:scale-95"
+            >
+              {isRegistering ? 'Clique para entrar' : 'Crie sua conta grátis'}
             </button>
           </div>
         </div>
