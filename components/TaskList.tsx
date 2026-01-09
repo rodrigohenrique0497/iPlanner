@@ -179,12 +179,13 @@ const TaskList: React.FC<TaskListProps> = ({ tasks, onToggle, onDelete, onAdd, u
 
                 <div className="space-y-2">
                   <label className="text-[10px] font-black uppercase text-theme-muted ml-3 tracking-widest opacity-40">Data Limite</label>
-                  <div className="relative w-full overflow-hidden">
+                  <div className="relative w-full">
                     <input 
                       type="date" 
                       value={newDueDate} 
                       onChange={e => setNewDueDate(e.target.value)} 
-                      className="input-premium uppercase tracking-widest text-[11px]" 
+                      className="input-premium uppercase tracking-widest text-[11px] !w-full block"
+                      style={{ minWidth: '0' }}
                     />
                   </div>
                 </div>
