@@ -28,7 +28,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 
-    <!-- Tailwind Config -->
     <script>
       tailwind.config = {
         theme: {
@@ -47,10 +46,6 @@
               glow: "var(--shadow-glow)",
               glass: "0 40px 100px -20px rgba(0, 0, 0, 0.12), 0 20px 40px -15px rgba(0, 0, 0, 0.04)",
             },
-            borderRadius: {
-              planner: "var(--radius-planner)",
-              "planner-sm": "var(--radius-planner-sm)",
-            },
           },
         },
       };
@@ -68,8 +63,6 @@
         --border-color: #e2e8f0;
         --shadow-main: 0 30px 60px -12px rgba(0, 0, 0, 0.03);
         --shadow-glow: 0 0 25px 0 rgba(15, 23, 42, 0.1);
-        --radius-planner: 2.5rem;
-        --radius-planner-sm: 1.25rem;
         --btn-height: 5rem;
       }
 
@@ -109,6 +102,8 @@
         --shadow-main: 0 30px 60px -12px rgba(30, 58, 138, 0.05);
       }
 
+      * { box-sizing: border-box !important; }
+
       body {
         font-family: "Plus Jakarta Sans", sans-serif;
         background: var(--bg-main);
@@ -122,7 +117,7 @@
       .no-scrollbar::-webkit-scrollbar { display: none; }
       .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
-      /* BOTÕES DE AÇÃO ULTRA-PREMIUM (TEXTO PURO - 80px) */
+      /* BOTÕES PREMIUM 80PX - TEXTO PURO */
       .btn-action-primary {
         width: 100% !important;
         height: var(--btn-height) !important;
@@ -170,32 +165,55 @@
 
       .btn-action-secondary:active { transform: scale(0.97); background: var(--theme-accent-soft); }
 
-      /* Ocultar material icons dentro dos botões de ação para foco no texto */
+      /* OCULTAR ÍCONES EM BOTÕES DE AÇÃO */
       .btn-action-primary span.material-symbols-outlined,
       .btn-action-secondary span.material-symbols-outlined {
         display: none !important;
       }
 
-      /* INPUTS PREMIUM - BLINDAGEM TOTAL CONTRA OVERFLOW */
+      /* INPUTS PREMIUM - CENTRALIZAÇÃO DE DATA E HORA */
       .input-premium {
         width: 100% !important;
         max-width: 100% !important;
         box-sizing: border-box !important;
         height: 4.5rem !important;
         background: var(--bg-main);
-        border: 3px solid var(--border-color);
+        border: 3.5px solid var(--border-color);
         border-radius: 1.5rem;
-        padding: 0 1.5rem;
+        padding: 0 !important; /* Reset de padding para centralizar perfeitamente */
         font-weight: 800;
         color: var(--text-main);
         outline: none;
         transition: all 0.3s ease;
         font-size: 1.05rem;
         text-align: center;
+        display: block;
+        flex-shrink: 0;
+      }
+
+      /* Hacks para centralizar data e hora no mobile */
+      input[type="date"].input-premium, 
+      input[type="time"].input-premium {
         display: flex;
         align-items: center;
         justify-content: center;
-        flex-shrink: 0;
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+        text-align: center !important;
+      }
+
+      /* Ocultar ícone de calendário/relógio para centralizar o texto (iOS/Chrome) */
+      input::-webkit-calendar-picker-indicator {
+        background: transparent;
+        bottom: 0;
+        color: transparent;
+        cursor: pointer;
+        height: auto;
+        left: 0;
+        position: absolute;
+        right: 0;
+        top: 0;
+        width: auto;
       }
 
       .input-premium:focus {
@@ -203,7 +221,6 @@
         box-shadow: 0 0 0 6px var(--accent-soft);
       }
 
-      /* GLASS EFFECT OTIMIZADO */
       .glass-mobile-nav {
         backdrop-filter: blur(40px) saturate(180%);
         -webkit-backdrop-filter: blur(40px) saturate(180%);
