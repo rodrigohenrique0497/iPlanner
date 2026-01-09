@@ -83,18 +83,19 @@ const FinanceView: React.FC<FinanceViewProps> = ({ transactions, onAdd, onDelete
             </div>
             
             <div className="space-y-6">
-              <div className="flex bg-theme-bg/50 p-1.5 rounded-2xl border border-theme-border h-[4.5rem] items-center">
+              {/* Seletor de Entrada/Saída com Cores Reais e Vibrantes */}
+              <div className="flex bg-theme-bg/50 p-2 rounded-2xl border border-theme-border h-[5rem] items-center">
                 <button 
                   type="button"
                   onClick={() => setType('expense')}
-                  className={`flex-1 h-full rounded-xl text-[11px] font-black uppercase tracking-widest transition-all ${type === 'expense' ? 'bg-red-600 text-white shadow-lg' : 'text-theme-muted opacity-50'}`}
+                  className={`flex-1 h-full rounded-xl text-[12px] font-black uppercase tracking-widest transition-all ${type === 'expense' ? 'bg-red-600 text-white shadow-lg' : 'text-theme-muted opacity-50 hover:opacity-100'}`}
                 >
                   Saída
                 </button>
                 <button 
                   type="button"
                   onClick={() => setType('income')}
-                  className={`flex-1 h-full rounded-xl text-[11px] font-black uppercase tracking-widest transition-all ${type === 'income' ? 'bg-green-600 text-white shadow-lg' : 'text-theme-muted opacity-50'}`}
+                  className={`flex-1 h-full rounded-xl text-[12px] font-black uppercase tracking-widest transition-all ${type === 'income' ? 'bg-green-600 text-white shadow-lg' : 'text-theme-muted opacity-50 hover:opacity-100'}`}
                 >
                   Entrada
                 </button>
@@ -112,7 +113,7 @@ const FinanceView: React.FC<FinanceViewProps> = ({ transactions, onAdd, onDelete
                 />
               </div>
 
-              <div className="grid grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-2.5">
                   <label className="text-[10px] font-black uppercase text-theme-muted ml-5 tracking-widest opacity-40">Valor (R$)</label>
                   <input 
@@ -147,7 +148,7 @@ const FinanceView: React.FC<FinanceViewProps> = ({ transactions, onAdd, onDelete
               </div>
             </div>
 
-            <div className="flex flex-col sm:flex-row gap-4 pt-2">
+            <div className="flex flex-col sm:flex-row gap-5 pt-4">
               <button type="submit" className="btn-action-primary flex-1">SALVAR</button>
               <button type="button" onClick={() => setIsAdding(false)} className="btn-action-secondary flex-1">CANCELAR</button>
             </div>
@@ -157,25 +158,25 @@ const FinanceView: React.FC<FinanceViewProps> = ({ transactions, onAdd, onDelete
 
       {/* Stats Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-        <div className="bg-theme-card p-8 rounded-[2.5rem] border border-theme-border shadow-sm space-y-4">
+        <div className="bg-theme-card p-10 rounded-[2.5rem] border border-theme-border shadow-sm space-y-4">
           <p className="text-[10px] font-black uppercase tracking-widest text-theme-muted opacity-50">Saldo Total</p>
           <p className={`text-2xl font-black ${stats.balance >= 0 ? 'text-green-600' : 'text-red-600'}`}>
             R$ {stats.balance.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
           </p>
         </div>
-        <div className="bg-green-500/10 p-8 rounded-[2.5rem] border border-green-500/20 space-y-4">
+        <div className="bg-green-500/10 p-10 rounded-[2.5rem] border border-green-500/20 space-y-4">
           <p className="text-[10px] font-black uppercase tracking-widest text-green-600 opacity-80">Entradas</p>
           <p className="text-2xl font-black text-green-700">
             R$ {stats.income.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
           </p>
         </div>
-        <div className="bg-red-500/10 p-8 rounded-[2.5rem] border border-red-500/20 space-y-4">
+        <div className="bg-red-500/10 p-10 rounded-[2.5rem] border border-red-500/20 space-y-4">
           <p className="text-[10px] font-black uppercase tracking-widest text-red-600 opacity-80">Saídas</p>
           <p className="text-2xl font-black text-red-700">
             R$ {stats.expense.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
           </p>
         </div>
-        <div className="bg-blue-500/10 p-8 rounded-[2.5rem] border border-blue-500/20 space-y-4">
+        <div className="bg-blue-500/10 p-10 rounded-[2.5rem] border border-blue-500/20 space-y-4">
           <p className="text-[10px] font-black uppercase tracking-widest text-blue-600 opacity-80">Reserva</p>
           <p className="text-2xl font-black text-blue-700">
             R$ {stats.emergency.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}

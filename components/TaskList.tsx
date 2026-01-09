@@ -125,9 +125,9 @@ const TaskList: React.FC<TaskListProps> = ({ tasks, onToggle, onDelete, onAdd, u
                 placeholder="Nova categoria..." 
                 value={tempCategory}
                 onChange={e => setTempCategory(e.target.value)}
-                className="input-premium flex-1 h-[3.5rem] !text-sm"
+                className="input-premium flex-1"
               />
-              <button onClick={handleAddCategory} className="bg-theme-accent text-theme-card px-8 rounded-xl font-black text-[10px] uppercase tracking-widest h-[4.5rem]">ADICIONAR</button>
+              <button onClick={handleAddCategory} className="bg-theme-accent text-theme-card px-8 rounded-xl font-black text-[11px] uppercase tracking-widest h-[4.5rem] shadow-glow active:scale-95 transition-all">ADICIONAR</button>
             </div>
         </div>
       )}
@@ -169,7 +169,7 @@ const TaskList: React.FC<TaskListProps> = ({ tasks, onToggle, onDelete, onAdd, u
                         key={p}
                         type="button"
                         onClick={() => setNewPriority(p)}
-                        className={`flex-1 h-full rounded-xl text-[9px] font-black uppercase transition-all ${newPriority === p ? 'bg-theme-card shadow-sm text-theme-accent' : 'text-theme-muted opacity-50'}`}
+                        className={`flex-1 h-full rounded-xl text-[10px] font-black uppercase transition-all ${newPriority === p ? 'bg-theme-card shadow-sm text-theme-accent' : 'text-theme-muted opacity-50'}`}
                       >
                         {p === Priority.LOW ? 'Baixa' : p === Priority.MEDIUM ? 'Média' : 'Alta'}
                       </button>
@@ -191,7 +191,7 @@ const TaskList: React.FC<TaskListProps> = ({ tasks, onToggle, onDelete, onAdd, u
               </div>
             </div>
             
-            <div className="flex flex-col sm:flex-row gap-4 pt-4">
+            <div className="flex flex-col sm:flex-row gap-5 pt-4">
               <button type="submit" className="btn-action-primary flex-1">SALVAR</button>
               <button type="button" onClick={() => setIsAdding(false)} className="btn-action-secondary flex-1">CANCELAR</button>
             </div>
