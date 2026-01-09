@@ -61,9 +61,9 @@ const TaskList: React.FC<TaskListProps> = ({ tasks, onToggle, onDelete, onAdd, u
   };
 
   const priorityStyleMap = {
-    [Priority.LOW]: { badge: 'text-blue-500 bg-blue-500/10 border-blue-500/20', solid: 'bg-blue-500 text-white' },
-    [Priority.MEDIUM]: { badge: 'text-amber-500 bg-amber-500/10 border-amber-500/20', solid: 'bg-amber-500 text-white' },
-    [Priority.HIGH]: { badge: 'text-rose-500 bg-rose-500/10 border-rose-500/20', solid: 'bg-rose-500 text-white' },
+    [Priority.LOW]: { badge: 'text-blue-500 bg-blue-500/10 border-blue-500/20', solid: 'bg-blue-500 text-white', label: 'Baixa' },
+    [Priority.MEDIUM]: { badge: 'text-amber-500 bg-amber-500/10 border-amber-500/20', solid: 'bg-amber-500 text-white', label: 'Média' },
+    [Priority.HIGH]: { badge: 'text-rose-500 bg-rose-500/10 border-rose-500/20', solid: 'bg-rose-500 text-white', label: 'Alta' },
   };
 
   return (
@@ -88,7 +88,7 @@ const TaskList: React.FC<TaskListProps> = ({ tasks, onToggle, onDelete, onAdd, u
 
       {isAdding && (
         <div className="animate-in slide-in-from-top-4 duration-500">
-          <form onSubmit={handleSubmit} className="bg-theme-card p-5 md:p-12 rounded-[2rem] border border-theme-border shadow-premium space-y-6 overflow-hidden w-full">
+          <form onSubmit={handleSubmit} className="bg-theme-card p-6 md:p-12 rounded-[2rem] border border-theme-border shadow-premium space-y-8 overflow-hidden w-full">
             <div className="space-y-6">
               <input 
                 autoFocus
@@ -99,37 +99,40 @@ const TaskList: React.FC<TaskListProps> = ({ tasks, onToggle, onDelete, onAdd, u
                 className="w-full text-xl md:text-2xl font-black bg-transparent border-none outline-none text-theme-text placeholder:opacity-20 p-0 text-left"
               />
               
-              <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-6 w-full">
-                <div className="space-y-2 col-span-1">
-                  <label className="text-[9px] font-black uppercase text-theme-muted tracking-widest opacity-60 block text-center">Cat.</label>
+              {/* Layout em Coluna Única no Mobile */}
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 w-full">
+                <div className="space-y-2">
+                  <label className="text-[9px] font-black uppercase text-theme-muted tracking-widest opacity-60 block text-center">Categoria</label>
                   <div className="relative w-full">
-                    <select value={newCategory} onChange={e => setNewCategory(e.target.value)} className="input-premium input-picker-premium text-[10px] w-full">
+                    <select value={newCategory} onChange={e => setNewCategory(e.target.value)} className="input-premium input-picker-premium text-[11px] w-full">
                       {userCategories.map(c => <option key={c} value={c}>{c}</option>)}
                     </select>
                   </div>
                 </div>
-                <div className="space-y-2 col-span-1">
-                  <label className="text-[9px] font-black uppercase text-theme-muted tracking-widest opacity-60 block text-center">Prio.</label>
+                <div className="space-y-2">
+                  <label className="text-[9px] font-black uppercase text-theme-muted tracking-widest opacity-60 block text-center">Prioridade</label>
                   <div className="flex bg-theme-bg p-1 rounded-xl border border-theme-border h-[4.5rem] w-full items-center">
                     {[Priority.LOW, Priority.MEDIUM, Priority.HIGH].map(p => (
-                      <button key={p} type="button" onClick={() => setNewPriority(p)} className={`flex-1 h-full rounded-lg text-[8px] font-black uppercase transition-all ${newPriority === p ? priorityStyleMap[p].solid : 'text-theme-muted opacity-40'}`}>
-                        {p[0].toUpperCase()}
+                      <button key={p} type="button" onClick={() => setNewPriority(p)} className={`flex-1 h-full rounded-lg text-[9px] font-black uppercase transition-all ${newPriority === p ? priorityStyleMap[p].solid : 'text-theme-muted opacity-40'}`}>
+                        {priorityStyleMap[p].label}
                       </button>
                     ))}
                   </div>
                 </div>
-                <div className="space-y-2 col-span-1">
+                <div className="space-y-2">
                   <label className="text-[9px] font-black uppercase text-theme-muted tracking-widest opacity-60 block text-center">Data</label>
-                  <input type="date" value={newDueDate} onChange={e => setNewDueDate(e.target.value)} className="input-premium input-picker-premium text-[10px] w-full" />
+                  <input type="date" value={newDueDate} onChange={e => setNewDueDate(e.target.value)} className="input-premium input-picker-premium text-[11px] w-full" />
                 </div>
-                <div className="space-y-2 col-span-1">
+                <div className="space-y-2">
                   <label className="text-[9px] font-black uppercase text-theme-muted tracking-widest opacity-60 block text-center">Hora</label>
-                  <input type="time" value={newReminderTime} onChange={e => setNewReminderTime(e.target.value)} className="input-premium input-picker-premium text-[10px] w-full" />
+                  <input type="time" value={newReminderTime} onChange={e => setNewReminderTime(e.target.value)} className="input-premium input-picker-premium text-[11px] w-full" />
                 </div>
               </div>
             </div>
-            <div className="flex flex-col sm:flex-row gap-3 pt-4 w-full">
-              <button type="submit" className="btn-action-primary flex-1">CRIAR</button>
+            
+            {/* Botões Grandes Restaurados */}
+            <div className="flex flex-col sm:flex-row gap-4 pt-4 w-full">
+              <button type="submit" className="btn-action-primary flex-1">CRIAR TAREFA</button>
               <button type="button" onClick={() => setIsAdding(false)} className="btn-action-secondary flex-1">CANCELAR</button>
             </div>
           </form>
@@ -148,6 +151,9 @@ const TaskList: React.FC<TaskListProps> = ({ tasks, onToggle, onDelete, onAdd, u
                 <p className={`font-bold text-[15px] md:text-[17px] truncate ${task.completed ? 'line-through text-theme-muted' : 'text-theme-text'}`}>{task.title}</p>
                 <div className="flex items-center gap-2 mt-1.5 overflow-x-auto no-scrollbar whitespace-nowrap">
                   <span className="text-[8px] font-black uppercase tracking-widest px-2 py-0.5 bg-theme-accent-soft text-theme-accent rounded-lg shrink-0">{task.category}</span>
+                  <span className={`text-[8px] font-black uppercase tracking-widest px-2 py-0.5 rounded-lg shrink-0 ${priorityStyleMap[task.priority].badge}`}>
+                    {priorityStyleMap[task.priority].label}
+                  </span>
                   {task.reminder && !task.completed && (
                     <span className="text-[8px] font-black text-theme-muted uppercase tracking-widest shrink-0">{task.reminder}</span>
                   )}

@@ -74,7 +74,7 @@ const FinanceView: React.FC<FinanceViewProps> = ({ transactions, onAdd, onDelete
         </button>
       </header>
 
-      {/* Formulário Inline Premium */}
+      {/* Formulário Coluna Única no Mobile */}
       {isAdding && (
         <div className="animate-in slide-in-from-top-6 duration-500">
           <form onSubmit={handleAdd} className="bg-theme-card p-6 md:p-12 rounded-[2.5rem] border border-theme-border shadow-premium space-y-8">
@@ -83,7 +83,6 @@ const FinanceView: React.FC<FinanceViewProps> = ({ transactions, onAdd, onDelete
             </div>
             
             <div className="space-y-6">
-              {/* Seletor de Entrada/Saída */}
               <div className="flex bg-theme-bg/50 p-2 rounded-[1.25rem] border border-theme-border h-[4.5rem] items-center">
                 <button 
                   type="button"
@@ -101,55 +100,57 @@ const FinanceView: React.FC<FinanceViewProps> = ({ transactions, onAdd, onDelete
                 </button>
               </div>
 
-              <div className="space-y-2.5">
-                <label className="text-[10px] font-black uppercase text-theme-muted ml-5 tracking-widest opacity-60">Descrição</label>
-                <input 
-                  autoFocus
-                  type="text" 
-                  placeholder="Ex: Aluguel, Salário, Lazer" 
-                  value={desc}
-                  onChange={e => setDesc(e.target.value)}
-                  className="input-premium"
-                />
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="space-y-2.5">
-                  <label className="text-[10px] font-black uppercase text-theme-muted ml-5 tracking-widest opacity-60">Valor (R$)</label>
+              <div className="space-y-4">
+                <div className="space-y-2">
+                  <label className="text-[10px] font-black uppercase text-theme-muted ml-5 tracking-widest opacity-60">Descrição</label>
                   <input 
-                    type="number" 
-                    step="0.01"
-                    placeholder="0,00" 
-                    value={amount}
-                    onChange={e => setAmount(e.target.value)}
-                    className="input-premium input-picker-premium"
+                    autoFocus
+                    type="text" 
+                    placeholder="Ex: Aluguel, Salário, Lazer" 
+                    value={desc}
+                    onChange={e => setDesc(e.target.value)}
+                    className="input-premium"
                   />
                 </div>
-                <div className="space-y-2.5">
-                  <label className="text-[10px] font-black uppercase text-theme-muted ml-5 tracking-widest opacity-60">Categoria</label>
-                  <div className="relative">
-                    <select 
-                      value={category}
-                      onChange={e => setCategory(e.target.value as FinanceCategory)}
-                      className="input-premium input-picker-premium appearance-none cursor-pointer uppercase tracking-widest text-[11px]"
-                    >
-                      <option value="Salário">Salário</option>
-                      <option value="Casa">Casa / Contas</option>
-                      <option value="Assinatura">Assinatura</option>
-                      <option value="Parcela">Parcela</option>
-                      <option value="Reserva">Reserva</option>
-                      <option value="Lazer">Lazer</option>
-                      <option value="Alimentação">Alimentação</option>
-                      <option value="Outros">Outros</option>
-                    </select>
-                    <span className="material-symbols-outlined absolute right-5 top-1/2 -translate-y-1/2 pointer-events-none opacity-40">expand_more</span>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+                  <div className="space-y-2">
+                    <label className="text-[10px] font-black uppercase text-theme-muted ml-5 tracking-widest opacity-60">Valor (R$)</label>
+                    <input 
+                      type="number" 
+                      step="0.01"
+                      placeholder="0,00" 
+                      value={amount}
+                      onChange={e => setAmount(e.target.value)}
+                      className="input-premium input-picker-premium"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <label className="text-[10px] font-black uppercase text-theme-muted ml-5 tracking-widest opacity-60">Categoria</label>
+                    <div className="relative">
+                      <select 
+                        value={category}
+                        onChange={e => setCategory(e.target.value as FinanceCategory)}
+                        className="input-premium input-picker-premium appearance-none cursor-pointer uppercase tracking-widest text-[11px]"
+                      >
+                        <option value="Salário">Salário</option>
+                        <option value="Casa">Casa / Contas</option>
+                        <option value="Assinatura">Assinatura</option>
+                        <option value="Parcela">Parcela</option>
+                        <option value="Reserva">Reserva</option>
+                        <option value="Lazer">Lazer</option>
+                        <option value="Alimentação">Alimentação</option>
+                        <option value="Outros">Outros</option>
+                      </select>
+                      <span className="material-symbols-outlined absolute right-5 top-1/2 -translate-y-1/2 pointer-events-none opacity-40">expand_more</span>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
 
             <div className="flex flex-col sm:flex-row gap-5 pt-4">
-              <button type="submit" className="btn-action-primary flex-1">SALVAR</button>
+              <button type="submit" className="btn-action-primary flex-1">SALVAR MOVIMENTAÇÃO</button>
               <button type="button" onClick={() => setIsAdding(false)} className="btn-action-secondary flex-1">CANCELAR</button>
             </div>
           </form>
