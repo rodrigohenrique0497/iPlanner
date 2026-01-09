@@ -99,14 +99,12 @@ const TaskList: React.FC<TaskListProps> = ({ tasks, onToggle, onDelete, onAdd, u
                 className="w-full text-2xl md:text-3xl font-black bg-transparent border-none outline-none text-theme-text placeholder:opacity-20 p-0 text-left"
               />
               
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 md:gap-6 w-full">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 w-full">
                 <div className="space-y-2.5">
                   <label className="text-[10px] font-black uppercase text-theme-muted tracking-widest opacity-60 block ml-4">Categoria</label>
-                  <div className="relative w-full">
-                    <select value={newCategory} onChange={e => setNewCategory(e.target.value)} className="input-premium input-picker-premium text-[12px] w-full uppercase tracking-widest">
-                      {userCategories.map(c => <option key={c} value={c}>{c}</option>)}
-                    </select>
-                  </div>
+                  <select value={newCategory} onChange={e => setNewCategory(e.target.value)} className="input-premium uppercase tracking-widest text-[11px] text-center appearance-none">
+                    {userCategories.map(c => <option key={c} value={c}>{c}</option>)}
+                  </select>
                 </div>
                 <div className="space-y-2.5">
                   <label className="text-[10px] font-black uppercase text-theme-muted tracking-widest opacity-60 block ml-4">Prioridade</label>
@@ -125,24 +123,18 @@ const TaskList: React.FC<TaskListProps> = ({ tasks, onToggle, onDelete, onAdd, u
                 </div>
                 <div className="space-y-2.5">
                   <label className="text-[10px] font-black uppercase text-theme-muted tracking-widest opacity-60 block ml-4">Data Limite</label>
-                  <input type="date" value={newDueDate} onChange={e => setNewDueDate(e.target.value)} className="input-premium input-picker-premium text-[12px] w-full" />
+                  <input type="date" value={newDueDate} onChange={e => setNewDueDate(e.target.value)} className="input-premium text-[12px] text-center" />
                 </div>
                 <div className="space-y-2.5">
                   <label className="text-[10px] font-black uppercase text-theme-muted tracking-widest opacity-60 block ml-4">Lembrete</label>
-                  <input type="time" value={newReminderTime} onChange={e => setNewReminderTime(e.target.value)} className="input-premium input-picker-premium text-[12px] w-full" />
+                  <input type="time" value={newReminderTime} onChange={e => setNewReminderTime(e.target.value)} className="input-premium text-[12px] text-center" />
                 </div>
               </div>
             </div>
             
-            <div className="flex flex-col sm:flex-row gap-5 pt-4 w-full">
-              <button type="submit" className="btn-action-primary flex-1">
-                <span className="material-symbols-outlined">check_circle</span>
-                CONFIRMAR TAREFA
-              </button>
-              <button type="button" onClick={() => setIsAdding(false)} className="btn-action-secondary flex-1">
-                <span className="material-symbols-outlined">delete_forever</span>
-                DESCARTAR
-              </button>
+            <div className="flex flex-col gap-5 pt-4 w-full">
+              <button type="submit" className="btn-action-primary">CONFIRMAR TAREFA</button>
+              <button type="button" onClick={() => setIsAdding(false)} className="btn-action-secondary">CANCELAR</button>
             </div>
           </form>
         </div>

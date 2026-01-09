@@ -29,11 +29,11 @@ const HabitTracker: React.FC<HabitTrackerProps> = ({ habits, onToggle, onAdd, on
   };
 
   return (
-    <div className="max-w-4xl mx-auto p-6 md:p-10 space-y-10 md:space-y-12 page-transition pb-32">
+    <div className="max-w-4xl mx-auto p-6 md:p-10 space-y-10 md:space-y-12 page-transition pb-32 overflow-x-hidden">
       <div className="flex justify-between items-end">
         <div className="space-y-4">
           <h2 className="text-4xl md:text-5xl font-black text-theme-text tracking-tighter">Hábitos</h2>
-          <p className="text-theme-muted font-medium text-base md:text-lg italic opacity-80">"Somos o que repetidamente fazemos."</p>
+          <p className="text-theme-muted font-medium text-base md:text-lg italic opacity-80">Cultive sua disciplina.</p>
         </div>
         <button 
           onClick={() => setIsAdding(!isAdding)}
@@ -43,13 +43,10 @@ const HabitTracker: React.FC<HabitTrackerProps> = ({ habits, onToggle, onAdd, on
         </button>
       </div>
 
-      {/* Formulário de Hábito Inline */}
       {isAdding && (
         <div className="animate-in slide-in-from-top-6 duration-500">
-          <form onSubmit={handleAdd} className="bg-theme-card p-8 md:p-12 rounded-[2.5rem] border border-theme-border shadow-premium space-y-10">
-            <div className="flex justify-between items-center">
-              <h3 className="text-2xl font-black text-theme-text uppercase">Novo Hábito</h3>
-            </div>
+          <form onSubmit={handleAdd} className="bg-theme-card p-8 md:p-12 rounded-[2.5rem] border-2 border-theme-border shadow-premium space-y-10 overflow-hidden w-full">
+            <h3 className="text-xl font-black text-theme-text uppercase px-4">Novo Hábito</h3>
             <div className="space-y-6">
               <input 
                 autoFocus
@@ -57,12 +54,12 @@ const HabitTracker: React.FC<HabitTrackerProps> = ({ habits, onToggle, onAdd, on
                 value={newTitle}
                 onChange={(e) => setNewTitle(e.target.value)}
                 placeholder="Qual hábito quer cultivar?" 
-                className="w-full h-16 bg-theme-bg px-7 rounded-2xl border border-theme-border outline-none font-bold text-lg text-theme-text"
+                className="input-premium"
               />
             </div>
-            <div className="flex flex-col sm:flex-row gap-4">
-              <button type="submit" className="btn-action-primary flex-1 shadow-glow">COMEÇAR JORNADA</button>
-              <button type="button" onClick={() => setIsAdding(false)} className="btn-action-secondary flex-1">CANCELAR</button>
+            <div className="flex flex-col gap-5">
+              <button type="submit" className="btn-action-primary">INICIAR JORNADA</button>
+              <button type="button" onClick={() => setIsAdding(false)} className="btn-action-secondary">CANCELAR</button>
             </div>
           </form>
         </div>
@@ -72,49 +69,30 @@ const HabitTracker: React.FC<HabitTrackerProps> = ({ habits, onToggle, onAdd, on
         {habits.map(habit => {
           const isDone = habit.lastCompleted === today;
           return (
-            <div key={habit.id} className="bg-theme-card p-8 rounded-[2.5rem] border border-theme-border shadow-sm flex flex-col justify-between group hover:shadow-xl transition-all h-full">
+            <div key={habit.id} className="bg-theme-card p-8 rounded-[2.5rem] border-2 border-theme-border shadow-sm flex flex-col justify-between group transition-all h-full">
               <div className="flex justify-between items-start">
-                <div className={`w-14 h-14 ${habit.color} rounded-2xl flex items-center justify-center text-3xl shadow-inner select-none`}>
-                  <span className="material-symbols-outlined !text-2xl leading-none flex items-center justify-center text-theme-text">
+                <div className={`w-14 h-14 ${habit.color} rounded-2xl flex items-center justify-center text-3xl shadow-inner`}>
+                  <span className="material-symbols-outlined !text-2xl text-theme-text">
                     {isDone ? 'auto_awesome' : 'autorenew'}
                   </span>
                 </div>
-                <button 
-                  onClick={() => onDelete(habit.id)} 
-                  className="opacity-0 group-hover:opacity-100 w-10 h-10 flex items-center justify-center rounded-xl text-theme-muted hover:text-red-500 hover:bg-rose-50 transition-all active:scale-90"
-                >
-                  <span className="material-symbols-outlined !text-xl leading-none">delete</span>
+                <button onClick={() => onDelete(habit.id)} className="w-10 h-10 flex items-center justify-center rounded-xl text-theme-muted hover:text-red-500 transition-all opacity-0 group-hover:opacity-100">
+                  <span className="material-symbols-outlined">delete</span>
                 </button>
               </div>
-              <div className="mt-8 mb-8">
-                <h3 className="text-xl md:text-2xl font-black text-theme-text tracking-tight leading-tight">{habit.title}</h3>
-                <div className="flex items-center gap-2 mt-2">
-                  <span className="text-orange-500 font-black text-base flex items-center gap-1">
-                    <span className="material-symbols-outlined !text-lg">local_fire_department</span> {habit.streak}
-                  </span>
-                  <span className="text-[9px] font-black uppercase text-theme-muted tracking-widest opacity-60">DIAS DE SEQUÊNCIA</span>
-                </div>
+              <div className="my-8">
+                <h3 className="text-xl md:text-2xl font-black text-theme-text tracking-tight">{habit.title}</h3>
+                <span className="text-orange-500 font-black text-base flex items-center gap-1 mt-2">
+                  <span className="material-symbols-outlined !text-lg">local_fire_department</span> {habit.streak} Dias
+                </span>
               </div>
               
               <button 
                 onClick={() => onToggle(habit.id)}
-                className={`w-full py-4.5 rounded-2xl font-black text-[11px] uppercase tracking-widest transition-all active:scale-[0.98] flex items-center justify-center gap-3 shadow-glow ${
-                  isDone 
-                  ? 'bg-theme-bg text-theme-muted cursor-default border border-theme-border' 
-                  : 'bg-theme-accent text-theme-card hover:opacity-95'
-                }`}
+                className={isDone ? 'btn-action-secondary opacity-50' : 'btn-action-primary'}
+                disabled={isDone}
               >
-                {isDone ? (
-                  <>
-                    <span className="material-symbols-outlined !text-lg">task_alt</span>
-                    CONCLUÍDO HOJE
-                  </>
-                ) : (
-                  <>
-                    <span className="material-symbols-outlined !text-lg">check_circle</span>
-                    MARCAR COMO FEITO
-                  </>
-                )}
+                {isDone ? 'CONCLUÍDO HOJE' : 'MARCAR COMO FEITO'}
               </button>
             </div>
           );
