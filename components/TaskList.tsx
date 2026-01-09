@@ -123,12 +123,12 @@ const TaskList: React.FC<TaskListProps> = ({ tasks, onToggle, onDelete, onAdd, u
 
                 <div className="space-y-3 relative">
                   <label className="text-[10px] font-black uppercase text-theme-muted tracking-widest opacity-40 block text-center">Data Entrega</label>
-                  <input type="date" value={newDueDate} onChange={e => setNewDueDate(e.target.value)} className="input-premium text-[12px]" />
+                  <input type="date" value={newDueDate} onChange={e => setNewDueDate(e.target.value)} className="input-premium" />
                 </div>
 
                 <div className="space-y-3 relative">
                   <label className="text-[10px] font-black uppercase text-theme-muted tracking-widest opacity-40 block text-center">Lembrete</label>
-                  <input type="time" value={newReminderTime} onChange={e => setNewReminderTime(e.target.value)} className="input-premium text-[12px]" />
+                  <input type="time" value={newReminderTime} onChange={e => setNewReminderTime(e.target.value)} className="input-premium" />
                 </div>
               </div>
             </div>

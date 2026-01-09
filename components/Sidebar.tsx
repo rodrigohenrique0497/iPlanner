@@ -67,7 +67,7 @@ const Sidebar: React.FC<SidebarProps> = ({ currentView, setView, user, onLogout,
               <button
                 key={item.id}
                 onClick={() => handleNavClick(item.id as ViewState)}
-                className={`w-full flex items-center space-x-3.5 px-4 py-2 rounded-xl transition-all duration-200 group relative ${
+                className={`w-full flex items-center space-x-3.5 px-4 py-1.5 rounded-xl transition-all duration-200 group relative ${
                   isActive
                     ? 'bg-theme-accent text-theme-card font-black shadow-glow'
                     : 'text-theme-text opacity-70 hover:opacity-100 hover:bg-theme-accent-soft'
