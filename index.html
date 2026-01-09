@@ -45,8 +45,8 @@
             boxShadow: {
               premium: "var(--shadow-main)",
               glow: "var(--shadow-glow)",
-              /* Sombra Ultra Seamless - Sem bordas aparentes */
-              glass: "0 20px 60px -15px rgba(0, 0, 0, 0.12), 0 10px 30px -10px rgba(0, 0, 0, 0.05)",
+              /* Sombra Líquida - Sem transições duras */
+              glass: "0 40px 100px -20px rgba(0, 0, 0, 0.12), 0 20px 40px -15px rgba(0, 0, 0, 0.04)",
             },
             borderRadius: {
               planner: "var(--radius-planner)",
@@ -62,73 +62,80 @@
       :root {
         --bg-main: #f8fafc;
         --bg-card: #ffffff;
-        --bg-glass: rgba(255, 255, 255, 0.65);
+        --bg-glass: rgba(255, 255, 255, 0.5);
         --text-main: #0f172a;
         --text-muted: #64748b;
         --accent-main: #0f172a;
         --accent-soft: rgba(15, 23, 42, 0.05);
         --border-color: #e2e8f0;
-        --shadow-main: 0 25px 50px -12px rgba(0, 0, 0, 0.04);
-        --shadow-glow: 0 0 15px 0 rgba(15, 23, 42, 0.06);
-        --radius-planner: 2rem;
-        --radius-planner-sm: 1rem;
+        --shadow-main: 0 30px 60px -12px rgba(0, 0, 0, 0.03);
+        --shadow-glow: 0 0 20px 0 rgba(15, 23, 42, 0.05);
+        --radius-planner: 2.5rem;
+        --radius-planner-sm: 1.25rem;
       }
 
       .theme-dark {
         --bg-main: #020617;
         --bg-card: #0f172a;
-        --bg-glass: rgba(15, 23, 42, 0.65);
+        --bg-glass: rgba(15, 23, 42, 0.5);
         --text-main: #f8fafc;
         --text-muted: #94a3b8;
         --accent-main: #f1f5f9;
         --accent-soft: rgba(241, 245, 249, 0.08);
         --border-color: #1e293b;
-        --shadow-main: 0 25px 50px -12px rgba(0, 0, 0, 0.2);
+        --shadow-main: 0 30px 60px -12px rgba(0, 0, 0, 0.25);
       }
 
       .theme-rosa {
         --bg-main: #fff1f2;
         --bg-card: #ffffff;
-        --bg-glass: rgba(255, 255, 255, 0.65);
+        --bg-glass: rgba(255, 255, 255, 0.5);
         --text-main: #881337;
         --text-muted: #e11d48;
         --accent-main: #fb7185;
         --accent-soft: rgba(251, 113, 133, 0.1);
         --border-color: #fecdd3;
-        --shadow-main: 0 25px 50px -12px rgba(136, 19, 55, 0.06);
+        --shadow-main: 0 30px 60px -12px rgba(136, 19, 55, 0.05);
       }
 
       .theme-azul {
         --bg-main: #eff6ff;
         --bg-card: #ffffff;
-        --bg-glass: rgba(255, 255, 255, 0.65);
+        --bg-glass: rgba(255, 255, 255, 0.5);
         --text-main: #1e3a8a;
         --text-muted: #2563eb;
         --accent-main: #3b82f6;
         --accent-soft: rgba(59, 130, 246, 0.1);
         --border-color: #dbeafe;
-        --shadow-main: 0 25px 50px -12px rgba(30, 58, 138, 0.06);
+        --shadow-main: 0 30px 60px -12px rgba(30, 58, 138, 0.05);
       }
 
-      /* Vidro Seamless iOS Style */
+      /* Liquid Glass Backdrop */
+      .modal-backdrop {
+        position: fixed;
+        inset: 0;
+        z-index: 100;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 1.5rem;
+        background-color: rgba(0, 0, 0, 0.15);
+        backdrop-filter: blur(64px) saturate(200%);
+        -webkit-backdrop-filter: blur(64px) saturate(200%);
+        animation: liquidFade 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+
+      @keyframes liquidFade {
+        from { opacity: 0; backdrop-filter: blur(0px) saturate(100%); }
+        to { opacity: 1; backdrop-filter: blur(64px) saturate(200%); }
+      }
+
       .glass-header-mobile {
-        backdrop-filter: blur(32px) saturate(180%);
-        -webkit-backdrop-filter: blur(32px) saturate(180%);
+        backdrop-filter: blur(40px) saturate(180%);
+        -webkit-backdrop-filter: blur(40px) saturate(180%);
         background: var(--bg-glass);
-        border-bottom: 0.5px solid rgba(255, 255, 255, 0.1);
+        border-bottom: 0.5px solid rgba(255, 255, 255, 0.08);
         padding-top: env(safe-area-inset-top, 24px);
-      }
-
-      .glass-mobile-nav {
-        backdrop-filter: blur(32px) saturate(180%);
-        -webkit-backdrop-filter: blur(32px) saturate(180%);
-        background: var(--bg-glass);
-        border: 0.5px solid rgba(255, 255, 255, 0.1);
-      }
-
-      /* Shadow Glow suave */
-      .shadow-glow-seamless {
-        box-shadow: 0 0 40px -10px var(--accent-soft);
       }
 
       body {
@@ -136,91 +143,34 @@
         background: var(--bg-main);
         color: var(--text-main);
         -webkit-font-smoothing: antialiased;
-        transition: background 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        transition: background 0.6s cubic-bezier(0.16, 1, 0.3, 1);
         margin: 0;
         overflow-x: hidden;
       }
 
       .page-transition {
-        animation: fadeIn 0.5s ease-out;
+        animation: pageFadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1);
       }
 
-      @keyframes fadeIn {
-        from { opacity: 0; transform: translateY(4px); }
-        to { opacity: 1; transform: translateY(0); }
+      @keyframes pageFadeIn {
+        from { opacity: 0; transform: scale(0.98); }
+        to { opacity: 1; transform: scale(1); }
       }
 
       .no-scrollbar::-webkit-scrollbar { display: none; }
       .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
-      /* Inputs & Botões Robustos */
-      input, select, textarea {
+      /* Modais Liquid Glass */
+      .modal-container {
         background: var(--bg-card);
-        color: var(--text-main);
-        min-height: 3.75rem; 
-        font-weight: 600;
-        padding-left: 1.75rem;
-        padding-right: 1.75rem;
-        border-radius: 1.25rem;
-        border: 1px solid var(--border-color);
-        outline: none;
-      }
-      
-      .btn-action-primary {
-        height: 3.75rem;
-        padding-left: 2rem;
-        padding-right: 2rem;
-        border-radius: 1.25rem;
-        font-weight: 800;
-        text-transform: uppercase;
-        letter-spacing: 0.15em;
-        font-size: 0.75rem;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        gap: 0.75rem;
-        background-color: var(--accent-main);
-        color: var(--bg-card);
-        cursor: pointer;
-        border: none;
-        transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 40px 120px -20px rgba(0, 0, 0, 0.2);
+        animation: modalEntrance 0.5s cubic-bezier(0.16, 1, 0.3, 1);
       }
 
-      .btn-action-primary:active { transform: scale(0.96); }
-
-      .btn-action-secondary {
-        height: 3.75rem;
-        padding-left: 2rem;
-        padding-right: 2rem;
-        border-radius: 1.25rem;
-        font-weight: 800;
-        text-transform: uppercase;
-        letter-spacing: 0.15em;
-        font-size: 0.75rem;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        gap: 0.75rem;
-        border: 1px solid var(--border-color);
-        background: var(--bg-card);
-        color: var(--text-muted);
-        cursor: pointer;
-        transition: all 0.2s;
-      }
-
-      .btn-action-secondary:active { transform: scale(0.96); }
-
-      .btn-close-modal {
-        width: 3rem;
-        height: 3rem;
-        border-radius: 1rem;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background: var(--bg-main);
-        color: var(--text-muted);
-        transition: all 0.2s;
-        cursor: pointer;
+      @keyframes modalEntrance {
+        from { opacity: 0; transform: translateY(40px) scale(0.92); }
+        to { opacity: 1; transform: translateY(0) scale(1); }
       }
     </style>
   
@@ -232,8 +182,8 @@
     "react/": "https://esm.sh/react@^19.2.3/",
     "@supabase/supabase-js": "https://esm.sh/@supabase/supabase-js@^2.89.0",
     "vite": "https://esm.sh/vite@^7.3.1",
-    "@vitejs/plugin-react": "https://esm.sh/@vitejs/plugin-react@^5.1.2",
-    "vite-plugin-pwa": "https://esm.sh/vite-plugin-pwa@^1.2.0"
+    "vite-plugin-pwa": "https://esm.sh/vite-plugin-pwa@^1.2.0",
+    "@vitejs/plugin-react": "https://esm.sh/@vitejs/plugin-react@^5.1.2"
   }
 }
 </script>

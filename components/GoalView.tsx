@@ -42,25 +42,35 @@ const GoalView: React.FC<GoalViewProps> = ({ type, goals, onAdd, onUpdate }) => 
         
         <button 
           onClick={() => setIsAdding(true)} 
-          className="w-12 h-12 md:w-14 md:h-14 bg-theme-accent text-theme-card rounded-full flex items-center justify-center shadow-premium hover:scale-105 active:scale-95 transition-all shrink-0"
+          className="w-12 h-12 md:w-14 md:h-14 bg-theme-accent text-theme-card rounded-2xl flex items-center justify-center shadow-premium hover:scale-105 active:scale-95 transition-all shrink-0"
         >
           <span className="material-symbols-outlined !text-3xl leading-none">add</span>
         </button>
       </div>
 
       {isAdding && (
-        <div className="bg-theme-card p-8 md:p-10 rounded-planner border border-theme-border shadow-premium animate-in fade-in zoom-in duration-300 space-y-8">
-          <input 
-            autoFocus
-            type="text" 
-            placeholder="Qual o seu grande objetivo?" 
-            className="w-full text-xl md:text-2xl font-black p-4 bg-theme-bg rounded-2xl outline-none border border-theme-border focus:border-theme-accent transition-all text-theme-text placeholder:opacity-30"
-            value={newTitle}
-            onChange={e => setNewTitle(e.target.value)}
-          />
-          <div className="flex gap-4">
-            <button onClick={handleAdd} className="flex-1 py-4 bg-theme-accent text-theme-card rounded-2xl font-black uppercase tracking-widest hover:opacity-95 shadow-glow active:scale-95 transition-all text-xs">Adicionar</button>
-            <button onClick={() => setIsAdding(false)} className="px-8 py-4 bg-theme-bg text-theme-muted rounded-2xl font-black uppercase tracking-widest border border-theme-border active:scale-95 transition-all text-xs">Cancelar</button>
+        <div className="modal-backdrop">
+          <div className="modal-container w-full max-w-xl p-8 md:p-12 rounded-planner space-y-10 relative">
+            <div className="flex justify-between items-center">
+              <h3 className="text-2xl font-black text-theme-text">Definir Meta</h3>
+              <button onClick={() => setIsAdding(false)} className="btn-close-modal">
+                <span className="material-symbols-outlined">close</span>
+              </button>
+            </div>
+            <div className="space-y-6">
+              <input 
+                autoFocus
+                type="text" 
+                placeholder="Qual o seu grande objetivo?" 
+                className="w-full h-16 bg-theme-bg px-7 rounded-2xl border border-theme-border outline-none font-bold text-lg text-theme-text"
+                value={newTitle}
+                onChange={e => setNewTitle(e.target.value)}
+              />
+            </div>
+            <div className="flex flex-col gap-4">
+              <button onClick={handleAdd} className="btn-action-primary shadow-glow">Adicionar Meta</button>
+              <button onClick={() => setIsAdding(false)} className="btn-action-secondary">Cancelar</button>
+            </div>
           </div>
         </div>
       )}

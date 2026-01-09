@@ -10,6 +10,7 @@ interface HabitTrackerProps {
 }
 
 const HabitTracker: React.FC<HabitTrackerProps> = ({ habits, onToggle, onAdd, onDelete }) => {
+  const [isAdding, setIsAdding] = useState(false);
   const [newTitle, setNewTitle] = useState('');
   const today = new Date().toISOString().split('T')[0];
 
@@ -24,30 +25,50 @@ const HabitTracker: React.FC<HabitTrackerProps> = ({ habits, onToggle, onAdd, on
       color: colors[Math.floor(Math.random() * colors.length)]
     });
     setNewTitle('');
+    setIsAdding(false);
   };
 
   return (
     <div className="max-w-4xl mx-auto p-6 md:p-10 space-y-10 md:space-y-12 page-transition pb-32">
-      <div className="space-y-4">
-        <h2 className="text-4xl md:text-5xl font-black text-theme-text tracking-tighter">Hábitos</h2>
-        <p className="text-theme-muted font-medium text-base md:text-lg italic opacity-80">"Somos o que repetidamente fazemos."</p>
+      <div className="flex justify-between items-end">
+        <div className="space-y-4">
+          <h2 className="text-4xl md:text-5xl font-black text-theme-text tracking-tighter">Hábitos</h2>
+          <p className="text-theme-muted font-medium text-base md:text-lg italic opacity-80">"Somos o que repetidamente fazemos."</p>
+        </div>
+        <button 
+          onClick={() => setIsAdding(true)}
+          className="w-16 h-16 bg-theme-accent text-theme-card rounded-2xl flex items-center justify-center shadow-premium hover:scale-105 active:scale-95 transition-all shrink-0"
+        >
+          <span className="material-symbols-outlined !text-3xl">add</span>
+        </button>
       </div>
 
-      <form onSubmit={handleAdd} className="flex gap-4 items-center bg-theme-card p-3 rounded-[2rem] border border-theme-border shadow-sm">
-        <input 
-          type="text" 
-          value={newTitle}
-          onChange={(e) => setNewTitle(e.target.value)}
-          placeholder="Novo hábito..." 
-          className="flex-1 bg-transparent px-4 py-2.5 outline-none font-bold text-theme-text placeholder:opacity-40"
-        />
-        <button 
-          type="submit" 
-          className="w-12 h-12 bg-theme-accent text-theme-card rounded-full flex items-center justify-center shadow-premium hover:scale-105 active:scale-95 transition-all shrink-0"
-        >
-          <span className="material-symbols-outlined !text-2xl leading-none">add</span>
-        </button>
-      </form>
+      {isAdding && (
+        <div className="modal-backdrop">
+          <form onSubmit={handleAdd} className="modal-container w-full max-w-xl p-8 md:p-12 rounded-planner space-y-10 relative">
+            <div className="flex justify-between items-center">
+              <h3 className="text-2xl font-black text-theme-text">Novo Hábito</h3>
+              <button type="button" onClick={() => setIsAdding(false)} className="btn-close-modal">
+                <span className="material-symbols-outlined">close</span>
+              </button>
+            </div>
+            <div className="space-y-6">
+              <input 
+                autoFocus
+                type="text" 
+                value={newTitle}
+                onChange={(e) => setNewTitle(e.target.value)}
+                placeholder="Qual hábito quer cultivar?" 
+                className="w-full h-16 bg-theme-bg px-7 rounded-2xl border border-theme-border outline-none font-bold text-lg text-theme-text"
+              />
+            </div>
+            <div className="flex flex-col gap-4">
+              <button type="submit" className="btn-action-primary shadow-glow">Começar Jornada</button>
+              <button type="button" onClick={() => setIsAdding(false)} className="btn-action-secondary">Cancelar</button>
+            </div>
+          </form>
+        </div>
+      )}
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {habits.map(habit => {

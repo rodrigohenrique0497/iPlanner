@@ -116,7 +116,6 @@ const Sidebar: React.FC<SidebarProps> = ({ currentView, setView, user, onLogout,
               <span className="text-[11px] font-extrabold uppercase tracking-[0.2em]">Sair da conta</span>
             </button>
           </div>
-          <p className="text-[8px] text-center mt-5 font-black text-theme-muted uppercase tracking-[0.5em] opacity-20">iPlanner Premium</p>
         </div>
       </aside>
     </>

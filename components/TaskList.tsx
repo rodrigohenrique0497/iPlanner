@@ -94,7 +94,7 @@ const TaskList: React.FC<TaskListProps> = ({ tasks, onToggle, onDelete, onAdd, u
           </button>
           <button
             onClick={() => setIsAdding(!isAdding)}
-            className={`w-14 h-14 rounded-2xl flex items-center justify-center shadow-premium transition-all active:scale-90 ${isAdding ? 'bg-rose-500 text-white rotate-45' : 'bg-theme-accent text-theme-card'}`}
+            className="w-14 h-14 rounded-2xl flex items-center justify-center shadow-premium transition-all active:scale-90 bg-theme-accent text-theme-card"
           >
             <span className="material-symbols-outlined !text-[2.5rem]">add</span>
           </button>
@@ -102,96 +102,102 @@ const TaskList: React.FC<TaskListProps> = ({ tasks, onToggle, onDelete, onAdd, u
       </header>
 
       {isManagingCats && (
-        <div className="bg-theme-card p-6 md:p-10 rounded-planner border border-theme-border shadow-premium space-y-8 animate-in slide-in-from-top-4 duration-300 relative">
-          <div className="flex justify-between items-center">
-            <h3 className="text-[11px] font-black uppercase tracking-[0.25em] text-theme-muted">Gerenciar Categorias</h3>
-            <button onClick={() => setIsManagingCats(false)} className="btn-close-modal">
-              <span className="material-symbols-outlined">close</span>
-            </button>
-          </div>
-          <div className="flex flex-wrap gap-2.5">
-            {userCategories.map(cat => (
-              <div key={cat} className="flex items-center gap-3 px-5 py-2.5 bg-theme-bg rounded-xl border border-theme-border group">
-                <span className="text-xs font-bold text-theme-text">{cat}</span>
-                {cat !== 'Geral' && (
-                  <button onClick={() => removeCategory(cat)} className="text-theme-muted hover:text-rose-500 transition-colors">
-                    <span className="material-symbols-outlined !text-[20px]">close</span>
-                  </button>
-                )}
-              </div>
-            ))}
-          </div>
-          <div className="flex flex-col sm:flex-row gap-4 pt-2">
-            <input 
-              type="text" 
-              placeholder="Nova categoria..." 
-              value={tempCategory}
-              onChange={e => setTempCategory(e.target.value)}
-              className="flex-1 px-7 h-[3.75rem] bg-theme-bg border border-theme-border rounded-2xl text-sm font-bold outline-none focus:border-theme-accent transition-all"
-            />
-            <button onClick={handleAddCategory} className="btn-action-primary !h-[3.75rem] shadow-glow">Adicionar</button>
+        <div className="modal-backdrop">
+          <div className="modal-container w-full max-w-xl p-8 md:p-12 rounded-planner space-y-10 relative">
+            <div className="flex justify-between items-center">
+              <h3 className="text-2xl font-black text-theme-text">Categorias</h3>
+              <button onClick={() => setIsManagingCats(false)} className="btn-close-modal">
+                <span className="material-symbols-outlined">close</span>
+              </button>
+            </div>
+            <div className="flex flex-wrap gap-2.5">
+              {userCategories.map(cat => (
+                <div key={cat} className="flex items-center gap-3 px-5 py-2.5 bg-theme-bg rounded-xl border border-theme-border group">
+                  <span className="text-xs font-bold text-theme-text">{cat}</span>
+                  {cat !== 'Geral' && (
+                    <button onClick={() => removeCategory(cat)} className="text-theme-muted hover:text-rose-500 transition-colors">
+                      <span className="material-symbols-outlined !text-[20px]">close</span>
+                    </button>
+                  )}
+                </div>
+              ))}
+            </div>
+            <div className="flex flex-col gap-4">
+              <input 
+                type="text" 
+                placeholder="Nova categoria..." 
+                value={tempCategory}
+                onChange={e => setTempCategory(e.target.value)}
+                className="w-full px-7 h-[3.75rem] bg-theme-bg border border-theme-border rounded-2xl text-sm font-bold outline-none"
+              />
+              <button onClick={handleAddCategory} className="btn-action-primary shadow-glow">Adicionar Categoria</button>
+              <button onClick={() => setIsManagingCats(false)} className="btn-action-secondary">Fechar</button>
+            </div>
           </div>
         </div>
       )}
 
       {isAdding && (
-        <form onSubmit={handleSubmit} className="bg-theme-card p-8 md:p-12 rounded-planner border border-theme-border shadow-premium space-y-10 animate-in slide-in-from-bottom-4 duration-300 relative">
-          <div className="flex justify-between items-center">
-            <span className="text-[10px] font-black uppercase tracking-widest text-theme-accent opacity-60">Novo Registro</span>
-            <button type="button" onClick={() => setIsAdding(false)} className="btn-close-modal">
-              <span className="material-symbols-outlined">close</span>
-            </button>
-          </div>
-          
-          <input 
-            autoFocus
-            type="text" 
-            placeholder="Qual o próximo passo?"
-            value={newTitle}
-            onChange={e => setNewTitle(e.target.value)}
-            className="w-full text-2xl md:text-3xl font-black bg-transparent border-none outline-none text-theme-text placeholder:opacity-30 p-0 min-h-0"
-          />
-          
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
-            <div className="space-y-3">
-               <label className="text-[10px] font-black uppercase text-theme-muted opacity-60 ml-3 tracking-widest">Categoria</label>
-               <select value={newCategory} onChange={e => setNewCategory(e.target.value)} className="w-full px-6 h-[3.75rem] rounded-2xl uppercase outline-none border border-theme-border cursor-pointer appearance-none text-xs tracking-widest bg-theme-bg">
-                 {userCategories.map(c => <option key={c} value={c}>{c}</option>)}
-               </select>
+        <div className="modal-backdrop">
+          <form onSubmit={handleSubmit} className="modal-container w-full max-w-xl p-8 md:p-12 rounded-planner space-y-10 relative">
+            <div className="flex justify-between items-center">
+              <h3 className="text-2xl font-black text-theme-text">Nova Tarefa</h3>
+              <button type="button" onClick={() => setIsAdding(false)} className="btn-close-modal">
+                <span className="material-symbols-outlined">close</span>
+              </button>
             </div>
             
-            <div className="space-y-3">
-               <label className="text-[10px] font-black uppercase text-theme-muted opacity-60 ml-3 tracking-widest">Prioridade</label>
-               <div className="flex bg-theme-bg p-1.5 rounded-2xl border border-theme-border h-[3.75rem] items-center shadow-inner">
-                  {[
-                    { id: Priority.LOW, label: 'Baixa' },
-                    { id: Priority.MEDIUM, label: 'Média' },
-                    { id: Priority.HIGH, label: 'Alta' }
-                  ].map(p => (
-                    <button 
-                      key={p.id}
-                      type="button"
-                      onClick={() => setNewPriority(p.id)}
-                      className={`flex-1 h-full rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${newPriority === p.id ? 'bg-theme-accent text-theme-card shadow-sm' : 'text-theme-muted opacity-50'}`}
-                    >
-                      {p.label}
-                    </button>
-                  ))}
-               </div>
-            </div>
+            <div className="space-y-8">
+              <input 
+                autoFocus
+                type="text" 
+                placeholder="Qual o próximo passo?"
+                value={newTitle}
+                onChange={e => setNewTitle(e.target.value)}
+                className="w-full text-2xl font-black bg-transparent border-none outline-none text-theme-text placeholder:opacity-20 p-0"
+              />
+              
+              <div className="space-y-4">
+                <div className="space-y-2">
+                  <label className="text-[10px] font-black uppercase text-theme-muted ml-3 tracking-widest">Categoria</label>
+                  <select value={newCategory} onChange={e => setNewCategory(e.target.value)} className="w-full px-6 h-[3.75rem] rounded-2xl uppercase outline-none border border-theme-border bg-theme-bg text-xs font-black">
+                    {userCategories.map(c => <option key={c} value={c}>{c}</option>)}
+                  </select>
+                </div>
+                
+                <div className="space-y-2">
+                  <label className="text-[10px] font-black uppercase text-theme-muted ml-3 tracking-widest">Prioridade</label>
+                  <div className="flex bg-theme-bg p-1.5 rounded-2xl border border-theme-border h-16 items-center">
+                    {[
+                      { id: Priority.LOW, label: 'Baixa' },
+                      { id: Priority.MEDIUM, label: 'Média' },
+                      { id: Priority.HIGH, label: 'Alta' }
+                    ].map(p => (
+                      <button 
+                        key={p.id}
+                        type="button"
+                        onClick={() => setNewPriority(p.id)}
+                        className={`flex-1 h-full rounded-xl text-[10px] font-black uppercase transition-all ${newPriority === p.id ? 'bg-theme-accent text-theme-card shadow-sm' : 'text-theme-muted opacity-50'}`}
+                      >
+                        {p.label}
+                      </button>
+                    ))}
+                  </div>
+                </div>
 
-            <div className="space-y-3">
-               <label className="text-[10px] font-black uppercase text-theme-muted opacity-60 ml-3 tracking-widest">Data Limite</label>
-               <input type="date" value={newDueDate} onChange={e => setNewDueDate(e.target.value)} className="w-full px-6 h-[3.75rem] rounded-2xl outline-none border border-theme-border text-xs font-black bg-theme-bg" />
+                <div className="space-y-2">
+                  <label className="text-[10px] font-black uppercase text-theme-muted ml-3 tracking-widest">Data Limite</label>
+                  <input type="date" value={newDueDate} onChange={e => setNewDueDate(e.target.value)} className="w-full px-6 h-[3.75rem] rounded-2xl outline-none border border-theme-border bg-theme-bg text-xs font-black" />
+                </div>
+              </div>
             </div>
-          </div>
-          
-          {/* Padronização de Ordem: Salvar antes de Cancelar */}
-          <div className="flex flex-col sm:flex-row justify-end pt-4 gap-4">
-            <button type="submit" className="btn-action-primary shadow-glow w-full sm:w-auto">Agendar Tarefa</button>
-            <button type="button" onClick={() => setIsAdding(false)} className="btn-action-secondary w-full sm:w-auto">Cancelar</button>
-          </div>
-        </form>
+            
+            <div className="flex flex-col gap-4">
+              <button type="submit" className="btn-action-primary shadow-glow">Agendar Tarefa</button>
+              <button type="button" onClick={() => setIsAdding(false)} className="btn-action-secondary">Cancelar</button>
+            </div>
+          </form>
+        </div>
       )}
 
       {/* Filtros Padronizados */}
@@ -256,7 +262,6 @@ const TaskList: React.FC<TaskListProps> = ({ tasks, onToggle, onDelete, onAdd, u
                 <p className={`font-bold text-[17px] md:text-[18px] tracking-tight truncate ${task.completed ? 'line-through text-theme-muted' : 'text-theme-text'}`}>
                   {task.title}
                 </p>
-                {/* Flex-wrap nas badges para evitar transbordo em telas estreitas */}
                 <div className="flex flex-wrap items-center gap-2 mt-2">
                    <span className={`text-[9px] font-black uppercase tracking-[0.15em] px-2.5 py-1.5 rounded-lg whitespace-nowrap ${task.completed ? 'bg-theme-muted/10 text-theme-muted' : 'bg-theme-accent-soft text-theme-accent'}`}>
                      {task.category}
