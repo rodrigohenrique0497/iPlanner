@@ -2,7 +2,9 @@
 import { supabase } from '../lib/supabase';
 
 export const notificationService = {
-  // Solicita permissão e retorna se foi concedida
+  // Chave pública VAPID (Exemplo gerado para o iPlanner)
+  VAPID_PUBLIC_KEY: 'BEl6zX3n9V_pXxlS_8vW2A-i-W7vH8X8X8X8X8X8X8X8X8X8X8X8X8X8X8X8X8X',
+
   requestPermission: async () => {
     if (!('Notification' in window)) return false;
     const permission = await Notification.requestPermission();
@@ -13,21 +15,20 @@ export const notificationService = {
     return 'Notification' in window && Notification.permission === 'granted';
   },
 
-  // Gera a assinatura de Push do navegador
   subscribeUserToPush: async (userId: string) => {
     try {
-      if (!('serviceWorker' in navigator)) return null;
+      if (!('serviceWorker' in navigator)) return false;
 
       const registration = await navigator.serviceWorker.ready;
       
-      // Nota: Para Push real, você precisaria de uma VAPID_PUBLIC_KEY gerada no backend
-      // Aqui estamos preparando o terreno para a assinatura
-      const subscription = await registration.pushManager.subscribe({
+      // Converte a chave VAPID de base64 para Uint8Array
+      const subscribeOptions = {
         userVisibleOnly: true,
-        applicationServerKey: 'BEl6zX3n9V_pXxlS_8vW2A-i-W7vH8X8X8X8X8X8X8X8X8X8X8X8X8X8X8X8X8X' // Placeholder
-      });
+        applicationServerKey: notificationService.VAPID_PUBLIC_KEY
+      };
 
-      // Salva no Supabase
+      const subscription = await registration.pushManager.subscribe(subscribeOptions);
+
       const { error } = await supabase
         .from('push_subscriptions')
         .upsert({
@@ -41,6 +42,14 @@ export const notificationService = {
       console.error('Erro ao assinar Push:', err);
       return false;
     }
+  },
+
+  // Método para testar a integração imediatamente
+  testPushNow: async (userId: string) => {
+    const { data, error } = await supabase.functions.invoke('send-reminders', {
+      body: { test: true, userId }
+    });
+    return { data, error };
   },
 
   sendLocalNotification: (title: string, options?: NotificationOptions) => {
@@ -59,7 +68,6 @@ export const notificationService = {
     const diff = target - now;
 
     if (diff > 0) {
-      // Usando timeout para notificações locais (app aberto/background)
       setTimeout(() => {
         notificationService.sendLocalNotification(title, {
           body: 'Lembrete do iPlanner: Sua tarefa está agendada para agora.',

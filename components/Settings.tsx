@@ -15,6 +15,7 @@ const Settings: React.FC<SettingsProps> = ({ user, onUpdate, onLogout, onExport 
   const [name, setName] = useState(user.name);
   const [goal, setGoal] = useState(user.focusGoal);
   const [pushEnabled, setPushEnabled] = useState(notificationService.hasPermission());
+  const [isTesting, setIsTesting] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const themes: { id: ThemeType; label: string; icon: string; description: string; colorClass: string }[] = [
@@ -30,60 +31,23 @@ const Settings: React.FC<SettingsProps> = ({ user, onUpdate, onLogout, onExport 
       const success = await notificationService.subscribeUserToPush(user.id);
       if (success) {
         setPushEnabled(true);
-        alert("Notificações Push ativadas com sucesso!");
       }
     } else {
-      alert("Permissão de notificação negada.");
+      alert("Permissão de notificação negada no navegador.");
     }
   };
 
-  const handleExportData = () => {
-    const allData = {
-      user,
-      tasks: JSON.parse(localStorage.getItem(`iplanner_local_tasks_${user.id}`) || '[]'),
-      habits: JSON.parse(localStorage.getItem(`iplanner_local_habits_${user.id}`) || '[]'),
-      goals: JSON.parse(localStorage.getItem(`iplanner_local_goals_${user.id}`) || '[]'),
-      notes: JSON.parse(localStorage.getItem(`iplanner_local_notes_${user.id}`) || '[]'),
-      finance: JSON.parse(localStorage.getItem(`iplanner_local_finance_${user.id}`) || '[]')
-    };
-
-    const blob = new Blob([JSON.stringify(allData, null, 2)], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `iplanner_backup_${new Date().toISOString().split('T')[0]}.json`;
-    a.click();
-  };
-
-  const handleImportClick = () => {
-    fileInputRef.current?.click();
-  };
-
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (!file) return;
-
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      try {
-        const json = JSON.parse(e.target?.result as string);
-        if (json.user) {
-          const confirmImport = window.confirm("Substituir todos os dados atuais?");
-          if (!confirmImport) return;
-          const uid = user.id;
-          localStorage.setItem(`iplanner_local_profile_${uid}`, JSON.stringify({ ...json.user, id: uid }));
-          if (json.tasks) localStorage.setItem(`iplanner_local_tasks_${uid}`, JSON.stringify(json.tasks));
-          if (json.habits) localStorage.setItem(`iplanner_local_habits_${uid}`, JSON.stringify(json.habits));
-          if (json.goals) localStorage.setItem(`iplanner_local_goals_${uid}`, JSON.stringify(json.goals));
-          if (json.notes) localStorage.setItem(`iplanner_local_notes_${uid}`, JSON.stringify(json.notes));
-          if (json.finance) localStorage.setItem(`iplanner_local_finance_${uid}`, JSON.stringify(json.finance));
-          window.location.reload();
-        }
-      } catch (err) {
-        alert("Erro ao ler o arquivo.");
-      }
-    };
-    reader.readAsText(file);
+  const handleTestPush = async () => {
+    setIsTesting(true);
+    try {
+      const { error } = await notificationService.testPushNow(user.id);
+      if (error) throw error;
+      alert("Comando de teste enviado à Edge Function!");
+    } catch (err) {
+      alert("Erro ao testar: " + (err as any).message);
+    } finally {
+      setIsTesting(false);
+    }
   };
 
   return (
@@ -110,15 +74,26 @@ const Settings: React.FC<SettingsProps> = ({ user, onUpdate, onLogout, onExport 
         <div className="flex flex-col md:flex-row items-center justify-between gap-6 bg-theme-bg p-8 rounded-[2rem] border border-theme-border">
           <div className="text-center md:text-left">
             <p className="font-black text-theme-text text-lg">Alertas em Tempo Real</p>
-            <p className="text-theme-muted text-[10px] font-bold uppercase tracking-widest mt-1">Receba lembretes mesmo com o iPlanner fechado.</p>
+            <p className="text-theme-muted text-[10px] font-bold uppercase tracking-widest mt-1">Sincronizado com o Supabase SQL.</p>
           </div>
-          <button 
-            onClick={handleTogglePush}
-            disabled={pushEnabled}
-            className={`px-8 h-[3.75rem] rounded-2xl font-black text-[10px] uppercase tracking-widest transition-all ${pushEnabled ? 'bg-emerald-500 text-white cursor-default' : 'bg-theme-accent text-theme-card hover:shadow-glow active:scale-95'}`}
-          >
-            {pushEnabled ? 'ATIVADO' : 'ATIVAR WEB PUSH'}
-          </button>
+          <div className="flex gap-3">
+            {pushEnabled && (
+              <button 
+                onClick={handleTestPush}
+                disabled={isTesting}
+                className="px-6 h-[3.75rem] rounded-2xl font-black text-[10px] uppercase tracking-widest border-2 border-theme-accent text-theme-accent hover:bg-theme-accent hover:text-theme-card transition-all"
+              >
+                {isTesting ? '...' : 'TESTAR'}
+              </button>
+            )}
+            <button 
+              onClick={handleTogglePush}
+              disabled={pushEnabled}
+              className={`px-8 h-[3.75rem] rounded-2xl font-black text-[10px] uppercase tracking-widest transition-all ${pushEnabled ? 'bg-emerald-500 text-white cursor-default' : 'bg-theme-accent text-theme-card hover:shadow-glow'}`}
+            >
+              {pushEnabled ? 'ATIVADO' : 'ATIVAR PUSH'}
+            </button>
+          </div>
         </div>
       </div>
 
@@ -155,16 +130,6 @@ const Settings: React.FC<SettingsProps> = ({ user, onUpdate, onLogout, onExport 
           <input type="text" value={goal} onChange={e => setGoal(e.target.value)} className="input-premium" placeholder="Foco Principal" />
         </div>
         <button onClick={() => onUpdate({ name, focusGoal: goal })} className="btn-action-primary">Salvar Alterações</button>
-      </div>
-
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-        <button onClick={handleExportData} className="btn-action-secondary h-[4.5rem] flex items-center justify-center gap-3">
-          <span className="material-symbols-outlined">download</span> EXPORTAR
-        </button>
-        <button onClick={handleImportClick} className="btn-action-secondary h-[4.5rem] flex items-center justify-center gap-3">
-          <span className="material-symbols-outlined">upload</span> IMPORTAR
-        </button>
-        <input type="file" ref={fileInputRef} onChange={handleFileChange} accept=".json" className="hidden" />
       </div>
 
       <div className="bg-rose-500/5 p-10 rounded-planner border border-rose-500/20 flex flex-col md:flex-row items-center justify-between gap-8">
