@@ -109,16 +109,16 @@
         --shadow-main: 0 30px 60px -12px rgba(30, 58, 138, 0.05);
       }
 
-      /* Liquid Glass Backdrop - Imersão Absoluta */
+      /* Backdrop Liquid Glass - Cobertura 100% (Header + Nav) */
       .modal-backdrop {
         position: fixed;
         inset: 0;
-        z-index: 2000; /* Supera Header (50) e Nav (60) */
+        z-index: 2000; /* Supera todos os outros elementos fixos */
         display: flex;
         align-items: center;
         justify-content: center;
-        padding: 1.5rem;
-        background-color: rgba(0, 0, 0, 0.2);
+        padding: env(safe-area-inset-top, 1.5rem) 1.5rem env(safe-area-inset-bottom, 1.5rem) 1.5rem;
+        background-color: rgba(0, 0, 0, 0.3);
         backdrop-filter: blur(64px) saturate(220%);
         -webkit-backdrop-filter: blur(64px) saturate(220%);
         animation: liquidFade 0.6s cubic-bezier(0.16, 1, 0.3, 1);
@@ -130,6 +130,7 @@
         to { opacity: 1; backdrop-filter: blur(64px) saturate(220%); }
       }
 
+      /* Header e Nav Mobile - Z-index menor que modais */
       .glass-header-mobile {
         backdrop-filter: blur(40px) saturate(180%);
         -webkit-backdrop-filter: blur(40px) saturate(180%);
@@ -160,19 +161,21 @@
       .no-scrollbar::-webkit-scrollbar { display: none; }
       .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
-      /* Modais Liquid Glass Fixos e Proporcionais */
+      /* Modais Liquid Glass - Tamanho Otimizado (Máximo 85% VH no mobile) */
       .modal-container {
         background: var(--bg-card);
         border: 1px solid rgba(255, 255, 255, 0.1);
-        box-shadow: 0 40px 120px -20px rgba(0, 0, 0, 0.2);
+        box-shadow: 0 40px 120px -20px rgba(0, 0, 0, 0.3);
         animation: modalEntrance 0.5s cubic-bezier(0.16, 1, 0.3, 1);
         border-radius: 2.5rem;
-        max-height: 85dvh;
+        max-height: 85dvh; /* Garante visibilidade completa */
         width: 100%;
-        max-width: 500px;
+        max-width: 550px;
         overflow-y: auto;
         position: relative;
         scrollbar-width: none;
+        display: flex;
+        flex-direction: column;
       }
 
       .modal-container::-webkit-scrollbar { display: none; }
@@ -182,35 +185,35 @@
         to { opacity: 1; transform: translateY(0) scale(1); }
       }
 
-      /* Botões de Ação Dinâmicos - Texto em Maiúsculo */
+      /* Botões de Ação Dinâmicos - TEXTO EM MAIÚSCULAS - TAMANHO PRESERVADO */
       .btn-action-primary {
         width: 100%;
-        height: 4.5rem;
+        height: 4.5rem; /* Tamanho original preservado */
         background: var(--accent-main);
         color: var(--bg-card);
         border-radius: 1.5rem;
         font-weight: 800;
-        font-size: 1rem;
+        font-size: 0.9rem;
         display: flex;
         align-items: center;
         justify-content: center;
-        box-shadow: 0 10px 30px -5px rgba(0,0,0,0.1);
+        box-shadow: 0 10px 30px -5px rgba(0,0,0,0.15);
         transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         cursor: pointer;
         border: none;
         text-transform: uppercase;
-        letter-spacing: 0.1em;
+        letter-spacing: 0.15em;
       }
 
       .btn-action-primary:active { transform: scale(0.96); opacity: 0.9; }
 
       .btn-action-secondary {
         width: 100%;
-        height: 3.5rem;
+        height: 3.5rem; /* Tamanho original preservado */
         background: transparent;
         color: var(--text-muted);
         font-weight: 700;
-        font-size: 0.9rem;
+        font-size: 0.85rem;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -224,16 +227,17 @@
       .btn-action-secondary:active { opacity: 0.6; }
 
       .btn-close-modal {
-        width: 2.5rem;
-        height: 2.5rem;
+        width: 3rem;
+        height: 3rem;
         display: flex;
         align-items: center;
         justify-content: center;
         color: var(--text-main);
         cursor: pointer;
         transition: opacity 0.2s;
+        border-radius: 1rem;
       }
-      .btn-close-modal:active { opacity: 0.5; }
+      .btn-close-modal:active { opacity: 0.5; background: var(--theme-accent-soft); }
     </style>
   
     <script type="importmap">

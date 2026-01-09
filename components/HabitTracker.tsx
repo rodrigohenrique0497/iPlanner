@@ -63,8 +63,8 @@ const HabitTracker: React.FC<HabitTrackerProps> = ({ habits, onToggle, onAdd, on
               />
             </div>
             <div className="flex flex-col gap-4">
-              <button type="submit" className="btn-action-primary shadow-glow">Começar Jornada</button>
-              <button type="button" onClick={() => setIsAdding(false)} className="btn-action-secondary">Cancelar</button>
+              <button type="submit" className="btn-action-primary shadow-glow">COMEÇAR JORNADA</button>
+              <button type="button" onClick={() => setIsAdding(false)} className="btn-action-secondary">CANCELAR</button>
             </div>
           </form>
         </div>
@@ -109,12 +109,12 @@ const HabitTracker: React.FC<HabitTrackerProps> = ({ habits, onToggle, onAdd, on
                 {isDone ? (
                   <>
                     <span className="material-symbols-outlined !text-lg">task_alt</span>
-                    Concluído Hoje
+                    CONCLUÍDO HOJE
                   </>
                 ) : (
                   <>
                     <span className="material-symbols-outlined !text-lg">check_circle</span>
-                    Marcar como Feito
+                    MARCAR COMO FEITO
                   </>
                 )}
               </button>

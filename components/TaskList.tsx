@@ -130,8 +130,8 @@ const TaskList: React.FC<TaskListProps> = ({ tasks, onToggle, onDelete, onAdd, u
                 onChange={e => setTempCategory(e.target.value)}
                 className="w-full px-7 h-[4.5rem] bg-theme-bg border border-theme-border rounded-2xl text-sm font-bold outline-none mb-2"
               />
-              <button onClick={handleAddCategory} className="btn-action-primary">Adicionar</button>
-              <button onClick={() => setIsManagingCats(false)} className="btn-action-secondary">Fechar</button>
+              <button onClick={handleAddCategory} className="btn-action-primary">ADICIONAR</button>
+              <button onClick={() => setIsManagingCats(false)} className="btn-action-secondary">FECHAR</button>
             </div>
           </div>
         </div>
@@ -193,8 +193,8 @@ const TaskList: React.FC<TaskListProps> = ({ tasks, onToggle, onDelete, onAdd, u
             </div>
             
             <div className="flex flex-col gap-2 pt-4">
-              <button type="submit" className="btn-action-primary">Salvar</button>
-              <button type="button" onClick={() => setIsAdding(false)} className="btn-action-secondary">Cancelar</button>
+              <button type="submit" className="btn-action-primary">SALVAR</button>
+              <button type="button" onClick={() => setIsAdding(false)} className="btn-action-secondary">CANCELAR</button>
             </div>
           </form>
         </div>
