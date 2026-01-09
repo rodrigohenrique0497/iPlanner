@@ -33,6 +33,15 @@ const App: React.FC = () => {
   const [isReady, setIsReady] = useState(false);
   const [activeTimer, setActiveTimer] = useState<boolean>(false);
 
+  // Efeito para aplicação do TEMA EM TEMPO REAL
+  useEffect(() => {
+    if (currentUser?.theme) {
+      document.body.className = `theme-${currentUser.theme}`;
+      // Sincroniza o tema no localStorage para persistência rápida
+      db.setGlobalTheme(currentUser.theme);
+    }
+  }, [currentUser?.theme]);
+
   // Monitora tarefas para agendar notificações
   useEffect(() => {
     tasks.forEach(task => {
@@ -79,6 +88,7 @@ const App: React.FC = () => {
     return () => subscription.unsubscribe();
   }, [loadUserContent]);
 
+  // Sincronização Automática com Supabase
   useEffect(() => {
     if (!currentUser || !isReady) return;
     const sync = async () => {
@@ -90,8 +100,9 @@ const App: React.FC = () => {
         db.saveData('finance', transactions),
         db.saveUser(currentUser)
       ]);
+      console.log('Dados sincronizados com sucesso.');
     };
-    const timeout = setTimeout(sync, 2000);
+    const timeout = setTimeout(sync, 2000); // Debounce de 2 segundos para não sobrecarregar
     return () => clearTimeout(timeout);
   }, [tasks, habits, goals, notes, transactions, currentUser, isReady]);
 
@@ -127,8 +138,15 @@ const App: React.FC = () => {
       <Sidebar currentView={view} setView={setView} user={currentUser} onLogout={() => db.signOut()} isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
       <main className="flex-1 overflow-y-auto relative pb-32">
         <div className="md:hidden px-6 py-4 flex justify-between items-center sticky top-0 z-50 glass-header-mobile">
-          <h1 className="text-2xl font-black text-theme-text tracking-tighter">iPlanner</h1>
-          <button onClick={() => setIsSidebarOpen(true)} className="w-12 h-12 flex items-center justify-center rounded-2xl bg-theme-card/40 border border-theme-border/20"><span className="material-symbols-outlined">menu</span></button>
+          <div className="flex items-center gap-3">
+            <div className="w-8 h-8 rounded-lg bg-theme-accent flex items-center justify-center">
+              <span className="material-symbols-outlined !text-lg text-theme-card">menu_book</span>
+            </div>
+            <h1 className="text-xl font-black text-theme-text tracking-tighter">iPlanner</h1>
+          </div>
+          <button onClick={() => setIsSidebarOpen(true)} className="w-10 h-10 flex items-center justify-center rounded-xl bg-theme-card/40 border border-theme-border/20">
+            <span className="material-symbols-outlined">menu</span>
+          </button>
         </div>
         {renderView()}
       </main>

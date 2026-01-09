@@ -16,7 +16,6 @@ const Settings: React.FC<SettingsProps> = ({ user, onUpdate, onLogout, onExport 
   const [goal, setGoal] = useState(user.focusGoal);
   const [pushEnabled, setPushEnabled] = useState(notificationService.hasPermission());
   const [isTesting, setIsTesting] = useState(false);
-  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const themes: { id: ThemeType; label: string; icon: string; description: string; colorClass: string }[] = [
     { id: 'light', label: 'Modo Claro', icon: 'light_mode', description: 'Visual limpo e profissional.', colorClass: 'bg-white' },
@@ -35,6 +34,11 @@ const Settings: React.FC<SettingsProps> = ({ user, onUpdate, onLogout, onExport 
     } else {
       alert("Permissão de notificação negada no navegador.");
     }
+  };
+
+  const handleThemeChange = (themeId: ThemeType) => {
+    // Aplicação imediata no estado global via prop onUpdate
+    onUpdate({ theme: themeId });
   };
 
   const handleTestPush = async () => {
@@ -103,11 +107,8 @@ const Settings: React.FC<SettingsProps> = ({ user, onUpdate, onLogout, onExport 
           {themes.map(t => (
             <button
               key={t.id}
-              onClick={() => {
-                onUpdate({ theme: t.id });
-                db.setGlobalTheme(t.id);
-              }}
-              className={`p-6 rounded-[2.25rem] border-2 transition-all text-left flex items-center gap-6 ${user.theme === t.id ? 'border-theme-accent bg-theme-card shadow-premium' : 'border-theme-border bg-theme-card/50 hover:border-theme-accent/30'}`}
+              onClick={() => handleThemeChange(t.id)}
+              className={`p-6 rounded-[2.25rem] border-2 transition-all duration-500 text-left flex items-center gap-6 ${user.theme === t.id ? 'border-theme-accent bg-theme-card shadow-premium' : 'border-theme-border bg-theme-card/50 hover:border-theme-accent/30'}`}
             >
               <div className={`w-14 h-14 rounded-2xl flex items-center justify-center shadow-inner shrink-0 ${t.colorClass} border border-black/5`}>
                 <span className={`material-symbols-outlined !text-2xl ${t.id === 'dark' || t.id === 'rosa' || t.id === 'azul' ? 'text-white' : 'text-slate-900'}`}>{t.icon}</span>
