@@ -135,7 +135,7 @@ const TaskList: React.FC<TaskListProps> = ({ tasks, onToggle, onDelete, onAdd, u
       {/* Formulário de Tarefa Inline */}
       {isAdding && (
         <div className="animate-in slide-in-from-top-6 duration-500">
-          <form onSubmit={handleSubmit} className="bg-theme-card p-8 md:p-12 rounded-[2.5rem] border border-theme-border shadow-premium space-y-8">
+          <form onSubmit={handleSubmit} className="bg-theme-card p-8 md:p-12 rounded-[2.5rem] border border-theme-border shadow-premium space-y-8 overflow-hidden">
             <div className="flex justify-between items-center mb-4">
               <h3 className="text-2xl font-black text-theme-text uppercase">Nova Tarefa</h3>
             </div>
@@ -176,7 +176,14 @@ const TaskList: React.FC<TaskListProps> = ({ tasks, onToggle, onDelete, onAdd, u
 
                 <div className="space-y-2">
                   <label className="text-[10px] font-black uppercase text-theme-muted ml-3 tracking-widest opacity-40">Data Limite</label>
-                  <input type="date" value={newDueDate} onChange={e => setNewDueDate(e.target.value)} className="w-full px-6 h-[4.5rem] rounded-2xl outline-none border border-theme-border bg-theme-bg text-xs font-black" />
+                  <div className="relative w-full overflow-hidden rounded-2xl border border-theme-border bg-theme-bg">
+                    <input 
+                      type="date" 
+                      value={newDueDate} 
+                      onChange={e => setNewDueDate(e.target.value)} 
+                      className="w-full px-4 h-[4.5rem] outline-none bg-transparent text-xs font-black uppercase appearance-none" 
+                    />
+                  </div>
                 </div>
               </div>
             </div>

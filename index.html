@@ -193,7 +193,7 @@
         color: var(--bg-card);
         border-radius: 1.5rem;
         font-weight: 800;
-        font-size: 0.9rem;
+        font-size: 0.95rem;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -238,6 +238,15 @@
         border-radius: 1rem;
       }
       .btn-close-modal:active { opacity: 0.5; background: var(--theme-accent-soft); }
+
+      /* Ajustes de acessibilidade e inputs de data */
+      input[type="date"]::-webkit-calendar-picker-indicator {
+        filter: var(--calendar-filter, invert(0));
+        cursor: pointer;
+      }
+      .theme-dark input[type="date"]::-webkit-calendar-picker-indicator {
+        --calendar-filter: invert(1);
+      }
     </style>
   
     <script type="importmap">

@@ -68,7 +68,7 @@ const FinanceView: React.FC<FinanceViewProps> = ({ transactions, onAdd, onDelete
         </div>
         <button 
           onClick={() => setIsAdding(!isAdding)}
-          className={`w-16 h-16 rounded-2xl flex items-center justify-center shadow-premium hover:scale-105 active:scale-95 shrink-0 transition-all ${isAdding ? 'bg-rose-500 text-white' : 'bg-theme-accent text-theme-card'}`}
+          className={`w-16 h-16 rounded-2xl flex items-center justify-center shadow-premium hover:scale-105 active:scale-95 shrink-0 transition-all ${isAdding ? 'bg-red-600 text-white' : 'bg-theme-accent text-theme-card'}`}
         >
           <span className="material-symbols-outlined !text-3xl">{isAdding ? 'close' : 'add'}</span>
         </button>
@@ -87,14 +87,14 @@ const FinanceView: React.FC<FinanceViewProps> = ({ transactions, onAdd, onDelete
                 <button 
                   type="button"
                   onClick={() => setType('expense')}
-                  className={`flex-1 h-full rounded-xl text-[11px] font-black uppercase tracking-widest transition-all ${type === 'expense' ? 'bg-theme-card shadow-sm text-rose-600' : 'text-theme-muted opacity-50'}`}
+                  className={`flex-1 h-full rounded-xl text-[11px] font-black uppercase tracking-widest transition-all ${type === 'expense' ? 'bg-theme-card shadow-sm text-red-600' : 'text-theme-muted opacity-50'}`}
                 >
                   Saída
                 </button>
                 <button 
                   type="button"
                   onClick={() => setType('income')}
-                  className={`flex-1 h-full rounded-xl text-[11px] font-black uppercase tracking-widest transition-all ${type === 'income' ? 'bg-theme-card shadow-sm text-emerald-600' : 'text-theme-muted opacity-50'}`}
+                  className={`flex-1 h-full rounded-xl text-[11px] font-black uppercase tracking-widest transition-all ${type === 'income' ? 'bg-theme-card shadow-sm text-green-600' : 'text-theme-muted opacity-50'}`}
                 >
                   Entrada
                 </button>
@@ -156,19 +156,19 @@ const FinanceView: React.FC<FinanceViewProps> = ({ transactions, onAdd, onDelete
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         <div className="bg-theme-card p-10 rounded-[2.5rem] border border-theme-border shadow-sm space-y-4">
           <p className="text-[10px] font-black uppercase tracking-widest text-theme-muted opacity-50">Saldo Total</p>
-          <p className={`text-2xl font-black ${stats.balance >= 0 ? 'text-emerald-600' : 'text-rose-600'}`}>
+          <p className={`text-2xl font-black ${stats.balance >= 0 ? 'text-green-600' : 'text-red-600'}`}>
             R$ {stats.balance.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
           </p>
         </div>
-        <div className="bg-emerald-500/10 p-10 rounded-[2.5rem] border border-emerald-500/20 space-y-4">
-          <p className="text-[10px] font-black uppercase tracking-widest text-emerald-600 opacity-80">Entradas</p>
-          <p className="text-2xl font-black text-emerald-700">
+        <div className="bg-green-500/10 p-10 rounded-[2.5rem] border border-green-500/20 space-y-4">
+          <p className="text-[10px] font-black uppercase tracking-widest text-green-600 opacity-80">Entradas</p>
+          <p className="text-2xl font-black text-green-700">
             R$ {stats.income.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
           </p>
         </div>
-        <div className="bg-rose-500/10 p-10 rounded-[2.5rem] border border-rose-500/20 space-y-4">
-          <p className="text-[10px] font-black uppercase tracking-widest text-rose-600 opacity-80">Saídas</p>
-          <p className="text-2xl font-black text-rose-700">
+        <div className="bg-red-500/10 p-10 rounded-[2.5rem] border border-red-500/20 space-y-4">
+          <p className="text-[10px] font-black uppercase tracking-widest text-red-600 opacity-80">Saídas</p>
+          <p className="text-2xl font-black text-red-700">
             R$ {stats.expense.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
           </p>
         </div>
@@ -207,12 +207,12 @@ const FinanceView: React.FC<FinanceViewProps> = ({ transactions, onAdd, onDelete
                 </div>
               </div>
               <div className="flex items-center gap-8">
-                <p className={`text-lg md:text-xl font-black tracking-tight ${t.type === 'income' ? 'text-emerald-600' : 'text-rose-600'}`}>
+                <p className={`text-lg md:text-xl font-black tracking-tight ${t.type === 'income' ? 'text-green-600' : 'text-red-600'}`}>
                   {t.type === 'income' ? '+' : '-'} R$ {t.amount.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
                 </p>
                 <button 
                   onClick={() => onDelete(t.id)}
-                  className="opacity-0 group-hover:opacity-100 w-12 h-12 flex items-center justify-center rounded-2xl text-theme-muted hover:text-rose-600 hover:bg-rose-500/10 transition-all active:scale-90 shadow-sm"
+                  className="opacity-0 group-hover:opacity-100 w-12 h-12 flex items-center justify-center rounded-2xl text-theme-muted hover:text-red-600 hover:bg-red-500/10 transition-all active:scale-90 shadow-sm"
                 >
                   <span className="material-symbols-outlined !text-2xl leading-none">delete</span>
                 </button>
