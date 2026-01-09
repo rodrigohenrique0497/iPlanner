@@ -18,7 +18,6 @@ const DailyView: React.FC<DailyViewProps> = ({ date, tasks, onToggle, onSetEnerg
   const [quickTaskTitle, setQuickTaskTitle] = useState('');
   const [creatingHour, setCreatingHour] = useState<number | null>(null);
 
-  // Expansão para as 24 horas do dia
   const hours = Array.from({ length: 24 }, (_, i) => i);
   const getTaskForHour = (h: number) => tasks.find(t => t.scheduledHour === h);
 
@@ -154,10 +153,10 @@ const DailyView: React.FC<DailyViewProps> = ({ date, tasks, onToggle, onSetEnerg
             <div className="space-y-4 pt-4 border-t border-theme-border">
               <button 
                 onClick={onStartFocus} 
-                className={`w-full py-7 rounded-2xl font-black text-sm shadow-premium transition-all active:scale-[0.98] flex items-center justify-center gap-4 uppercase tracking-widest ${currentEnergy > 0 ? 'bg-theme-accent text-theme-card hover:opacity-95' : 'bg-theme-bg border border-theme-border text-theme-muted cursor-not-allowed opacity-50'}`}
+                className={`btn-action-primary ${currentEnergy > 0 ? '' : 'opacity-50 cursor-not-allowed'}`}
+                disabled={currentEnergy === 0}
               >
-                <span className="material-symbols-outlined !text-2xl">timer</span>
-                Foco Profundo
+                FOCO PROFUNDO
               </button>
               <p className="text-[9px] font-black text-theme-muted text-center uppercase tracking-[0.2em] opacity-80">Sessão Pomodoro Recomendada</p>
             </div>
