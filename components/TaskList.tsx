@@ -1,4 +1,3 @@
-
 import React, { useState, useMemo } from 'react';
 import { Task, Priority, ViewState } from '../types';
 
@@ -184,7 +183,7 @@ const TaskList: React.FC<TaskListProps> = ({ tasks, onToggle, onDelete, onAdd, u
                       type="date" 
                       value={newDueDate} 
                       onChange={e => setNewDueDate(e.target.value)} 
-                      className="input-premium uppercase tracking-widest text-[11px] w-full block border-box max-w-full"
+                      className="input-premium uppercase tracking-widest text-[11px] w-full block border-box max-w-full appearance-none"
                       style={{ minWidth: '0', maxWidth: '100%', boxSizing: 'border-box' }}
                     />
                   </div>
