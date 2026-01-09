@@ -99,33 +99,32 @@ const TaskList: React.FC<TaskListProps> = ({ tasks, onToggle, onDelete, onAdd, u
                 onChange={e => setNewTitle(e.target.value)}
                 className="w-full text-2xl font-black bg-transparent border-none outline-none text-theme-text placeholder:opacity-20 p-0 text-left"
               />
-              {/* Grid 2x2 no mobile para otimizar espaço e centralização */}
-              <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-6">
-                <div className="space-y-2">
-                  <label className="text-[10px] font-black uppercase text-theme-muted tracking-widest opacity-60 block text-center">Categoria</label>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+                <div className="space-y-2.5">
+                  <label className="text-[10px] font-black uppercase text-theme-muted tracking-widest opacity-60 block px-4">Categoria</label>
                   <div className="relative">
                     <select value={newCategory} onChange={e => setNewCategory(e.target.value)} className="input-premium input-picker-premium appearance-none text-[11px] uppercase w-full">
                       {userCategories.map(c => <option key={c} value={c}>{c}</option>)}
                     </select>
-                    <span className="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none opacity-20 text-xs">expand_more</span>
+                    <span className="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none opacity-30 text-sm">expand_more</span>
                   </div>
                 </div>
-                <div className="space-y-2">
-                  <label className="text-[10px] font-black uppercase text-theme-muted tracking-widest opacity-60 block text-center">Prioridade</label>
-                  <div className="flex bg-theme-bg p-1 rounded-2xl border border-theme-border h-[4.5rem] w-full">
+                <div className="space-y-2.5">
+                  <label className="text-[10px] font-black uppercase text-theme-muted tracking-widest opacity-60 block px-4">Prioridade</label>
+                  <div className="flex bg-theme-bg p-1.5 rounded-2xl border border-theme-border h-[4.5rem] w-full">
                     {[Priority.LOW, Priority.MEDIUM, Priority.HIGH].map(p => (
-                      <button key={p} type="button" onClick={() => setNewPriority(p)} className={`flex-1 rounded-xl text-[9px] font-black uppercase transition-all ${newPriority === p ? priorityStyleMap[p].solid : 'text-theme-muted opacity-50'}`}>
-                        {p === Priority.LOW ? 'B' : p === Priority.MEDIUM ? 'M' : 'A'}
+                      <button key={p} type="button" onClick={() => setNewPriority(p)} className={`flex-1 rounded-[0.75rem] text-[10px] font-black uppercase transition-all ${newPriority === p ? priorityStyleMap[p].solid : 'text-theme-muted opacity-50'}`}>
+                        {p === Priority.LOW ? 'Baixa' : p === Priority.MEDIUM ? 'Média' : 'Alta'}
                       </button>
                     ))}
                   </div>
                 </div>
-                <div className="space-y-2">
-                  <label className="text-[10px] font-black uppercase text-theme-muted tracking-widest opacity-60 block text-center">Data</label>
+                <div className="space-y-2.5">
+                  <label className="text-[10px] font-black uppercase text-theme-muted tracking-widest opacity-60 block px-4">Data</label>
                   <input type="date" value={newDueDate} onChange={e => setNewDueDate(e.target.value)} className="input-premium input-picker-premium text-[11px] w-full" />
                 </div>
-                <div className="space-y-2">
-                  <label className="text-[10px] font-black uppercase text-theme-muted tracking-widest opacity-60 block text-center">Lembrete</label>
+                <div className="space-y-2.5">
+                  <label className="text-[10px] font-black uppercase text-theme-muted tracking-widest opacity-60 block px-4">Lembrete</label>
                   <input type="time" value={newReminderTime} onChange={e => setNewReminderTime(e.target.value)} className="input-premium input-picker-premium text-[11px] w-full" />
                 </div>
               </div>

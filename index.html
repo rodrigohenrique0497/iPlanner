@@ -120,7 +120,52 @@
         overflow-x: hidden;
       }
 
-      /* INPUTS PREMIUM - PADRÃO DE MERCADO */
+      .no-scrollbar::-webkit-scrollbar { display: none; }
+      .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+      /* BOTÕES DE AÇÃO - PADRÃO PREMIUM */
+      .btn-action-primary {
+        width: 100%;
+        height: var(--btn-height) !important;
+        min-height: var(--btn-height) !important;
+        background: var(--accent-main);
+        color: var(--bg-card);
+        border-radius: 1.25rem;
+        font-weight: 800;
+        font-size: 0.95rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 12px 30px -8px rgba(0,0,0,0.2);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        cursor: pointer;
+        border: none;
+        text-transform: uppercase;
+        letter-spacing: 0.15em;
+      }
+
+      .btn-action-primary:active { transform: scale(0.97); opacity: 0.95; }
+
+      .btn-action-secondary {
+        width: 100%;
+        height: var(--btn-height) !important;
+        min-height: var(--btn-height) !important;
+        background: transparent;
+        color: var(--text-muted);
+        font-weight: 700;
+        font-size: 0.85rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.2s;
+        cursor: pointer;
+        border: 2px solid var(--border-color);
+        border-radius: 1.25rem;
+        text-transform: uppercase;
+        letter-spacing: 0.15em;
+      }
+
+      /* INPUTS PREMIUM - REFINAMENTO DE ALINHAMENTO */
       .input-premium {
         width: 100%;
         max-width: 100%;
@@ -134,85 +179,41 @@
         color: var(--text-main);
         outline: none;
         transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        font-size: 1rem;
+        font-size: 1rem; /* Ideal para iOS não dar zoom automático */
         box-sizing: border-box;
-        text-align: left; /* Títulos e Notas: Esquerda para Direita */
+        text-align: left; /* Padrão de apps para digitação */
       }
 
       .input-premium:focus {
         border-color: var(--accent-main);
         background: var(--bg-card);
         box-shadow: 0 10px 25px -10px var(--accent-soft), 0 0 0 4px var(--accent-soft);
+        transform: translateY(-1px);
       }
 
-      /* SELETORES (DATA, HORA, CATEGORIA) - CENTRALIZADOS & CONTIDOS */
+      /* MODIFICADOR PARA SELETORES (DATA/HORA/SELECT) */
       .input-picker-premium {
         text-align: center !important;
-        justify-content: center !important;
-        padding: 0 0.5rem !important; /* Reduzido para dar espaço ao conteúdo centralizado */
-        cursor: pointer;
-        min-width: 0; /* Impede overflow em flex containers */
       }
 
-      /* Reset e Centralização Específica para Mobile (iOS/Chrome) */
-      input[type="date"].input-picker-premium,
-      input[type="time"].input-picker-premium {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        appearance: none;
-        -webkit-appearance: none;
-      }
-
-      /* O "Segredo" para centralizar no iOS */
+      /* CORREÇÃO PARA DATA E HORA NO MOBILE */
       input[type="date"].input-picker-premium::-webkit-date-and-time-value,
       input[type="time"].input-picker-premium::-webkit-date-and-time-value {
         text-align: center;
         width: 100%;
-        height: 100%;
         display: flex;
         align-items: center;
         justify-content: center;
-        margin: 0 auto;
+        min-height: calc(var(--btn-height) - 4px);
       }
 
-      /* Posicionamento discreto do ícone nativo sem quebrar a centralização */
       ::-webkit-calendar-picker-indicator {
         position: absolute;
-        right: 1rem;
-        opacity: 0.3;
-        margin: 0;
+        right: 1.25rem;
+        opacity: 0.4;
       }
 
-      .btn-action-primary {
-        width: 100%;
-        height: var(--btn-height) !important;
-        background: var(--accent-main);
-        color: var(--bg-card);
-        border-radius: 1.25rem;
-        font-weight: 800;
-        font-size: 0.95rem;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        box-shadow: 0 12px 30px -8px rgba(0,0,0,0.2);
-        transition: all 0.3s;
-        text-transform: uppercase;
-        letter-spacing: 0.15em;
-      }
-
-      .btn-action-secondary {
-        width: 100%;
-        height: var(--btn-height) !important;
-        background: transparent;
-        color: var(--text-muted);
-        font-weight: 700;
-        border: 2px solid var(--border-color);
-        border-radius: 1.25rem;
-        text-transform: uppercase;
-        letter-spacing: 0.1em;
-      }
-
+      /* HEADER & NAV MOBILE GLASS */
       .glass-header-mobile {
         backdrop-filter: blur(40px) saturate(180%);
         -webkit-backdrop-filter: blur(40px) saturate(180%);
