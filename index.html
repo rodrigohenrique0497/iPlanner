@@ -176,13 +176,14 @@
         background: var(--bg-main);
         border: 2px solid var(--border-color);
         border-radius: 1rem;
-        padding: 0 1.5rem;
+        padding: 0 1rem;
         font-weight: 700;
         color: var(--text-main);
         outline: none;
         transition: all 0.3s ease;
         font-size: 1.1rem;
         box-sizing: border-box;
+        text-align: center; /* Centralização do texto solicitada */
       }
 
       .input-premium:focus {
@@ -195,10 +196,16 @@
       input[type="time"].input-premium {
         display: block;
         position: relative;
-        appearance: none;
-        -webkit-appearance: none;
         min-width: 0;
       }
+
+      /* Customização dos ícones internos para manter a harmonia com o texto centralizado */
+      ::-webkit-calendar-picker-indicator {
+        cursor: pointer;
+        filter: opacity(0.5);
+        transition: opacity 0.2s;
+      }
+      ::-webkit-calendar-picker-indicator:hover { filter: opacity(1); }
 
       /* HEADER & NAV MOBILE GLASS */
       .glass-header-mobile {
