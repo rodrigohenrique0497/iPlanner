@@ -26,7 +26,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 
     <!-- Tailwind Config -->
     <script>
@@ -45,7 +45,7 @@
             boxShadow: {
               premium: "var(--shadow-main)",
               glow: "var(--shadow-glow)",
-              glass: "0 8px 32px 0 rgba(0, 0, 0, 0.08)",
+              glass: "0 20px 48px -12px rgba(0, 0, 0, 0.18)",
             },
             borderRadius: {
               planner: "var(--radius-planner)",
@@ -61,7 +61,7 @@
       :root {
         --bg-main: #f8fafc;
         --bg-card: #ffffff;
-        --bg-glass: rgba(255, 255, 255, 0.85);
+        --bg-glass: rgba(255, 255, 255, 0.82);
         --text-main: #0f172a;
         --text-muted: #64748b;
         --accent-main: #0f172a;
@@ -76,7 +76,7 @@
       .theme-dark {
         --bg-main: #020617;
         --bg-card: #0f172a;
-        --bg-glass: rgba(15, 23, 42, 0.85);
+        --bg-glass: rgba(15, 23, 42, 0.82);
         --text-main: #f8fafc;
         --text-muted: #94a3b8;
         --accent-main: #f1f5f9;
@@ -88,7 +88,7 @@
       .theme-rosa {
         --bg-main: #fff1f2;
         --bg-card: #ffffff;
-        --bg-glass: rgba(255, 255, 255, 0.85);
+        --bg-glass: rgba(255, 255, 255, 0.82);
         --text-main: #881337;
         --text-muted: #e11d48;
         --accent-main: #fb7185;
@@ -101,7 +101,7 @@
       .theme-azul {
         --bg-main: #eff6ff;
         --bg-card: #ffffff;
-        --bg-glass: rgba(255, 255, 255, 0.85);
+        --bg-glass: rgba(255, 255, 255, 0.82);
         --text-main: #1e3a8a;
         --text-muted: #2563eb;
         --accent-main: #3b82f6;
@@ -121,8 +121,8 @@
         justify-content: center;
         padding: 1rem;
         background-color: rgba(0, 0, 0, 0.4);
-        backdrop-filter: blur(20px);
-        -webkit-backdrop-filter: blur(20px);
+        backdrop-filter: blur(24px);
+        -webkit-backdrop-filter: blur(24px);
         animation: fadeIn 0.3s ease-out;
       }
 
@@ -147,6 +147,14 @@
 
       .no-scrollbar::-webkit-scrollbar { display: none; }
       .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+      /* Otimização Heavy Glass para Mobile Nav */
+      .glass-mobile-nav {
+        backdrop-filter: blur(28px) saturate(160%);
+        -webkit-backdrop-filter: blur(28px) saturate(160%);
+        background: color-mix(in srgb, var(--bg-card) 92%, black 8%);
+        border: 1px solid rgba(255, 255, 255, 0.15);
+      }
 
       /* Inputs Premium Robustos */
       input, select, textarea {
