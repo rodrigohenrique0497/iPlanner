@@ -154,13 +154,7 @@
         box-shadow: 0 0 0 5px var(--accent-soft);
       }
 
-      .input-picker-premium {
-        text-align: center !important;
-        cursor: pointer;
-        appearance: none;
-      }
-
-      /* BOTÕES ULTRA-PREMIUM (GROSSOS & BLACK) */
+      /* BOTÕES ULTRA-PREMIUM - PADRONIZAÇÃO SÊNIOR */
       .btn-action-primary {
         width: 100%;
         height: var(--btn-height) !important;
@@ -172,6 +166,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
+        gap: 1rem; /* Espaço entre ícone e texto */
         box-shadow: var(--shadow-glow);
         transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         text-transform: uppercase;
@@ -184,6 +179,11 @@
       .btn-action-primary:active {
         transform: scale(0.95);
         box-shadow: none;
+      }
+
+      .btn-action-primary .material-symbols-outlined {
+        font-size: 32px !important; /* Ícones proporcionais ao botão grosso */
+        font-variation-settings: 'FILL' 1;
       }
 
       .btn-action-secondary {
@@ -201,8 +201,13 @@
         display: flex;
         align-items: center;
         justify-content: center;
+        gap: 1rem;
         padding: 0 2.5rem;
         font-size: 0.9rem;
+      }
+
+      .btn-action-secondary .material-symbols-outlined {
+        font-size: 30px !important;
       }
 
       .btn-action-secondary:hover {

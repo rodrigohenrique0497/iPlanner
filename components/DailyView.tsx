@@ -135,15 +135,15 @@ const DailyView: React.FC<DailyViewProps> = ({ date, tasks, onToggle, onSetEnerg
               <div className="h-1 w-10 bg-theme-accent rounded-full mx-auto mt-2"></div>
             </div>
             
-            <div className="flex justify-center gap-3">
+            <div className="flex justify-center gap-4">
               {[1, 2, 3, 4, 5].map(v => (
                 <button 
                   key={v} 
                   onClick={() => onSetEnergy(v)} 
-                  className={`flex-1 aspect-square rounded-2xl flex items-center justify-center text-3xl transition-all active:scale-90 ${
+                  className={`flex-1 aspect-square rounded-[1.75rem] flex items-center justify-center text-3xl transition-all active:scale-90 border-2 ${
                     currentEnergy === v 
-                    ? 'bg-theme-accent text-theme-card shadow-premium scale-110 ring-4 ring-theme-accent-soft' 
-                    : 'bg-theme-bg border border-theme-border grayscale opacity-50 hover:opacity-100 hover:grayscale-0 hover:border-theme-accent/30'
+                    ? 'bg-theme-accent text-theme-card shadow-glow scale-110 border-theme-accent' 
+                    : 'bg-theme-bg border-theme-border grayscale opacity-50 hover:opacity-100 hover:grayscale-0 hover:border-theme-accent/30'
                   }`}
                 >
                   {['😴', '🥱', '😐', '😊', '⚡'][v-1]}
@@ -154,9 +154,10 @@ const DailyView: React.FC<DailyViewProps> = ({ date, tasks, onToggle, onSetEnerg
             <div className="space-y-4 pt-4 border-t border-theme-border">
               <button 
                 onClick={onStartFocus} 
-                className={`w-full py-7 rounded-2xl font-black text-sm shadow-premium transition-all active:scale-[0.98] flex items-center justify-center gap-4 uppercase tracking-widest ${currentEnergy > 0 ? 'bg-theme-accent text-theme-card hover:opacity-95' : 'bg-theme-bg border border-theme-border text-theme-muted cursor-not-allowed opacity-50'}`}
+                disabled={currentEnergy === 0}
+                className="btn-action-primary"
               >
-                <span className="material-symbols-outlined !text-2xl">timer</span>
+                <span className="material-symbols-outlined">timer</span>
                 Foco Profundo
               </button>
               <p className="text-[9px] font-black text-theme-muted text-center uppercase tracking-[0.2em] opacity-80">Sessão Pomodoro Recomendada</p>
