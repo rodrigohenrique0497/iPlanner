@@ -44,7 +44,7 @@
             boxShadow: {
               premium: "var(--shadow-main)",
               glow: "var(--shadow-glow)",
-              glass: "0 40px 100px -20px rgba(0, 0, 0, 0.12), 0 20px 40px -15px rgba(0, 0, 0, 0.04)",
+              glass: "0 40px 100px -20px rgba(0, 0, 0, 0.15), 0 20px 40px -15px rgba(0, 0, 0, 0.05)",
             },
             borderRadius: {
               planner: "var(--radius-planner)",
@@ -59,59 +59,58 @@
       :root {
         --bg-main: #f8fafc;
         --bg-card: #ffffff;
-        --bg-glass: rgba(255, 255, 255, 0.45);
+        --bg-glass: rgba(255, 255, 255, 0.65);
         --text-main: #0f172a;
         --text-muted: #64748b;
         --accent-main: #0f172a;
-        --accent-soft: rgba(15, 23, 42, 0.05);
+        --accent-soft: rgba(15, 23, 42, 0.06);
         --border-color: #e2e8f0;
-        --shadow-main: 0 30px 60px -12px rgba(0, 0, 0, 0.03);
-        --shadow-glow: 0 10px 40px -10px rgba(15, 23, 42, 0.3);
+        --shadow-main: 0 35px 70px -15px rgba(0, 0, 0, 0.04);
+        --shadow-glow: 0 20px 50px -12px rgba(15, 23, 42, 0.35);
         --radius-planner: 2.5rem;
-        --radius-planner-sm: 1.25rem;
-        --btn-height: 4.5rem;
+        --radius-planner-sm: 1.5rem;
+        --btn-height: 4.75rem;
       }
 
       .theme-dark {
         --bg-main: #020617;
         --bg-card: #0f172a;
-        --bg-glass: rgba(15, 23, 42, 0.45);
+        --bg-glass: rgba(15, 23, 42, 0.75);
         --text-main: #f8fafc;
         --text-muted: #94a3b8;
         --accent-main: #f8fafc;
-        --accent-soft: rgba(241, 245, 249, 0.08);
+        --accent-soft: rgba(241, 245, 249, 0.1);
         --border-color: #1e293b;
-        --shadow-main: 0 30px 60px -12px rgba(0, 0, 0, 0.25);
-        --shadow-glow: 0 10px 40px -10px rgba(248, 250, 252, 0.15);
+        --shadow-main: 0 35px 70px -15px rgba(0, 0, 0, 0.3);
+        --shadow-glow: 0 20px 50px -12px rgba(248, 250, 252, 0.2);
       }
 
       .theme-rosa {
         --bg-main: #fff1f2;
         --bg-card: #ffffff;
-        --bg-glass: rgba(255, 255, 255, 0.45);
+        --bg-glass: rgba(255, 255, 255, 0.7);
         --text-main: #881337;
         --text-muted: #e11d48;
         --accent-main: #fb7185;
-        --accent-soft: rgba(251, 113, 133, 0.1);
+        --accent-soft: rgba(251, 113, 133, 0.12);
         --border-color: #fecdd3;
-        --shadow-main: 0 30px 60px -12px rgba(136, 19, 55, 0.05);
-        --shadow-glow: 0 10px 40px -10px rgba(251, 113, 133, 0.3);
+        --shadow-main: 0 35px 70px -15px rgba(136, 19, 55, 0.08);
+        --shadow-glow: 0 20px 50px -12px rgba(251, 113, 133, 0.4);
       }
 
       .theme-azul {
         --bg-main: #eff6ff;
         --bg-card: #ffffff;
-        --bg-glass: rgba(255, 255, 255, 0.45);
+        --bg-glass: rgba(255, 255, 255, 0.7);
         --text-main: #1e3a8a;
         --text-muted: #2563eb;
         --accent-main: #3b82f6;
-        --accent-soft: rgba(59, 130, 246, 0.1);
+        --accent-soft: rgba(59, 130, 246, 0.12);
         --border-color: #dbeafe;
-        --shadow-main: 0 30px 60px -12px rgba(30, 58, 138, 0.05);
-        --shadow-glow: 0 10px 40px -10px rgba(59, 130, 246, 0.3);
+        --shadow-main: 0 35px 70px -15px rgba(30, 58, 138, 0.08);
+        --shadow-glow: 0 20px 50px -12px rgba(59, 130, 246, 0.4);
       }
 
-      /* GLOBAL RESET & CONTAINMENT */
       * { 
         box-sizing: border-box !important; 
         -webkit-tap-highlight-color: transparent;
@@ -134,59 +133,56 @@
       .no-scrollbar::-webkit-scrollbar { display: none; }
       .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
-      /* PREMIUM INPUTS & SELECTS */
+      /* PREMIUM INPUTS */
       .input-premium {
         width: 100% !important;
-        max-width: 100% !important;
         height: var(--btn-height) !important;
         background: var(--bg-main);
-        border: 2px solid var(--border-color);
-        border-radius: 1.5rem;
-        padding: 0 1.5rem;
-        font-weight: 700;
+        border: 2.5px solid var(--border-color);
+        border-radius: 1.75rem;
+        padding: 0 1.75rem;
+        font-weight: 800;
         color: var(--text-main);
         outline: none;
         transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         font-size: 16px;
-        display: block;
       }
 
       .input-premium:focus {
         border-color: var(--accent-main);
         background: var(--bg-card);
-        box-shadow: 0 0 0 4px var(--accent-soft);
+        box-shadow: 0 0 0 5px var(--accent-soft);
       }
 
       .input-picker-premium {
         text-align: center !important;
         cursor: pointer;
         appearance: none;
-        -webkit-appearance: none;
       }
 
-      /* BOTÕES DE AÇÃO RESTAURADOS - PADRÃO PREMIUM */
+      /* BOTÕES ULTRA-PREMIUM (GROSSOS & BLACK) */
       .btn-action-primary {
         width: 100%;
         height: var(--btn-height) !important;
         background: var(--accent-main);
         color: var(--bg-card);
-        border-radius: 1.5rem;
+        border-radius: 1.75rem;
         font-weight: 900;
-        font-size: 0.9rem;
+        font-size: 0.95rem;
         display: flex;
         align-items: center;
         justify-content: center;
         box-shadow: var(--shadow-glow);
-        transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         text-transform: uppercase;
-        letter-spacing: 0.2em;
+        letter-spacing: 0.25em;
         border: none;
         cursor: pointer;
-        padding: 0 2rem;
+        padding: 0 2.5rem;
       }
 
       .btn-action-primary:active {
-        transform: scale(0.96);
+        transform: scale(0.95);
         box-shadow: none;
       }
 
@@ -195,18 +191,18 @@
         height: var(--btn-height) !important;
         background: transparent;
         color: var(--text-muted);
-        font-weight: 800;
-        border: 2px solid var(--border-color);
-        border-radius: 1.5rem;
+        font-weight: 900;
+        border: 2.5px solid var(--border-color);
+        border-radius: 1.75rem;
         text-transform: uppercase;
-        letter-spacing: 0.15em;
+        letter-spacing: 0.2em;
         cursor: pointer;
         transition: all 0.3s;
         display: flex;
         align-items: center;
         justify-content: center;
-        padding: 0 2rem;
-        font-size: 0.85rem;
+        padding: 0 2.5rem;
+        font-size: 0.9rem;
       }
 
       .btn-action-secondary:hover {
@@ -216,24 +212,31 @@
       }
 
       .btn-action-secondary:active {
-        transform: scale(0.96);
+        transform: scale(0.95);
+      }
+
+      /* GLASS EFFECT OTIMIZADO */
+      .glass-mobile-nav {
+        backdrop-filter: blur(50px) saturate(220%) !important;
+        -webkit-backdrop-filter: blur(50px) saturate(220%) !important;
+        background: var(--bg-glass) !important;
+        border: 2px solid var(--border-color) !important;
       }
     </style>
-  
-    <script type="importmap">
+  <script type="importmap">
 {
   "imports": {
     "react": "https://esm.sh/react@^19.2.3",
     "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
     "react/": "https://esm.sh/react@^19.2.3/",
-    "@supabase/supabase-js": "https://esm.sh/@supabase/supabase-js@^2.89.0",
+    "@supabase/supabase-js": "https://esm.sh/@supabase/supabase-js@^2.90.1",
     "vite": "https://esm.sh/vite@^7.3.1",
     "@vitejs/plugin-react": "https://esm.sh/@vitejs/plugin-react@^5.1.2",
     "vite-plugin-pwa": "https://esm.sh/vite-plugin-pwa@^1.2.0"
   }
 }
 </script>
-  </head>
+</head>
   <body>
     <div id="root"></div>
     <script type="module" src="/index.tsx"></script>
