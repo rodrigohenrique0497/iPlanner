@@ -45,7 +45,8 @@
             boxShadow: {
               premium: "var(--shadow-main)",
               glow: "var(--shadow-glow)",
-              glass: "0 20px 48px -12px rgba(0, 0, 0, 0.18)",
+              /* Sombra Ultra Seamless - Sem bordas aparentes */
+              glass: "0 20px 60px -15px rgba(0, 0, 0, 0.12), 0 10px 30px -10px rgba(0, 0, 0, 0.05)",
             },
             borderRadius: {
               planner: "var(--radius-planner)",
@@ -61,14 +62,14 @@
       :root {
         --bg-main: #f8fafc;
         --bg-card: #ffffff;
-        --bg-glass: rgba(255, 255, 255, 0.82);
+        --bg-glass: rgba(255, 255, 255, 0.65);
         --text-main: #0f172a;
         --text-muted: #64748b;
         --accent-main: #0f172a;
         --accent-soft: rgba(15, 23, 42, 0.05);
         --border-color: #e2e8f0;
-        --shadow-main: 0 25px 50px -12px rgba(0, 0, 0, 0.06);
-        --shadow-glow: 0 0 15px 0 rgba(15, 23, 42, 0.08);
+        --shadow-main: 0 25px 50px -12px rgba(0, 0, 0, 0.04);
+        --shadow-glow: 0 0 15px 0 rgba(15, 23, 42, 0.06);
         --radius-planner: 2rem;
         --radius-planner-sm: 1rem;
       }
@@ -76,7 +77,7 @@
       .theme-dark {
         --bg-main: #020617;
         --bg-card: #0f172a;
-        --bg-glass: rgba(15, 23, 42, 0.82);
+        --bg-glass: rgba(15, 23, 42, 0.65);
         --text-main: #f8fafc;
         --text-muted: #94a3b8;
         --accent-main: #f1f5f9;
@@ -88,42 +89,46 @@
       .theme-rosa {
         --bg-main: #fff1f2;
         --bg-card: #ffffff;
-        --bg-glass: rgba(255, 255, 255, 0.82);
+        --bg-glass: rgba(255, 255, 255, 0.65);
         --text-main: #881337;
         --text-muted: #e11d48;
         --accent-main: #fb7185;
         --accent-soft: rgba(251, 113, 133, 0.1);
         --border-color: #fecdd3;
-        --shadow-main: 0 25px 50px -12px rgba(136, 19, 55, 0.08);
-        --shadow-glow: 0 0 15px 0 rgba(251, 113, 133, 0.15);
+        --shadow-main: 0 25px 50px -12px rgba(136, 19, 55, 0.06);
       }
 
       .theme-azul {
         --bg-main: #eff6ff;
         --bg-card: #ffffff;
-        --bg-glass: rgba(255, 255, 255, 0.82);
+        --bg-glass: rgba(255, 255, 255, 0.65);
         --text-main: #1e3a8a;
         --text-muted: #2563eb;
         --accent-main: #3b82f6;
         --accent-soft: rgba(59, 130, 246, 0.1);
         --border-color: #dbeafe;
-        --shadow-main: 0 25px 50px -12px rgba(30, 58, 138, 0.08);
-        --shadow-glow: 0 0 15px 0 rgba(59, 130, 246, 0.15);
+        --shadow-main: 0 25px 50px -12px rgba(30, 58, 138, 0.06);
       }
 
-      /* Backdrop Full-Screen Refinado */
-      .modal-backdrop {
-        position: fixed;
-        inset: 0;
-        z-index: 100;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: 1rem;
-        background-color: rgba(0, 0, 0, 0.4);
-        backdrop-filter: blur(24px);
-        -webkit-backdrop-filter: blur(24px);
-        animation: fadeIn 0.3s ease-out;
+      /* Vidro Seamless iOS Style */
+      .glass-header-mobile {
+        backdrop-filter: blur(32px) saturate(180%);
+        -webkit-backdrop-filter: blur(32px) saturate(180%);
+        background: var(--bg-glass);
+        border-bottom: 0.5px solid rgba(255, 255, 255, 0.1);
+        padding-top: env(safe-area-inset-top, 24px);
+      }
+
+      .glass-mobile-nav {
+        backdrop-filter: blur(32px) saturate(180%);
+        -webkit-backdrop-filter: blur(32px) saturate(180%);
+        background: var(--bg-glass);
+        border: 0.5px solid rgba(255, 255, 255, 0.1);
+      }
+
+      /* Shadow Glow suave */
+      .shadow-glow-seamless {
+        box-shadow: 0 0 40px -10px var(--accent-soft);
       }
 
       body {
@@ -141,26 +146,17 @@
       }
 
       @keyframes fadeIn {
-        from { opacity: 0; transform: translateY(8px); }
+        from { opacity: 0; transform: translateY(4px); }
         to { opacity: 1; transform: translateY(0); }
       }
 
       .no-scrollbar::-webkit-scrollbar { display: none; }
       .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
-      /* Otimização Heavy Glass para Mobile Nav */
-      .glass-mobile-nav {
-        backdrop-filter: blur(28px) saturate(160%);
-        -webkit-backdrop-filter: blur(28px) saturate(160%);
-        background: color-mix(in srgb, var(--bg-card) 92%, black 8%);
-        border: 1px solid rgba(255, 255, 255, 0.15);
-      }
-
-      /* Inputs Premium Robustos */
+      /* Inputs & Botões Robustos */
       input, select, textarea {
         background: var(--bg-card);
         color: var(--text-main);
-        transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
         min-height: 3.75rem; 
         font-weight: 600;
         padding-left: 1.75rem;
@@ -170,12 +166,6 @@
         outline: none;
       }
       
-      input:focus, select:focus, textarea:focus {
-        border-color: var(--accent-main) !important;
-        box-shadow: 0 0 0 4px var(--accent-soft) !important;
-      }
-
-      /* Botões Padronizados 60px Altura */
       .btn-action-primary {
         height: 3.75rem;
         padding-left: 2rem;
@@ -189,17 +179,14 @@
         align-items: center;
         justify-content: center;
         gap: 0.75rem;
-        transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-        white-space: nowrap;
         background-color: var(--accent-main);
         color: var(--bg-card);
         cursor: pointer;
         border: none;
+        transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
       }
 
-      .btn-action-primary:active {
-        transform: scale(0.96);
-      }
+      .btn-action-primary:active { transform: scale(0.96); }
 
       .btn-action-secondary {
         height: 3.75rem;
@@ -214,16 +201,14 @@
         align-items: center;
         justify-content: center;
         gap: 0.75rem;
-        transition: all 0.2s;
         border: 1px solid var(--border-color);
         background: var(--bg-card);
         color: var(--text-muted);
         cursor: pointer;
+        transition: all 0.2s;
       }
 
-      .btn-action-secondary:active {
-        transform: scale(0.96);
-      }
+      .btn-action-secondary:active { transform: scale(0.96); }
 
       .btn-close-modal {
         width: 3rem;
@@ -236,29 +221,22 @@
         color: var(--text-muted);
         transition: all 0.2s;
         cursor: pointer;
-        flex-shrink: 0;
-      }
-      
-      .btn-close-modal:hover {
-        background: var(--accent-soft);
-        color: var(--accent-main);
       }
     </style>
   
     <script type="importmap">
-    {
-      "imports": {
-        "react": "https://esm.sh/react@^19.2.3",
-        "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
-        "react/": "https://esm.sh/react@^19.2.3/",
-        "@supabase/supabase-js": "https://esm.sh/@supabase/supabase-js@^2.89.0",
-        "vite": "https://esm.sh/vite@^7.3.0",
-        "@vitejs/plugin-react": "https://esm.sh/@vitejs/plugin-react@^5.1.2",
-        "vite-plugin-pwa": "https://esm.sh/vite-plugin-pwa@^1.2.0"
-      }
-    }
-    </script>
-  
+{
+  "imports": {
+    "react": "https://esm.sh/react@^19.2.3",
+    "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
+    "react/": "https://esm.sh/react@^19.2.3/",
+    "@supabase/supabase-js": "https://esm.sh/@supabase/supabase-js@^2.89.0",
+    "vite": "https://esm.sh/vite@^7.3.1",
+    "@vitejs/plugin-react": "https://esm.sh/@vitejs/plugin-react@^5.1.2",
+    "vite-plugin-pwa": "https://esm.sh/vite-plugin-pwa@^1.2.0"
+  }
+}
+</script>
   </head>
   <body>
     <div id="root"></div>

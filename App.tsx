@@ -173,13 +173,17 @@ const App: React.FC = () => {
     <div className="flex min-h-screen bg-theme-bg overflow-hidden relative">
       <Sidebar currentView={view} setView={setView} user={currentUser} onLogout={handleLogout} isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
       <main className="flex-1 overflow-y-auto no-scrollbar relative md:pb-0 pb-32">
-        <div className="md:hidden p-6 flex justify-between items-center sticky top-0 bg-theme-bg/80 backdrop-blur-md z-50">
-           <h1 className="text-2xl font-black text-theme-text tracking-tighter">iPlanner</h1>
+        {/* Header Mobile iOS 26 style (Ultra Glass) */}
+        <div className="md:hidden px-6 py-4 flex justify-between items-center sticky top-0 z-50 glass-header-mobile">
+           <div className="flex flex-col">
+             <h1 className="text-2xl font-black text-theme-text tracking-tighter leading-none">iPlanner</h1>
+             <p className="text-[8px] font-black uppercase tracking-[0.4em] text-theme-muted opacity-60 mt-1">Premium Edition</p>
+           </div>
            <button 
              onClick={() => setIsSidebarOpen(true)} 
-             className="w-14 h-14 flex items-center justify-center rounded-2xl bg-theme-card border border-theme-border shadow-sm active:scale-95 transition-transform"
+             className="w-12 h-12 flex items-center justify-center rounded-2xl bg-theme-card/40 border border-theme-border/20 shadow-glass active:scale-95 transition-all"
            >
-             <span className="material-symbols-outlined !text-3xl leading-none flex items-center justify-center">menu</span>
+             <span className="material-symbols-outlined !text-3xl leading-none">menu</span>
            </button>
         </div>
         {renderView()}
