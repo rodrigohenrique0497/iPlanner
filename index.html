@@ -59,23 +59,23 @@
       :root {
         --bg-main: #f8fafc;
         --bg-card: #ffffff;
-        --bg-glass: rgba(255, 255, 255, 0.65);
+        --bg-glass: rgba(255, 255, 255, 0.55);
         --text-main: #0f172a;
         --text-muted: #64748b;
         --accent-main: #0f172a;
-        --accent-soft: rgba(15, 23, 42, 0.06);
+        --accent-soft: rgba(15, 23, 42, 0.08);
         --border-color: #e2e8f0;
         --shadow-main: 0 35px 70px -15px rgba(0, 0, 0, 0.04);
         --shadow-glow: 0 20px 50px -12px rgba(15, 23, 42, 0.35);
-        --radius-planner: 2.5rem;
-        --radius-planner-sm: 1.5rem;
-        --btn-height: 4.75rem;
+        --radius-planner: 2.75rem;
+        --radius-planner-sm: 1.75rem;
+        --btn-height: 5rem;
       }
 
       .theme-dark {
         --bg-main: #020617;
         --bg-card: #0f172a;
-        --bg-glass: rgba(15, 23, 42, 0.75);
+        --bg-glass: rgba(15, 23, 42, 0.65);
         --text-main: #f8fafc;
         --text-muted: #94a3b8;
         --accent-main: #f8fafc;
@@ -88,7 +88,7 @@
       .theme-rosa {
         --bg-main: #fff1f2;
         --bg-card: #ffffff;
-        --bg-glass: rgba(255, 255, 255, 0.7);
+        --bg-glass: rgba(255, 255, 255, 0.6);
         --text-main: #881337;
         --text-muted: #e11d48;
         --accent-main: #fb7185;
@@ -101,7 +101,7 @@
       .theme-azul {
         --bg-main: #eff6ff;
         --bg-card: #ffffff;
-        --bg-glass: rgba(255, 255, 255, 0.7);
+        --bg-glass: rgba(255, 255, 255, 0.6);
         --text-main: #1e3a8a;
         --text-muted: #2563eb;
         --accent-main: #3b82f6;
@@ -136,7 +136,7 @@
       /* PREMIUM INPUTS */
       .input-premium {
         width: 100% !important;
-        height: var(--btn-height) !important;
+        height: 4.5rem !important; /* Ligeiramente menor que o botão para hierarquia visual */
         background: var(--bg-main);
         border: 2.5px solid var(--border-color);
         border-radius: 1.75rem;
@@ -154,55 +154,58 @@
         box-shadow: 0 0 0 5px var(--accent-soft);
       }
 
-      .input-picker-premium {
-        text-align: center !important;
-        cursor: pointer;
-        appearance: none;
-      }
-
-      /* BOTÕES ULTRA-PREMIUM (GROSSOS & BLACK) */
+      /* BOTÕES ULTRA-PREMIUM (SOLID MASSIVE DESIGN) */
       .btn-action-primary {
-        width: 100%;
         height: var(--btn-height) !important;
         background: var(--accent-main);
         color: var(--bg-card);
-        border-radius: 1.75rem;
+        border-radius: 2rem;
         font-weight: 900;
-        font-size: 0.95rem;
-        display: flex;
+        font-size: 0.9rem;
+        display: inline-flex;
         align-items: center;
         justify-content: center;
+        gap: 1.25rem;
         box-shadow: var(--shadow-glow);
         transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         text-transform: uppercase;
-        letter-spacing: 0.25em;
+        letter-spacing: 0.3em;
         border: none;
         cursor: pointer;
         padding: 0 2.5rem;
+        white-space: nowrap;
+        text-align: center;
       }
 
       .btn-action-primary:active {
-        transform: scale(0.95);
+        transform: scale(0.96);
         box-shadow: none;
       }
 
+      .btn-action-primary .material-symbols-outlined {
+        font-size: 32px !important;
+        font-variation-settings: 'FILL' 1;
+      }
+
       .btn-action-secondary {
-        width: 100%;
         height: var(--btn-height) !important;
         background: transparent;
         color: var(--text-muted);
         font-weight: 900;
         border: 2.5px solid var(--border-color);
-        border-radius: 1.75rem;
+        border-radius: 2rem;
         text-transform: uppercase;
-        letter-spacing: 0.2em;
+        letter-spacing: 0.25em;
         cursor: pointer;
         transition: all 0.3s;
-        display: flex;
+        display: inline-flex;
         align-items: center;
         justify-content: center;
+        gap: 1.25rem;
         padding: 0 2.5rem;
-        font-size: 0.9rem;
+        font-size: 0.85rem;
+        white-space: nowrap;
+        text-align: center;
       }
 
       .btn-action-secondary:hover {
@@ -212,13 +215,17 @@
       }
 
       .btn-action-secondary:active {
-        transform: scale(0.95);
+        transform: scale(0.96);
       }
 
-      /* GLASS EFFECT OTIMIZADO */
+      .btn-action-secondary .material-symbols-outlined {
+        font-size: 30px !important;
+      }
+
+      /* GLASS EFFECT OTIMIZADO - PROFUNDIDADE MÁXIMA */
       .glass-mobile-nav {
-        backdrop-filter: blur(50px) saturate(220%) !important;
-        -webkit-backdrop-filter: blur(50px) saturate(220%) !important;
+        backdrop-filter: blur(64px) saturate(220%) !important;
+        -webkit-backdrop-filter: blur(64px) saturate(220%) !important;
         background: var(--bg-glass) !important;
         border: 2px solid var(--border-color) !important;
       }

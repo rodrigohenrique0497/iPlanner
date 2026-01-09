@@ -110,9 +110,14 @@ const TaskList: React.FC<TaskListProps> = ({ tasks, onToggle, onDelete, onAdd, u
                 </div>
                 <div className="space-y-2.5">
                   <label className="text-[10px] font-black uppercase text-theme-muted tracking-widest opacity-60 block ml-4">Prioridade</label>
-                  <div className="flex bg-theme-bg/50 p-1.5 rounded-[1.5rem] border-2 border-theme-border h-[4.75rem] w-full items-center">
+                  <div className="flex bg-theme-bg/50 p-2 rounded-[1.75rem] border-2 border-theme-border h-[4.5rem] w-full items-center gap-1.5">
                     {[Priority.LOW, Priority.MEDIUM, Priority.HIGH].map(p => (
-                      <button key={p} type="button" onClick={() => setNewPriority(p)} className={`flex-1 h-full rounded-xl text-[10px] font-black uppercase transition-all tracking-tighter ${newPriority === p ? priorityStyleMap[p].solid : 'text-theme-muted opacity-40'}`}>
+                      <button 
+                        key={p} 
+                        type="button" 
+                        onClick={() => setNewPriority(p)} 
+                        className={`flex-1 h-full rounded-2xl text-[10px] font-black uppercase transition-all tracking-tighter flex items-center justify-center ${newPriority === p ? priorityStyleMap[p].solid : 'text-theme-muted opacity-40 hover:opacity-100'}`}
+                      >
                         {priorityStyleMap[p].label}
                       </button>
                     ))}
@@ -130,8 +135,14 @@ const TaskList: React.FC<TaskListProps> = ({ tasks, onToggle, onDelete, onAdd, u
             </div>
             
             <div className="flex flex-col sm:flex-row gap-5 pt-4 w-full">
-              <button type="submit" className="btn-action-primary flex-1">CONFIRMAR TAREFA</button>
-              <button type="button" onClick={() => setIsAdding(false)} className="btn-action-secondary flex-1">DESCARTAR</button>
+              <button type="submit" className="btn-action-primary flex-1">
+                <span className="material-symbols-outlined">check_circle</span>
+                CONFIRMAR TAREFA
+              </button>
+              <button type="button" onClick={() => setIsAdding(false)} className="btn-action-secondary flex-1">
+                <span className="material-symbols-outlined">delete_forever</span>
+                DESCARTAR
+              </button>
             </div>
           </form>
         </div>

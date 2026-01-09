@@ -18,32 +18,32 @@ const MobileNav: React.FC<MobileNavProps> = ({ currentView, setView }) => {
 
   const handleNavClick = (view: ViewState) => {
     if (typeof navigator !== 'undefined' && navigator.vibrate) {
-      navigator.vibrate(10); // Vibração levemente mais tátil
+      navigator.vibrate(12); // Vibração hática premium
     }
     setView(view);
   };
 
   return (
-    <nav className="md:hidden fixed bottom-6 left-5 right-5 h-[5rem] glass-mobile-nav flex justify-around items-center px-4 z-[60] rounded-[2.5rem] shadow-glass">
+    <nav className="md:hidden fixed bottom-7 left-6 right-6 h-[5.25rem] glass-mobile-nav flex justify-around items-center px-4 z-[60] rounded-[2.75rem] shadow-glass border-theme-border/50">
       {navItems.map((item) => {
         const isActive = currentView === item.id;
         return (
           <button
             key={item.id}
             onClick={() => handleNavClick(item.id as ViewState)}
-            className={`flex flex-col items-center justify-center gap-1 h-full w-full max-w-[4.5rem] transition-all active:scale-90 relative ${isActive ? 'text-theme-accent' : 'text-theme-muted'}`}
+            className={`flex flex-col items-center justify-center gap-1.5 h-full w-full max-w-[4.5rem] transition-all active:scale-90 relative ${isActive ? 'text-theme-accent' : 'text-theme-muted'}`}
           >
             <span 
-              className={`material-symbols-outlined !text-[28px] transition-all duration-400 ${isActive ? 'font-black scale-110 opacity-100' : 'opacity-50'}`}
+              className={`material-symbols-outlined !text-[30px] transition-all duration-500 ${isActive ? 'font-black scale-110 opacity-100' : 'opacity-40'}`}
               style={isActive ? { fontVariationSettings: "'FILL' 1" } : {}}
             >
               {item.icon}
             </span>
-            <span className={`text-[8px] font-black uppercase tracking-[0.15em] transition-opacity ${isActive ? 'opacity-100' : 'opacity-40'}`}>
+            <span className={`text-[8px] font-black uppercase tracking-[0.2em] transition-opacity ${isActive ? 'opacity-100' : 'opacity-40'}`}>
               {item.label}
             </span>
             {isActive && (
-              <div className="absolute top-2 right-3 w-2 h-2 bg-theme-accent rounded-full shadow-glow"></div>
+              <div className="absolute top-2 right-3 w-1.5 h-1.5 bg-theme-accent rounded-full shadow-glow"></div>
             )}
           </button>
         );
