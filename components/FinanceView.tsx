@@ -77,24 +77,24 @@ const FinanceView: React.FC<FinanceViewProps> = ({ transactions, onAdd, onDelete
       {/* Formulário Inline Premium */}
       {isAdding && (
         <div className="animate-in slide-in-from-top-6 duration-500">
-          <form onSubmit={handleAdd} className="bg-theme-card p-8 md:p-12 rounded-[2.5rem] border border-theme-border shadow-premium space-y-8">
+          <form onSubmit={handleAdd} className="bg-theme-card p-6 md:p-12 rounded-[2.5rem] border border-theme-border shadow-premium space-y-8">
             <div className="flex justify-between items-center mb-2">
               <h3 className="text-2xl font-black text-theme-text tracking-tight uppercase">Nova Movimentação</h3>
             </div>
             
             <div className="space-y-6">
-              <div className="flex bg-theme-bg/50 p-1.5 rounded-2xl border border-theme-border h-16 items-center">
+              <div className="flex bg-theme-bg/50 p-1.5 rounded-2xl border border-theme-border h-[4.5rem] items-center">
                 <button 
                   type="button"
                   onClick={() => setType('expense')}
-                  className={`flex-1 h-full rounded-xl text-[11px] font-black uppercase tracking-widest transition-all ${type === 'expense' ? 'bg-theme-card shadow-sm text-red-600' : 'text-theme-muted opacity-50'}`}
+                  className={`flex-1 h-full rounded-xl text-[11px] font-black uppercase tracking-widest transition-all ${type === 'expense' ? 'bg-red-600 text-white shadow-lg' : 'text-theme-muted opacity-50'}`}
                 >
                   Saída
                 </button>
                 <button 
                   type="button"
                   onClick={() => setType('income')}
-                  className={`flex-1 h-full rounded-xl text-[11px] font-black uppercase tracking-widest transition-all ${type === 'income' ? 'bg-theme-card shadow-sm text-green-600' : 'text-theme-muted opacity-50'}`}
+                  className={`flex-1 h-full rounded-xl text-[11px] font-black uppercase tracking-widest transition-all ${type === 'income' ? 'bg-green-600 text-white shadow-lg' : 'text-theme-muted opacity-50'}`}
                 >
                   Entrada
                 </button>
@@ -108,7 +108,7 @@ const FinanceView: React.FC<FinanceViewProps> = ({ transactions, onAdd, onDelete
                   placeholder="Ex: Aluguel, Salário, Lazer" 
                   value={desc}
                   onChange={e => setDesc(e.target.value)}
-                  className="w-full px-7 h-[4.5rem] bg-theme-bg/40 rounded-2xl border border-theme-border/50 outline-none font-bold text-base text-theme-text placeholder:opacity-40"
+                  className="input-premium"
                 />
               </div>
 
@@ -121,25 +121,28 @@ const FinanceView: React.FC<FinanceViewProps> = ({ transactions, onAdd, onDelete
                     placeholder="0,00" 
                     value={amount}
                     onChange={e => setAmount(e.target.value)}
-                    className="w-full px-7 h-[4.5rem] bg-theme-bg/40 rounded-2xl border border-theme-border/50 outline-none font-bold text-base text-theme-text"
+                    className="input-premium"
                   />
                 </div>
                 <div className="space-y-2.5">
                   <label className="text-[10px] font-black uppercase text-theme-muted ml-5 tracking-widest opacity-40">Categoria</label>
-                  <select 
-                    value={category}
-                    onChange={e => setCategory(e.target.value as FinanceCategory)}
-                    className="w-full px-7 h-[4.5rem] bg-theme-bg/40 rounded-2xl border border-theme-border/50 outline-none font-black text-[11px] uppercase tracking-widest text-theme-text appearance-none cursor-pointer"
-                  >
-                    <option value="Salário">Salário</option>
-                    <option value="Casa">Casa / Contas</option>
-                    <option value="Assinatura">Assinatura</option>
-                    <option value="Parcela">Parcela</option>
-                    <option value="Reserva">Reserva</option>
-                    <option value="Lazer">Lazer</option>
-                    <option value="Alimentação">Alimentação</option>
-                    <option value="Outros">Outros</option>
-                  </select>
+                  <div className="relative">
+                    <select 
+                      value={category}
+                      onChange={e => setCategory(e.target.value as FinanceCategory)}
+                      className="input-premium appearance-none cursor-pointer uppercase tracking-widest text-[11px]"
+                    >
+                      <option value="Salário">Salário</option>
+                      <option value="Casa">Casa / Contas</option>
+                      <option value="Assinatura">Assinatura</option>
+                      <option value="Parcela">Parcela</option>
+                      <option value="Reserva">Reserva</option>
+                      <option value="Lazer">Lazer</option>
+                      <option value="Alimentação">Alimentação</option>
+                      <option value="Outros">Outros</option>
+                    </select>
+                    <span className="material-symbols-outlined absolute right-5 top-1/2 -translate-y-1/2 pointer-events-none opacity-40">expand_more</span>
+                  </div>
                 </div>
               </div>
             </div>
@@ -154,25 +157,25 @@ const FinanceView: React.FC<FinanceViewProps> = ({ transactions, onAdd, onDelete
 
       {/* Stats Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-        <div className="bg-theme-card p-10 rounded-[2.5rem] border border-theme-border shadow-sm space-y-4">
+        <div className="bg-theme-card p-8 rounded-[2.5rem] border border-theme-border shadow-sm space-y-4">
           <p className="text-[10px] font-black uppercase tracking-widest text-theme-muted opacity-50">Saldo Total</p>
           <p className={`text-2xl font-black ${stats.balance >= 0 ? 'text-green-600' : 'text-red-600'}`}>
             R$ {stats.balance.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
           </p>
         </div>
-        <div className="bg-green-500/10 p-10 rounded-[2.5rem] border border-green-500/20 space-y-4">
+        <div className="bg-green-500/10 p-8 rounded-[2.5rem] border border-green-500/20 space-y-4">
           <p className="text-[10px] font-black uppercase tracking-widest text-green-600 opacity-80">Entradas</p>
           <p className="text-2xl font-black text-green-700">
             R$ {stats.income.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
           </p>
         </div>
-        <div className="bg-red-500/10 p-10 rounded-[2.5rem] border border-red-500/20 space-y-4">
+        <div className="bg-red-500/10 p-8 rounded-[2.5rem] border border-red-500/20 space-y-4">
           <p className="text-[10px] font-black uppercase tracking-widest text-red-600 opacity-80">Saídas</p>
           <p className="text-2xl font-black text-red-700">
             R$ {stats.expense.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
           </p>
         </div>
-        <div className="bg-blue-500/10 p-10 rounded-[2.5rem] border border-blue-500/20 space-y-4">
+        <div className="bg-blue-500/10 p-8 rounded-[2.5rem] border border-blue-500/20 space-y-4">
           <p className="text-[10px] font-black uppercase tracking-widest text-blue-600 opacity-80">Reserva</p>
           <p className="text-2xl font-black text-blue-700">
             R$ {stats.emergency.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}

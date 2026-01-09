@@ -143,7 +143,7 @@ const Settings: React.FC<SettingsProps> = ({ user, onUpdate, onLogout, onExport 
               type="text" 
               value={name} 
               onChange={e => setName(e.target.value)} 
-              className="w-full h-[3.75rem] bg-theme-bg px-7 rounded-2xl text-theme-text font-bold outline-none border border-theme-border transition-all focus:border-theme-accent" 
+              className="input-premium" 
               placeholder="Nome"
             />
           </div>
@@ -153,7 +153,7 @@ const Settings: React.FC<SettingsProps> = ({ user, onUpdate, onLogout, onExport 
               type="text" 
               value={goal} 
               onChange={e => setGoal(e.target.value)} 
-              className="w-full h-[3.75rem] bg-theme-bg px-7 rounded-2xl text-theme-text font-bold outline-none border border-theme-border transition-all focus:border-theme-accent" 
+              className="input-premium" 
               placeholder="Ex: Minha produtividade"
             />
           </div>
@@ -161,7 +161,7 @@ const Settings: React.FC<SettingsProps> = ({ user, onUpdate, onLogout, onExport 
 
         <button 
           onClick={() => onUpdate({ name, focusGoal: goal })} 
-          className="btn-action-primary w-full !rounded-2xl shadow-glow !h-[3.75rem]"
+          className="btn-action-primary"
         >
           Salvar Alterações
         </button>
@@ -173,7 +173,7 @@ const Settings: React.FC<SettingsProps> = ({ user, onUpdate, onLogout, onExport 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
           <button 
             onClick={handleExportData}
-            className="flex items-center gap-5 p-6 bg-theme-bg rounded-[2rem] border border-theme-border hover:border-theme-accent transition-all group shadow-sm active:scale-[0.98] h-[5rem]"
+            className="flex items-center gap-5 p-6 bg-theme-bg rounded-[2rem] border-2 border-theme-border hover:border-theme-accent transition-all group shadow-sm active:scale-[0.98] h-[5rem]"
           >
             <div className="w-12 h-12 bg-theme-card rounded-xl flex items-center justify-center border border-theme-border group-hover:bg-theme-accent group-hover:text-theme-card transition-all">
               <span className="material-symbols-outlined !text-2xl">download</span>
@@ -186,7 +186,7 @@ const Settings: React.FC<SettingsProps> = ({ user, onUpdate, onLogout, onExport 
 
           <button 
             onClick={handleImportClick}
-            className="flex items-center gap-5 p-6 bg-theme-bg rounded-[2rem] border border-theme-border hover:border-theme-accent transition-all group shadow-sm active:scale-[0.98] h-[5rem]"
+            className="flex items-center gap-5 p-6 bg-theme-bg rounded-[2rem] border-2 border-theme-border hover:border-theme-accent transition-all group shadow-sm active:scale-[0.98] h-[5rem]"
           >
             <div className="w-12 h-12 bg-theme-card rounded-xl flex items-center justify-center border border-theme-border group-hover:bg-emerald-500 group-hover:text-white transition-all">
               <span className="material-symbols-outlined !text-2xl">upload</span>
@@ -208,7 +208,7 @@ const Settings: React.FC<SettingsProps> = ({ user, onUpdate, onLogout, onExport 
         </div>
         <button 
           onClick={onLogout} 
-          className="bg-rose-600 text-white px-12 h-[3.75rem] rounded-2xl font-black shadow-premium hover:bg-rose-700 transition-all active:scale-95 w-full md:w-auto uppercase tracking-[0.2em] text-[11px]"
+          className="bg-rose-600 text-white px-12 h-[4.5rem] rounded-2xl font-black shadow-premium hover:bg-rose-700 transition-all active:scale-95 w-full md:w-auto uppercase tracking-[0.2em] text-[11px]"
         >
           Sair do iPlanner
         </button>

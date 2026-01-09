@@ -103,7 +103,7 @@ const TaskList: React.FC<TaskListProps> = ({ tasks, onToggle, onDelete, onAdd, u
 
       {/* Editor de Categorias Inline */}
       {isManagingCats && (
-        <div className="animate-in slide-in-from-top-4 duration-400 bg-theme-card p-8 rounded-[2rem] border border-theme-border shadow-premium space-y-6">
+        <div className="animate-in slide-in-from-top-4 duration-400 bg-theme-card p-6 rounded-[2rem] border border-theme-border shadow-premium space-y-6">
             <div className="flex justify-between items-center mb-4">
               <h3 className="text-xl font-black text-theme-text uppercase tracking-widest">Categorias</h3>
             </div>
@@ -125,9 +125,9 @@ const TaskList: React.FC<TaskListProps> = ({ tasks, onToggle, onDelete, onAdd, u
                 placeholder="Nova categoria..." 
                 value={tempCategory}
                 onChange={e => setTempCategory(e.target.value)}
-                className="flex-1 px-7 h-[3.5rem] bg-theme-bg border border-theme-border rounded-xl text-sm font-bold outline-none"
+                className="input-premium flex-1 h-[3.5rem] !text-sm"
               />
-              <button onClick={handleAddCategory} className="bg-theme-accent text-theme-card px-8 rounded-xl font-black text-[10px] uppercase tracking-widest h-[3.5rem]">ADICIONAR</button>
+              <button onClick={handleAddCategory} className="bg-theme-accent text-theme-card px-8 rounded-xl font-black text-[10px] uppercase tracking-widest h-[4.5rem]">ADICIONAR</button>
             </div>
         </div>
       )}
@@ -135,7 +135,7 @@ const TaskList: React.FC<TaskListProps> = ({ tasks, onToggle, onDelete, onAdd, u
       {/* Formulário de Tarefa Inline */}
       {isAdding && (
         <div className="animate-in slide-in-from-top-6 duration-500">
-          <form onSubmit={handleSubmit} className="bg-theme-card p-8 md:p-12 rounded-[2.5rem] border border-theme-border shadow-premium space-y-8 overflow-hidden">
+          <form onSubmit={handleSubmit} className="bg-theme-card p-6 md:p-12 rounded-[2.5rem] border border-theme-border shadow-premium space-y-8 overflow-hidden">
             <div className="flex justify-between items-center mb-4">
               <h3 className="text-2xl font-black text-theme-text uppercase">Nova Tarefa</h3>
             </div>
@@ -153,9 +153,12 @@ const TaskList: React.FC<TaskListProps> = ({ tasks, onToggle, onDelete, onAdd, u
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <div className="space-y-2">
                   <label className="text-[10px] font-black uppercase text-theme-muted ml-3 tracking-widest opacity-40">Categoria</label>
-                  <select value={newCategory} onChange={e => setNewCategory(e.target.value)} className="w-full px-6 h-[4.5rem] rounded-2xl uppercase outline-none border border-theme-border bg-theme-bg text-xs font-black">
-                    {userCategories.map(c => <option key={c} value={c}>{c}</option>)}
-                  </select>
+                  <div className="relative">
+                    <select value={newCategory} onChange={e => setNewCategory(e.target.value)} className="input-premium appearance-none uppercase tracking-widest text-[11px]">
+                      {userCategories.map(c => <option key={c} value={c}>{c}</option>)}
+                    </select>
+                    <span className="material-symbols-outlined absolute right-5 top-1/2 -translate-y-1/2 pointer-events-none opacity-40">expand_more</span>
+                  </div>
                 </div>
                 
                 <div className="space-y-2">
@@ -176,12 +179,12 @@ const TaskList: React.FC<TaskListProps> = ({ tasks, onToggle, onDelete, onAdd, u
 
                 <div className="space-y-2">
                   <label className="text-[10px] font-black uppercase text-theme-muted ml-3 tracking-widest opacity-40">Data Limite</label>
-                  <div className="relative w-full overflow-hidden rounded-2xl border border-theme-border bg-theme-bg">
+                  <div className="relative w-full overflow-hidden">
                     <input 
                       type="date" 
                       value={newDueDate} 
                       onChange={e => setNewDueDate(e.target.value)} 
-                      className="w-full px-4 h-[4.5rem] outline-none bg-transparent text-xs font-black uppercase appearance-none" 
+                      className="input-premium uppercase tracking-widest text-[11px]" 
                     />
                   </div>
                 </div>
@@ -204,7 +207,7 @@ const TaskList: React.FC<TaskListProps> = ({ tasks, onToggle, onDelete, onAdd, u
             placeholder="Buscar tarefas..." 
             value={searchQuery}
             onChange={e => setSearchQuery(e.target.value)}
-            className="w-full h-[3.75rem] pl-16 pr-8 bg-theme-card rounded-[1.75rem] border border-theme-border outline-none font-bold text-base shadow-sm group-focus-within:border-theme-accent transition-all text-theme-text"
+            className="w-full h-[4.5rem] pl-16 pr-8 bg-theme-card rounded-[1.75rem] border border-theme-border outline-none font-bold text-base shadow-sm group-focus-within:border-theme-accent transition-all text-theme-text"
           />
           <span className="absolute left-6 top-1/2 -translate-y-1/2 text-theme-muted opacity-50 group-focus-within:text-theme-accent transition-all">
             <span className="material-symbols-outlined !text-2xl">search</span>
@@ -245,7 +248,7 @@ const TaskList: React.FC<TaskListProps> = ({ tasks, onToggle, onDelete, onAdd, u
           return (
             <div
               key={task.id}
-              className={`flex items-center gap-5 md:gap-6 p-5 md:p-8 rounded-[2rem] border transition-all duration-300 ${task.completed ? 'bg-theme-bg border-transparent opacity-50 scale-[0.98]' : 'bg-theme-card border-theme-border shadow-sm hover:border-theme-accent/20 hover:shadow-premium'}`}
+              className={`flex items-center gap-5 md:gap-6 p-6 md:p-8 rounded-[2rem] border transition-all duration-300 ${task.completed ? 'bg-theme-bg border-transparent opacity-50 scale-[0.98]' : 'bg-theme-card border-theme-border shadow-sm hover:border-theme-accent/20 hover:shadow-premium'}`}
             >
               <button 
                 onClick={() => onToggle(task.id)}
