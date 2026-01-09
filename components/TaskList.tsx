@@ -127,7 +127,7 @@ const TaskList: React.FC<TaskListProps> = ({ tasks, onToggle, onDelete, onAdd, u
               placeholder="Nova categoria..." 
               value={tempCategory}
               onChange={e => setTempCategory(e.target.value)}
-              className="flex-1 px-6 h-[3.75rem] bg-theme-bg border border-theme-border rounded-2xl text-sm font-bold outline-none focus:border-theme-accent transition-all"
+              className="flex-1 px-7 h-[3.75rem] bg-theme-bg border border-theme-border rounded-2xl text-sm font-bold outline-none focus:border-theme-accent transition-all"
             />
             <button onClick={handleAddCategory} className="btn-action-primary !h-[3.75rem] shadow-glow">Adicionar</button>
           </div>
@@ -186,8 +186,8 @@ const TaskList: React.FC<TaskListProps> = ({ tasks, onToggle, onDelete, onAdd, u
             </div>
           </div>
           
-          {/* Otimização UX: Salvar antes de Cancelar */}
-          <div className="flex flex-col sm:flex-row-reverse justify-start pt-4 gap-4">
+          {/* Padronização de Ordem: Salvar antes de Cancelar */}
+          <div className="flex flex-col sm:flex-row justify-end pt-4 gap-4">
             <button type="submit" className="btn-action-primary shadow-glow w-full sm:w-auto">Agendar Tarefa</button>
             <button type="button" onClick={() => setIsAdding(false)} className="btn-action-secondary w-full sm:w-auto">Cancelar</button>
           </div>
@@ -256,8 +256,8 @@ const TaskList: React.FC<TaskListProps> = ({ tasks, onToggle, onDelete, onAdd, u
                 <p className={`font-bold text-[17px] md:text-[18px] tracking-tight truncate ${task.completed ? 'line-through text-theme-muted' : 'text-theme-text'}`}>
                   {task.title}
                 </p>
-                {/* Correção de Overflow Mobile: Flex-wrap nas badges */}
-                <div className="flex flex-wrap items-center gap-2.5 mt-2.5">
+                {/* Flex-wrap nas badges para evitar transbordo em telas estreitas */}
+                <div className="flex flex-wrap items-center gap-2 mt-2">
                    <span className={`text-[9px] font-black uppercase tracking-[0.15em] px-2.5 py-1.5 rounded-lg whitespace-nowrap ${task.completed ? 'bg-theme-muted/10 text-theme-muted' : 'bg-theme-accent-soft text-theme-accent'}`}>
                      {task.category}
                    </span>

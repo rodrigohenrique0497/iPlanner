@@ -18,7 +18,8 @@ const DailyView: React.FC<DailyViewProps> = ({ date, tasks, onToggle, onSetEnerg
   const [quickTaskTitle, setQuickTaskTitle] = useState('');
   const [creatingHour, setCreatingHour] = useState<number | null>(null);
 
-  const hours = Array.from({ length: 16 }, (_, i) => i + 6);
+  // Expansão para as 24 horas do dia
+  const hours = Array.from({ length: 24 }, (_, i) => i);
   const getTaskForHour = (h: number) => tasks.find(t => t.scheduledHour === h);
 
   const handleQuickAdd = (e?: React.FormEvent, h?: number) => {
@@ -51,28 +52,29 @@ const DailyView: React.FC<DailyViewProps> = ({ date, tasks, onToggle, onSetEnerg
   return (
     <div className="px-6 py-6 md:px-12 md:py-10 space-y-10 page-transition max-w-7xl mx-auto pb-32">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6">
-        <div className="space-y-1">
-          <h3 className="text-3xl md:text-4xl font-black tracking-tighter capitalize text-theme-text leading-tight">{dayName}</h3>
-          <p className="text-theme-muted font-bold uppercase tracking-[0.3em] text-[10px] opacity-100">{fullDate}</p>
+        <div className="space-y-1 max-w-full overflow-hidden">
+          <h3 className="text-3xl md:text-4xl font-black tracking-tighter capitalize text-theme-text leading-tight break-words">{dayName}</h3>
+          <p className="text-theme-muted font-bold uppercase tracking-[0.3em] text-[10px] opacity-100 truncate">{fullDate}</p>
         </div>
 
-        <div className="bg-theme-card/80 glass-effect p-1.5 rounded-2xl flex gap-1 border border-theme-border shadow-sm">
-          <button onClick={() => setView('daily')} className="px-4 py-2 bg-theme-accent text-theme-card rounded-xl shadow-glow text-[10px] font-black uppercase tracking-widest transition-all">Dia</button>
-          <button onClick={() => setView('weekly')} className="px-4 py-2 rounded-xl text-[10px] font-black uppercase text-theme-muted hover:text-theme-text transition-all">Semana</button>
-          <button onClick={() => setView('calendar')} className="px-4 py-2 rounded-xl text-[10px] font-black uppercase text-theme-muted hover:text-theme-text transition-all">Mês</button>
+        <div className="bg-theme-card/80 glass-effect p-1.5 rounded-2xl flex gap-1 border border-theme-border shadow-sm w-full sm:w-auto">
+          <button onClick={() => setView('daily')} className="flex-1 sm:flex-none px-4 py-2 bg-theme-accent text-theme-card rounded-xl shadow-glow text-[10px] font-black uppercase tracking-widest transition-all">Dia</button>
+          <button onClick={() => setView('weekly')} className="flex-1 sm:flex-none px-4 py-2 rounded-xl text-[10px] font-black uppercase text-theme-muted hover:text-theme-text transition-all">Semana</button>
+          <button onClick={() => setView('calendar')} className="flex-1 sm:flex-none px-4 py-2 rounded-xl text-[10px] font-black uppercase text-theme-muted hover:text-theme-text transition-all">Mês</button>
         </div>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
         <div className="lg:col-span-7 space-y-4">
-          <div className="space-y-3 max-h-[700px] overflow-y-auto pr-3 no-scrollbar pb-10">
+          <div className="space-y-3 pb-10">
             {hours.map(h => {
               const task = getTaskForHour(h);
               const isCreating = creatingHour === h;
+              const formattedHour = h.toString().padStart(2, '0');
 
               return (
                 <div key={h} className="flex gap-5 group items-center">
-                  <span className="w-12 text-[11px] font-black text-theme-text opacity-90 tracking-widest text-center shrink-0">{h}:00</span>
+                  <span className="w-12 text-[11px] font-black text-theme-text opacity-90 tracking-widest text-center shrink-0">{formattedHour}:00</span>
                   
                   {isCreating ? (
                     <form onSubmit={(e) => handleQuickAdd(e, h)} className="flex-1 relative animate-in fade-in zoom-in-95 duration-200">
@@ -81,7 +83,7 @@ const DailyView: React.FC<DailyViewProps> = ({ date, tasks, onToggle, onSetEnerg
                         type="text"
                         value={quickTaskTitle}
                         onChange={(e) => setQuickTaskTitle(e.target.value)}
-                        placeholder={`O que fará às ${h}:00?`}
+                        placeholder={`O que fará às ${formattedHour}:00?`}
                         className="w-full h-16 rounded-2xl border-2 border-theme-accent bg-theme-card px-6 font-bold text-sm outline-none shadow-premium text-theme-text"
                       />
                       <button 
@@ -113,7 +115,7 @@ const DailyView: React.FC<DailyViewProps> = ({ date, tasks, onToggle, onSetEnerg
                         <div className="flex justify-between items-center w-full transition-opacity">
                           <div className="flex items-center gap-3">
                             <span className="material-symbols-outlined !text-xl text-theme-accent opacity-60 group-hover/slot:opacity-100 group-hover/slot:scale-110 transition-all">add_circle</span>
-                            <span className="text-[10px] font-black uppercase text-theme-accent opacity-80 tracking-widest group-hover/slot:opacity-100 animate-pulse-slow group-hover/slot:animate-none">+ Agendar</span>
+                            <span className="text-[10px] font-black uppercase text-theme-accent opacity-80 tracking-widest group-hover/slot:opacity-100 animate-pulse-slow group-hover/slot:animate-none">Agendar</span>
                           </div>
                           <span className="text-[9px] font-bold text-theme-muted opacity-30 group-hover/slot:opacity-60 transition-opacity uppercase tracking-tighter">Espaço Livre</span>
                         </div>
