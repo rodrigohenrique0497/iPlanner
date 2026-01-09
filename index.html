@@ -1,6 +1,6 @@
 
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-br" class="overflow-x-hidden">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no" />
@@ -28,7 +28,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 
-    <!-- Tailwind Config -->
     <script>
       tailwind.config = {
         theme: {
@@ -56,7 +55,6 @@
       };
     </script>
 
-    <!-- Themes System -->
     <style>
       :root {
         --bg-main: #f8fafc;
@@ -110,24 +108,79 @@
         --shadow-main: 0 30px 60px -12px rgba(30, 58, 138, 0.05);
       }
 
-      body {
+      /* GLOBAL RESET & CONTAINMENT */
+      * { 
+        box-sizing: border-box !important; 
+        -webkit-tap-highlight-color: transparent;
+      }
+      
+      html, body {
+        width: 100%;
+        max-width: 100%;
+        overflow-x: hidden;
+        position: relative;
         font-family: "Plus Jakarta Sans", sans-serif;
         background: var(--bg-main);
         color: var(--text-main);
         -webkit-font-smoothing: antialiased;
         transition: background 0.6s cubic-bezier(0.16, 1, 0.3, 1);
         margin: 0;
-        overflow-x: hidden;
+        padding: 0;
       }
 
       .no-scrollbar::-webkit-scrollbar { display: none; }
       .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
-      /* BOTÕES DE AÇÃO - PADRÃO PREMIUM */
+      /* PREMIUM INPUTS & SELECTS - MOBILE OPTIMIZED */
+      .input-premium {
+        width: 100% !important;
+        max-width: 100% !important;
+        height: var(--btn-height) !important;
+        background: var(--bg-main);
+        border: 2px solid var(--border-color);
+        border-radius: 1.25rem;
+        padding: 0 1.25rem;
+        font-weight: 700;
+        color: var(--text-main);
+        outline: none;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        font-size: 16px; /* Evita auto-zoom no iOS */
+        display: block;
+        text-align: left;
+      }
+
+      .input-premium:focus {
+        border-color: var(--accent-main);
+        background: var(--bg-card);
+        box-shadow: 0 0 0 4px var(--accent-soft);
+      }
+
+      /* PICKER VARIANT (DATE/TIME/SELECT) */
+      .input-picker-premium {
+        text-align: center !important;
+        cursor: pointer;
+        appearance: none;
+        -webkit-appearance: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      /* iOS/Chrome Date/Time Centering */
+      input[type="date"].input-picker-premium::-webkit-date-and-time-value,
+      input[type="time"].input-picker-premium::-webkit-date-and-time-value {
+        text-align: center;
+        width: 100%;
+        margin: 0 auto;
+        min-height: calc(var(--btn-height) - 4px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
       .btn-action-primary {
         width: 100%;
         height: var(--btn-height) !important;
-        min-height: var(--btn-height) !important;
         background: var(--accent-main);
         color: var(--bg-card);
         border-radius: 1.25rem;
@@ -137,83 +190,26 @@
         align-items: center;
         justify-content: center;
         box-shadow: 0 12px 30px -8px rgba(0,0,0,0.2);
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        cursor: pointer;
-        border: none;
+        transition: all 0.3s;
         text-transform: uppercase;
         letter-spacing: 0.15em;
+        border: none;
+        cursor: pointer;
       }
-
-      .btn-action-primary:active { transform: scale(0.97); opacity: 0.95; }
 
       .btn-action-secondary {
         width: 100%;
         height: var(--btn-height) !important;
-        min-height: var(--btn-height) !important;
         background: transparent;
         color: var(--text-muted);
         font-weight: 700;
-        font-size: 0.85rem;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        transition: all 0.2s;
-        cursor: pointer;
         border: 2px solid var(--border-color);
         border-radius: 1.25rem;
         text-transform: uppercase;
-        letter-spacing: 0.15em;
+        letter-spacing: 0.1em;
+        cursor: pointer;
       }
 
-      /* INPUTS PREMIUM - REFINAMENTO DE ALINHAMENTO */
-      .input-premium {
-        width: 100%;
-        max-width: 100%;
-        height: var(--btn-height) !important;
-        min-height: var(--btn-height) !important;
-        background: var(--bg-main);
-        border: 2px solid var(--border-color);
-        border-radius: 1.25rem;
-        padding: 0 1.5rem;
-        font-weight: 700;
-        color: var(--text-main);
-        outline: none;
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        font-size: 1rem; /* Ideal para iOS não dar zoom automático */
-        box-sizing: border-box;
-        text-align: left; /* Padrão de apps para digitação */
-      }
-
-      .input-premium:focus {
-        border-color: var(--accent-main);
-        background: var(--bg-card);
-        box-shadow: 0 10px 25px -10px var(--accent-soft), 0 0 0 4px var(--accent-soft);
-        transform: translateY(-1px);
-      }
-
-      /* MODIFICADOR PARA SELETORES (DATA/HORA/SELECT) */
-      .input-picker-premium {
-        text-align: center !important;
-      }
-
-      /* CORREÇÃO PARA DATA E HORA NO MOBILE */
-      input[type="date"].input-picker-premium::-webkit-date-and-time-value,
-      input[type="time"].input-picker-premium::-webkit-date-and-time-value {
-        text-align: center;
-        width: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        min-height: calc(var(--btn-height) - 4px);
-      }
-
-      ::-webkit-calendar-picker-indicator {
-        position: absolute;
-        right: 1.25rem;
-        opacity: 0.4;
-      }
-
-      /* HEADER & NAV MOBILE GLASS */
       .glass-header-mobile {
         backdrop-filter: blur(40px) saturate(180%);
         -webkit-backdrop-filter: blur(40px) saturate(180%);
@@ -225,7 +221,7 @@
         backdrop-filter: blur(48px) saturate(200%);
         -webkit-backdrop-filter: blur(48px) saturate(200%);
         background: var(--bg-glass);
-        border-top: 1px solid var(--border-color);
+        border: 1px solid var(--border-color);
       }
     </style>
   
