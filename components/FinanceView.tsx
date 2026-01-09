@@ -67,53 +67,19 @@ const FinanceView: React.FC<FinanceViewProps> = ({ transactions, onAdd, onDelete
           <p className="text-theme-muted font-bold text-base md:text-lg mt-3 italic opacity-80">Gerencie seu patrimônio com consciência.</p>
         </div>
         <button 
-          onClick={() => setIsAdding(true)}
-          className="w-16 h-16 bg-theme-accent text-theme-card rounded-2xl flex items-center justify-center shadow-premium hover:scale-105 active:scale-95 shrink-0 transition-all"
+          onClick={() => setIsAdding(!isAdding)}
+          className={`w-16 h-16 rounded-2xl flex items-center justify-center shadow-premium hover:scale-105 active:scale-95 shrink-0 transition-all ${isAdding ? 'bg-rose-500 text-white' : 'bg-theme-accent text-theme-card'}`}
         >
-          <span className="material-symbols-outlined !text-3xl">add</span>
+          <span className="material-symbols-outlined !text-3xl">{isAdding ? 'close' : 'add'}</span>
         </button>
       </header>
 
-      {/* Stats Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-        <div className="bg-theme-card p-10 rounded-[2.5rem] border border-theme-border shadow-sm space-y-4">
-          <p className="text-[10px] font-black uppercase tracking-widest text-theme-muted opacity-50">Saldo Total</p>
-          <p className={`text-2xl font-black ${stats.balance >= 0 ? 'text-emerald-600' : 'text-rose-600'}`}>
-            R$ {stats.balance.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
-          </p>
-        </div>
-        <div className="bg-emerald-500/10 p-10 rounded-[2.5rem] border border-emerald-500/20 space-y-4">
-          <p className="text-[10px] font-black uppercase tracking-widest text-emerald-600 opacity-80">Entradas</p>
-          <p className="text-2xl font-black text-emerald-700">
-            R$ {stats.income.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
-          </p>
-        </div>
-        <div className="bg-rose-500/10 p-10 rounded-[2.5rem] border border-rose-500/20 space-y-4">
-          <p className="text-[10px] font-black uppercase tracking-widest text-rose-600 opacity-80">Saídas</p>
-          <p className="text-2xl font-black text-rose-700">
-            R$ {stats.expense.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
-          </p>
-        </div>
-        <div className="bg-blue-500/10 p-10 rounded-[2.5rem] border border-blue-500/20 space-y-4">
-          <p className="text-[10px] font-black uppercase tracking-widest text-blue-600 opacity-80">Reserva</p>
-          <p className="text-2xl font-black text-blue-700">
-            R$ {stats.emergency.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
-          </p>
-        </div>
-      </div>
-
+      {/* Formulário Inline Premium */}
       {isAdding && (
-        <div className="modal-backdrop">
-          <form onSubmit={handleAdd} className="modal-container p-8 md:p-12 space-y-8">
+        <div className="animate-in slide-in-from-top-6 duration-500">
+          <form onSubmit={handleAdd} className="bg-theme-card p-8 md:p-12 rounded-[2.5rem] border border-theme-border shadow-premium space-y-8">
             <div className="flex justify-between items-center mb-2">
               <h3 className="text-2xl font-black text-theme-text tracking-tight uppercase">Nova Movimentação</h3>
-              <button 
-                type="button"
-                onClick={() => setIsAdding(false)}
-                className="btn-close-modal"
-              >
-                <span className="material-symbols-outlined !text-3xl">close</span>
-              </button>
             </div>
             
             <div className="space-y-6">
@@ -178,13 +144,41 @@ const FinanceView: React.FC<FinanceViewProps> = ({ transactions, onAdd, onDelete
               </div>
             </div>
 
-            <div className="flex flex-col gap-3 pt-2">
-              <button type="submit" className="btn-action-primary">SALVAR</button>
-              <button type="button" onClick={() => setIsAdding(false)} className="btn-action-secondary">CANCELAR</button>
+            <div className="flex flex-col sm:flex-row gap-4 pt-2">
+              <button type="submit" className="btn-action-primary flex-1">SALVAR</button>
+              <button type="button" onClick={() => setIsAdding(false)} className="btn-action-secondary flex-1">CANCELAR</button>
             </div>
           </form>
         </div>
       )}
+
+      {/* Stats Cards */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="bg-theme-card p-10 rounded-[2.5rem] border border-theme-border shadow-sm space-y-4">
+          <p className="text-[10px] font-black uppercase tracking-widest text-theme-muted opacity-50">Saldo Total</p>
+          <p className={`text-2xl font-black ${stats.balance >= 0 ? 'text-emerald-600' : 'text-rose-600'}`}>
+            R$ {stats.balance.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
+          </p>
+        </div>
+        <div className="bg-emerald-500/10 p-10 rounded-[2.5rem] border border-emerald-500/20 space-y-4">
+          <p className="text-[10px] font-black uppercase tracking-widest text-emerald-600 opacity-80">Entradas</p>
+          <p className="text-2xl font-black text-emerald-700">
+            R$ {stats.income.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
+          </p>
+        </div>
+        <div className="bg-rose-500/10 p-10 rounded-[2.5rem] border border-rose-500/20 space-y-4">
+          <p className="text-[10px] font-black uppercase tracking-widest text-rose-600 opacity-80">Saídas</p>
+          <p className="text-2xl font-black text-rose-700">
+            R$ {stats.expense.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
+          </p>
+        </div>
+        <div className="bg-blue-500/10 p-10 rounded-[2.5rem] border border-blue-500/20 space-y-4">
+          <p className="text-[10px] font-black uppercase tracking-widest text-blue-600 opacity-80">Reserva</p>
+          <p className="text-2xl font-black text-blue-700">
+            R$ {stats.emergency.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
+          </p>
+        </div>
+      </div>
 
       {/* Transactions List */}
       <div className="bg-theme-card rounded-[3rem] border border-theme-border shadow-sm overflow-hidden">

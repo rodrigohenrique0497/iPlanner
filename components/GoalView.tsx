@@ -36,26 +36,24 @@ const GoalView: React.FC<GoalViewProps> = ({ type, goals, onAdd, onUpdate }) => 
     <div className="max-w-4xl mx-auto p-6 md:p-10 space-y-10 md:space-y-12 page-transition pb-32">
       <div className="flex justify-between items-end gap-6">
         <div>
-          <h2 className="text-4xl md:text-5xl font-black text-theme-text tracking-tighter leading-none">{type === 'monthly' ? 'Objetivos do Mês' : 'Metas do Ano'}</h2>
-          <p className="text-theme-muted font-medium mt-2 text-sm md:text-base opacity-80">Visão macro do seu sucesso pessoal.</p>
+          <h2 className="text-4xl md:text-5xl font-black text-theme-text tracking-tighter leading-none">{type === 'monthly' ? 'Objetivos' : 'Metas'}</h2>
+          <p className="text-theme-muted font-bold mt-2 text-sm md:text-base opacity-80 uppercase tracking-widest">{type === 'monthly' ? 'Visão Mensal' : 'Visão Anual'}</p>
         </div>
         
         <button 
-          onClick={() => setIsAdding(true)} 
-          className="w-12 h-12 md:w-14 md:h-14 bg-theme-accent text-theme-card rounded-2xl flex items-center justify-center shadow-premium hover:scale-105 active:scale-95 transition-all shrink-0"
+          onClick={() => setIsAdding(!isAdding)} 
+          className={`w-14 h-14 rounded-2xl flex items-center justify-center shadow-premium hover:scale-105 active:scale-95 transition-all shrink-0 ${isAdding ? 'bg-rose-500 text-white' : 'bg-theme-accent text-theme-card'}`}
         >
-          <span className="material-symbols-outlined !text-3xl leading-none">add</span>
+          <span className="material-symbols-outlined !text-3xl leading-none">{isAdding ? 'close' : 'add'}</span>
         </button>
       </div>
 
+      {/* Formulário de Meta Inline */}
       {isAdding && (
-        <div className="modal-backdrop">
-          <div className="modal-container p-8 md:p-12 space-y-10">
+        <div className="animate-in slide-in-from-top-6 duration-500">
+          <div className="bg-theme-card p-8 md:p-12 rounded-[2.5rem] border border-theme-border shadow-premium space-y-10">
             <div className="flex justify-between items-center">
-              <h3 className="text-2xl font-black text-theme-text uppercase">Definir Meta</h3>
-              <button onClick={() => setIsAdding(false)} className="btn-close-modal">
-                <span className="material-symbols-outlined">close</span>
-              </button>
+              <h3 className="text-2xl font-black text-theme-text uppercase">Definir Objetivo</h3>
             </div>
             <div className="space-y-6">
               <input 
@@ -67,9 +65,9 @@ const GoalView: React.FC<GoalViewProps> = ({ type, goals, onAdd, onUpdate }) => 
                 onChange={e => setNewTitle(e.target.value)}
               />
             </div>
-            <div className="flex flex-col gap-4">
-              <button onClick={handleAdd} className="btn-action-primary shadow-glow">Adicionar Meta</button>
-              <button onClick={() => setIsAdding(false)} className="btn-action-secondary">Cancelar</button>
+            <div className="flex flex-col sm:flex-row gap-4">
+              <button onClick={handleAdd} className="btn-action-primary flex-1 shadow-glow">ADICIONAR META</button>
+              <button onClick={() => setIsAdding(false)} className="btn-action-secondary flex-1">CANCELAR</button>
             </div>
           </div>
         </div>

@@ -79,8 +79,8 @@ const TaskList: React.FC<TaskListProps> = ({ tasks, onToggle, onDelete, onAdd, u
             <span className="material-symbols-outlined !text-3xl">checklist</span>
           </div>
           <div>
-            <h2 className="text-3xl md:text-4xl font-black text-theme-text tracking-tighter leading-tight">Suas Tarefas</h2>
-            <p className="text-theme-muted font-bold text-[11px] uppercase tracking-widest opacity-80 mt-1">Organização Total</p>
+            <h2 className="text-3xl md:text-4xl font-black text-theme-text tracking-tighter leading-tight">Tarefas</h2>
+            <p className="text-theme-muted font-bold text-[11px] uppercase tracking-widest opacity-80 mt-1">Sua Lista de Execução</p>
           </div>
         </div>
 
@@ -94,21 +94,18 @@ const TaskList: React.FC<TaskListProps> = ({ tasks, onToggle, onDelete, onAdd, u
           </button>
           <button
             onClick={() => setIsAdding(!isAdding)}
-            className="w-14 h-14 rounded-2xl flex items-center justify-center shadow-premium transition-all active:scale-90 bg-theme-accent text-theme-card"
+            className={`w-14 h-14 rounded-2xl flex items-center justify-center shadow-premium transition-all active:scale-90 ${isAdding ? 'bg-rose-500 text-white' : 'bg-theme-accent text-theme-card'}`}
           >
-            <span className="material-symbols-outlined !text-[2.5rem]">add</span>
+            <span className="material-symbols-outlined !text-[2rem]">{isAdding ? 'close' : 'add'}</span>
           </button>
         </div>
       </header>
 
+      {/* Editor de Categorias Inline */}
       {isManagingCats && (
-        <div className="modal-backdrop">
-          <div className="modal-container p-8 md:p-12 space-y-8">
+        <div className="animate-in slide-in-from-top-4 duration-400 bg-theme-card p-8 rounded-[2rem] border border-theme-border shadow-premium space-y-6">
             <div className="flex justify-between items-center mb-4">
-              <h3 className="text-2xl font-black text-theme-text uppercase">Categorias</h3>
-              <button onClick={() => setIsManagingCats(false)} className="btn-close-modal">
-                <span className="material-symbols-outlined !text-3xl">close</span>
-              </button>
+              <h3 className="text-xl font-black text-theme-text uppercase tracking-widest">Categorias</h3>
             </div>
             <div className="flex flex-wrap gap-2.5">
               {userCategories.map(cat => (
@@ -122,29 +119,25 @@ const TaskList: React.FC<TaskListProps> = ({ tasks, onToggle, onDelete, onAdd, u
                 </div>
               ))}
             </div>
-            <div className="flex flex-col gap-3 pt-6">
+            <div className="flex flex-col sm:flex-row gap-3 pt-4">
               <input 
                 type="text" 
                 placeholder="Nova categoria..." 
                 value={tempCategory}
                 onChange={e => setTempCategory(e.target.value)}
-                className="w-full px-7 h-[4.5rem] bg-theme-bg border border-theme-border rounded-2xl text-sm font-bold outline-none mb-2"
+                className="flex-1 px-7 h-[3.5rem] bg-theme-bg border border-theme-border rounded-xl text-sm font-bold outline-none"
               />
-              <button onClick={handleAddCategory} className="btn-action-primary">ADICIONAR</button>
-              <button onClick={() => setIsManagingCats(false)} className="btn-action-secondary">FECHAR</button>
+              <button onClick={handleAddCategory} className="bg-theme-accent text-theme-card px-8 rounded-xl font-black text-[10px] uppercase tracking-widest h-[3.5rem]">ADICIONAR</button>
             </div>
-          </div>
         </div>
       )}
 
+      {/* Formulário de Tarefa Inline */}
       {isAdding && (
-        <div className="modal-backdrop">
-          <form onSubmit={handleSubmit} className="modal-container p-8 md:p-12 space-y-8">
+        <div className="animate-in slide-in-from-top-6 duration-500">
+          <form onSubmit={handleSubmit} className="bg-theme-card p-8 md:p-12 rounded-[2.5rem] border border-theme-border shadow-premium space-y-8">
             <div className="flex justify-between items-center mb-4">
               <h3 className="text-2xl font-black text-theme-text uppercase">Nova Tarefa</h3>
-              <button type="button" onClick={() => setIsAdding(false)} className="btn-close-modal">
-                <span className="material-symbols-outlined !text-3xl">close</span>
-              </button>
             </div>
             
             <div className="space-y-6">
@@ -157,7 +150,7 @@ const TaskList: React.FC<TaskListProps> = ({ tasks, onToggle, onDelete, onAdd, u
                 className="w-full text-2xl font-black bg-transparent border-none outline-none text-theme-text placeholder:opacity-20 p-0"
               />
               
-              <div className="space-y-4">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <div className="space-y-2">
                   <label className="text-[10px] font-black uppercase text-theme-muted ml-3 tracking-widest opacity-40">Categoria</label>
                   <select value={newCategory} onChange={e => setNewCategory(e.target.value)} className="w-full px-6 h-[4.5rem] rounded-2xl uppercase outline-none border border-theme-border bg-theme-bg text-xs font-black">
@@ -167,19 +160,15 @@ const TaskList: React.FC<TaskListProps> = ({ tasks, onToggle, onDelete, onAdd, u
                 
                 <div className="space-y-2">
                   <label className="text-[10px] font-black uppercase text-theme-muted ml-3 tracking-widest opacity-40">Prioridade</label>
-                  <div className="flex bg-theme-bg p-1.5 rounded-2xl border border-theme-border h-16 items-center">
-                    {[
-                      { id: Priority.LOW, label: 'Baixa' },
-                      { id: Priority.MEDIUM, label: 'Média' },
-                      { id: Priority.HIGH, label: 'Alta' }
-                    ].map(p => (
+                  <div className="flex bg-theme-bg p-1.5 rounded-2xl border border-theme-border h-[4.5rem] items-center">
+                    {[Priority.LOW, Priority.MEDIUM, Priority.HIGH].map(p => (
                       <button 
-                        key={p.id}
+                        key={p}
                         type="button"
-                        onClick={() => setNewPriority(p.id)}
-                        className={`flex-1 h-full rounded-xl text-[10px] font-black uppercase transition-all ${newPriority === p.id ? 'bg-white shadow-sm text-theme-accent' : 'text-theme-muted opacity-50'}`}
+                        onClick={() => setNewPriority(p)}
+                        className={`flex-1 h-full rounded-xl text-[9px] font-black uppercase transition-all ${newPriority === p ? 'bg-theme-card shadow-sm text-theme-accent' : 'text-theme-muted opacity-50'}`}
                       >
-                        {p.label}
+                        {p === Priority.LOW ? 'Baixa' : p === Priority.MEDIUM ? 'Média' : 'Alta'}
                       </button>
                     ))}
                   </div>
@@ -192,9 +181,9 @@ const TaskList: React.FC<TaskListProps> = ({ tasks, onToggle, onDelete, onAdd, u
               </div>
             </div>
             
-            <div className="flex flex-col gap-2 pt-4">
-              <button type="submit" className="btn-action-primary">SALVAR</button>
-              <button type="button" onClick={() => setIsAdding(false)} className="btn-action-secondary">CANCELAR</button>
+            <div className="flex flex-col sm:flex-row gap-4 pt-4">
+              <button type="submit" className="btn-action-primary flex-1">SALVAR</button>
+              <button type="button" onClick={() => setIsAdding(false)} className="btn-action-secondary flex-1">CANCELAR</button>
             </div>
           </form>
         </div>

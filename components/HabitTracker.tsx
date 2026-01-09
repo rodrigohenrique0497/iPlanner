@@ -36,21 +36,19 @@ const HabitTracker: React.FC<HabitTrackerProps> = ({ habits, onToggle, onAdd, on
           <p className="text-theme-muted font-medium text-base md:text-lg italic opacity-80">"Somos o que repetidamente fazemos."</p>
         </div>
         <button 
-          onClick={() => setIsAdding(true)}
-          className="w-16 h-16 bg-theme-accent text-theme-card rounded-2xl flex items-center justify-center shadow-premium hover:scale-105 active:scale-95 transition-all shrink-0"
+          onClick={() => setIsAdding(!isAdding)}
+          className={`w-16 h-16 rounded-2xl flex items-center justify-center shadow-premium hover:scale-105 active:scale-95 transition-all shrink-0 ${isAdding ? 'bg-rose-500 text-white' : 'bg-theme-accent text-theme-card'}`}
         >
-          <span className="material-symbols-outlined !text-3xl">add</span>
+          <span className="material-symbols-outlined !text-3xl">{isAdding ? 'close' : 'add'}</span>
         </button>
       </div>
 
+      {/* Formulário de Hábito Inline */}
       {isAdding && (
-        <div className="modal-backdrop">
-          <form onSubmit={handleAdd} className="modal-container p-8 md:p-12 space-y-10">
+        <div className="animate-in slide-in-from-top-6 duration-500">
+          <form onSubmit={handleAdd} className="bg-theme-card p-8 md:p-12 rounded-[2.5rem] border border-theme-border shadow-premium space-y-10">
             <div className="flex justify-between items-center">
               <h3 className="text-2xl font-black text-theme-text uppercase">Novo Hábito</h3>
-              <button type="button" onClick={() => setIsAdding(false)} className="btn-close-modal">
-                <span className="material-symbols-outlined">close</span>
-              </button>
             </div>
             <div className="space-y-6">
               <input 
@@ -62,9 +60,9 @@ const HabitTracker: React.FC<HabitTrackerProps> = ({ habits, onToggle, onAdd, on
                 className="w-full h-16 bg-theme-bg px-7 rounded-2xl border border-theme-border outline-none font-bold text-lg text-theme-text"
               />
             </div>
-            <div className="flex flex-col gap-4">
-              <button type="submit" className="btn-action-primary shadow-glow">COMEÇAR JORNADA</button>
-              <button type="button" onClick={() => setIsAdding(false)} className="btn-action-secondary">CANCELAR</button>
+            <div className="flex flex-col sm:flex-row gap-4">
+              <button type="submit" className="btn-action-primary flex-1 shadow-glow">COMEÇAR JORNADA</button>
+              <button type="button" onClick={() => setIsAdding(false)} className="btn-action-secondary flex-1">CANCELAR</button>
             </div>
           </form>
         </div>
