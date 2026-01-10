@@ -61,10 +61,10 @@ const FinanceView: React.FC<FinanceViewProps> = ({ transactions, onAdd, onDelete
 
   return (
     <div className="max-w-6xl mx-auto p-5 md:p-10 space-y-12 page-transition pb-32 overflow-hidden">
-      <header className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6 w-full">
-        <div>
-          <h2 className="text-3xl md:text-5xl font-black text-theme-text tracking-tighter leading-none">Finanças</h2>
-          <p className="text-theme-muted font-bold text-[10px] md:text-lg mt-3 italic opacity-80 uppercase tracking-widest">Controle Patrimonial</p>
+      <header className="flex justify-between items-center w-full">
+        <div className="min-w-0">
+          <h2 className="text-3xl md:text-5xl font-black text-theme-text tracking-tighter truncate leading-none">Finanças</h2>
+          <p className="text-theme-muted font-bold text-[10px] md:text-lg mt-2 uppercase tracking-widest opacity-60">Gestão Patrimonial</p>
         </div>
         <button 
           onClick={() => setIsAdding(!isAdding)}
@@ -76,26 +76,26 @@ const FinanceView: React.FC<FinanceViewProps> = ({ transactions, onAdd, onDelete
 
       {isAdding && (
         <div className="animate-in slide-in-from-top-6 duration-500 w-full">
-          <form onSubmit={handleAdd} className="bg-theme-card p-6 md:p-12 rounded-[2.5rem] border border-theme-border shadow-premium space-y-10 w-full overflow-hidden">
-            <div className="space-y-8">
-              <div className="flex bg-theme-bg/50 p-2 rounded-[1.25rem] border border-theme-border h-[4.5rem] items-center gap-1 w-full">
+          <form onSubmit={handleAdd} className="bg-theme-card p-6 md:p-12 rounded-[2.5rem] border border-theme-border shadow-premium space-y-10 w-full overflow-hidden box-border">
+            <div className="space-y-8 w-full">
+              <div className="flex bg-theme-bg/50 p-1.5 rounded-[1.25rem] border border-theme-border h-[4.5rem] items-center gap-1 w-full">
                 <button 
                   type="button"
                   onClick={() => setType('expense')}
-                  className={`flex-1 h-full rounded-[0.75rem] text-[10px] font-black uppercase tracking-widest transition-all ${type === 'expense' ? 'bg-rose-600 text-white shadow-lg' : 'text-theme-muted opacity-50 hover:opacity-100'}`}
+                  className={`flex-1 h-full rounded-[0.9rem] text-[10px] font-black uppercase tracking-widest transition-all ${type === 'expense' ? 'bg-rose-600 text-white shadow-lg' : 'text-theme-muted opacity-50 hover:opacity-100'}`}
                 >
                   Saída
                 </button>
                 <button 
                   type="button"
                   onClick={() => setType('income')}
-                  className={`flex-1 h-full rounded-[0.75rem] text-[10px] font-black uppercase tracking-widest transition-all ${type === 'income' ? 'bg-emerald-600 text-white shadow-lg' : 'text-theme-muted opacity-50 hover:opacity-100'}`}
+                  className={`flex-1 h-full rounded-[0.9rem] text-[10px] font-black uppercase tracking-widest transition-all ${type === 'income' ? 'bg-emerald-600 text-white shadow-lg' : 'text-theme-muted opacity-50 hover:opacity-100'}`}
                 >
                   Entrada
                 </button>
               </div>
 
-              <div className="space-y-3">
+              <div className="space-y-3 w-full">
                 <label className="text-[10px] font-black uppercase text-theme-muted text-center block tracking-widest opacity-40">Descrição</label>
                 <input 
                   autoFocus
@@ -108,7 +108,7 @@ const FinanceView: React.FC<FinanceViewProps> = ({ transactions, onAdd, onDelete
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
-                <div className="space-y-3">
+                <div className="space-y-3 w-full">
                   <label className="text-[10px] font-black uppercase text-theme-muted text-center block tracking-widest opacity-40">Valor (R$)</label>
                   <input 
                     type="number" 
@@ -119,7 +119,7 @@ const FinanceView: React.FC<FinanceViewProps> = ({ transactions, onAdd, onDelete
                     className="input-premium"
                   />
                 </div>
-                <div className="space-y-3">
+                <div className="space-y-3 w-full">
                   <label className="text-[10px] font-black uppercase text-theme-muted text-center block tracking-widest opacity-40">Categoria</label>
                   <div className="relative w-full">
                     <select 
@@ -150,69 +150,66 @@ const FinanceView: React.FC<FinanceViewProps> = ({ transactions, onAdd, onDelete
         </div>
       )}
 
-      {/* Stats Cards Grid - Responsivo */}
+      {/* Stats Cards Grid - Estabilidade de Proporção */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 w-full">
-        <div className="bg-theme-card p-6 md:p-10 rounded-[2rem] border border-theme-border shadow-sm space-y-2">
-          <p className="text-[9px] font-black uppercase tracking-widest text-theme-muted opacity-50">Saldo</p>
-          <p className={`text-lg md:text-2xl font-black ${stats.balance >= 0 ? 'text-emerald-600' : 'text-rose-600'}`}>
+        <div className="bg-theme-card p-6 md:p-8 rounded-[2rem] border border-theme-border shadow-sm space-y-2 min-h-[120px] flex flex-col justify-center">
+          <p className="text-[8px] font-black uppercase tracking-widest text-theme-muted opacity-50">Saldo</p>
+          <p className={`text-lg md:text-2xl font-black truncate ${stats.balance >= 0 ? 'text-emerald-600' : 'text-rose-600'}`}>
             R$ {stats.balance.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
           </p>
         </div>
-        <div className="bg-emerald-500/10 p-6 md:p-10 rounded-[2rem] border border-emerald-500/20 space-y-2">
-          <p className="text-[9px] font-black uppercase tracking-widest text-emerald-600 opacity-80">Ganhos</p>
-          <p className="text-lg md:text-2xl font-black text-emerald-700">
+        <div className="bg-emerald-500/10 p-6 md:p-8 rounded-[2rem] border border-emerald-500/20 space-y-2 min-h-[120px] flex flex-col justify-center">
+          <p className="text-[8px] font-black uppercase tracking-widest text-emerald-600 opacity-80">Ganhos</p>
+          <p className="text-lg md:text-2xl font-black text-emerald-700 truncate">
             R$ {stats.income.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
           </p>
         </div>
-        <div className="bg-rose-500/10 p-6 md:p-10 rounded-[2rem] border border-rose-500/20 space-y-2">
-          <p className="text-[9px] font-black uppercase tracking-widest text-rose-600 opacity-80">Gastos</p>
-          <p className="text-lg md:text-2xl font-black text-rose-700">
+        <div className="bg-rose-500/10 p-6 md:p-8 rounded-[2rem] border border-rose-500/20 space-y-2 min-h-[120px] flex flex-col justify-center">
+          <p className="text-[8px] font-black uppercase tracking-widest text-rose-600 opacity-80">Gastos</p>
+          <p className="text-lg md:text-2xl font-black text-rose-700 truncate">
             R$ {stats.expense.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
           </p>
         </div>
-        <div className="bg-blue-500/10 p-6 md:p-10 rounded-[2rem] border border-blue-500/20 space-y-2">
-          <p className="text-[9px] font-black uppercase tracking-widest text-blue-600 opacity-80">Reserva</p>
-          <p className="text-lg md:text-2xl font-black text-blue-700">
+        <div className="bg-blue-500/10 p-6 md:p-8 rounded-[2rem] border border-blue-500/20 space-y-2 min-h-[120px] flex flex-col justify-center">
+          <p className="text-[8px] font-black uppercase tracking-widest text-blue-600 opacity-80">Reserva</p>
+          <p className="text-lg md:text-2xl font-black text-blue-700 truncate">
             R$ {stats.emergency.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
           </p>
         </div>
       </div>
 
-      {/* Transactions List */}
+      {/* Extrato Recente - Otimização de Espaço */}
       <div className="bg-theme-card rounded-[2.5rem] border border-theme-border shadow-sm overflow-hidden w-full">
-        <div className="p-6 md:p-10 border-b border-theme-border flex justify-between items-center bg-theme-bg/30 w-full">
-          <h3 className="font-black text-theme-text uppercase text-[10px] tracking-[0.2em] opacity-60">Extrato Recente</h3>
-          <span className="text-[8px] font-black uppercase text-theme-muted bg-theme-card px-3 py-1.5 rounded-full border border-theme-border shadow-sm">{transactions.length} registros</span>
+        <div className="p-6 md:p-8 border-b border-theme-border flex justify-between items-center bg-theme-bg/30 w-full">
+          <h3 className="font-black text-theme-text uppercase text-[9px] tracking-[0.2em] opacity-60">Extrato Recente</h3>
+          <span className="text-[7px] font-black uppercase text-theme-muted bg-theme-card px-3 py-1.5 rounded-full border border-theme-border shadow-sm">{transactions.length} regs</span>
         </div>
         
         <div className="divide-y divide-theme-border w-full">
           {transactions.length > 0 ? [...transactions].reverse().map(t => (
-            <div key={t.id} className="p-6 md:p-10 flex items-center justify-between group hover:bg-theme-bg transition-all duration-300 w-full">
-              <div className="flex items-center gap-4 md:gap-6 min-w-0">
-                <div className="w-11 h-11 md:w-14 md:h-14 bg-theme-bg rounded-xl flex items-center justify-center shrink-0 border border-theme-border/50 shadow-inner">
-                  <span className="material-symbols-outlined !text-xl leading-none">{getCategoryIcon(t.category)}</span>
+            <div key={t.id} className="p-5 md:p-8 flex items-center justify-between group hover:bg-theme-bg transition-all duration-300 w-full">
+              <div className="flex items-center gap-4 min-w-0">
+                <div className="w-10 h-10 md:w-14 md:h-14 bg-theme-bg rounded-xl flex items-center justify-center shrink-0 border border-theme-border/50 shadow-inner">
+                  <span className="material-symbols-outlined !text-lg leading-none">{getCategoryIcon(t.category)}</span>
                 </div>
                 <div className="min-w-0">
-                  <h4 className="font-black text-sm md:text-[17px] text-theme-text leading-tight truncate">{t.description}</h4>
-                  <div className="flex items-center gap-2 mt-1.5">
-                    <span className="text-[7px] md:text-[9px] font-black uppercase tracking-widest bg-theme-accent-soft text-theme-muted px-2 py-1 rounded-lg">
+                  <h4 className="font-black text-[13px] md:text-[17px] text-theme-text leading-tight truncate">{t.description}</h4>
+                  <div className="flex items-center gap-2 mt-1">
+                    <span className="text-[7px] md:text-[9px] font-black uppercase tracking-widest bg-theme-accent-soft text-theme-muted px-2 py-0.5 rounded-lg">
                       {t.category}
-                    </span>
-                    <span className="text-[7px] md:text-[9px] font-bold text-theme-muted opacity-40 uppercase">
-                      {new Date(t.date).toLocaleDateString('pt-BR', { day: 'numeric', month: 'short' })}
                     </span>
                   </div>
                 </div>
               </div>
-              <div className="flex items-center gap-4 md:gap-8 shrink-0">
-                <p className={`text-sm md:text-xl font-black tracking-tighter ${t.type === 'income' ? 'text-emerald-600' : 'text-rose-600'}`}>
+              <div className="flex items-center gap-3 md:gap-8 shrink-0">
+                <p className={`text-[13px] md:text-xl font-black tracking-tighter ${t.type === 'income' ? 'text-emerald-600' : 'text-rose-600'}`}>
                   {t.type === 'income' ? '+' : '-'} R$ {t.amount.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
                 </p>
                 <button 
                   onClick={() => onDelete(t.id)}
                   className="w-9 h-9 flex items-center justify-center rounded-xl text-theme-muted hover:text-rose-600 hover:bg-rose-50 transition-all active:scale-90"
                 >
-                  <span className="material-symbols-outlined !text-xl">delete</span>
+                  <span className="material-symbols-outlined !text-lg">delete</span>
                 </button>
               </div>
             </div>

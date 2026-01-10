@@ -88,8 +88,8 @@ const TaskList: React.FC<TaskListProps> = ({ tasks, onToggle, onDelete, onAdd, u
 
       {isAdding && (
         <div className="animate-in slide-in-from-top-6 duration-500 w-full">
-          <form onSubmit={handleSubmit} className="bg-theme-card p-6 md:p-12 rounded-[2.5rem] border-2 border-theme-border shadow-premium space-y-10 w-full overflow-hidden">
-            <div className="space-y-10">
+          <form onSubmit={handleSubmit} className="bg-theme-card p-6 md:p-12 rounded-[2.5rem] border-2 border-theme-border shadow-premium space-y-10 w-full overflow-hidden box-border">
+            <div className="space-y-10 w-full">
               <input 
                 autoFocus
                 type="text" 
@@ -100,7 +100,7 @@ const TaskList: React.FC<TaskListProps> = ({ tasks, onToggle, onDelete, onAdd, u
               />
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
-                <div className="space-y-3">
+                <div className="space-y-3 w-full">
                   <label className="text-[10px] font-black uppercase text-theme-muted tracking-widest opacity-40 block text-center">Categoria</label>
                   <div className="relative w-full">
                     <select value={newCategory} onChange={e => setNewCategory(e.target.value)} className="input-premium uppercase tracking-widest text-[11px] appearance-none cursor-pointer">
@@ -110,7 +110,7 @@ const TaskList: React.FC<TaskListProps> = ({ tasks, onToggle, onDelete, onAdd, u
                   </div>
                 </div>
 
-                <div className="space-y-3">
+                <div className="space-y-3 w-full">
                   <label className="text-[10px] font-black uppercase text-theme-muted tracking-widest opacity-40 block text-center">Prioridade</label>
                   <div className="flex bg-theme-bg p-1.5 rounded-2xl border-2 border-theme-border h-[4.5rem] w-full gap-1">
                     {[Priority.LOW, Priority.MEDIUM, Priority.HIGH].map(p => (
@@ -121,12 +121,12 @@ const TaskList: React.FC<TaskListProps> = ({ tasks, onToggle, onDelete, onAdd, u
                   </div>
                 </div>
 
-                <div className="space-y-3 relative">
+                <div className="space-y-3 w-full relative">
                   <label className="text-[10px] font-black uppercase text-theme-muted tracking-widest opacity-40 block text-center">Data Entrega</label>
                   <input type="date" value={newDueDate} onChange={e => setNewDueDate(e.target.value)} className="input-premium" />
                 </div>
 
-                <div className="space-y-3 relative">
+                <div className="space-y-3 w-full relative">
                   <label className="text-[10px] font-black uppercase text-theme-muted tracking-widest opacity-40 block text-center">Lembrete</label>
                   <input type="time" value={newReminderTime} onChange={e => setNewReminderTime(e.target.value)} className="input-premium" />
                 </div>

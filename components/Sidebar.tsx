@@ -59,8 +59,8 @@ const Sidebar: React.FC<SidebarProps> = ({ currentView, setView, user, onLogout,
           </button>
         </div>
         
-        {/* Menu Principal - Densidade Máxima para evitar scroll em qualquer smartphone */}
-        <nav className="flex-1 px-4 py-1 space-y-0 overflow-y-auto no-scrollbar flex flex-col justify-start">
+        {/* Menu Principal - Densidade Otimizada (Zero-Scroll) */}
+        <nav className="flex-1 px-4 py-1.5 space-y-0.5 overflow-y-auto no-scrollbar flex flex-col justify-start">
           {navItems.map((item) => {
             const isActive = currentView === item.id;
             return (
@@ -85,9 +85,9 @@ const Sidebar: React.FC<SidebarProps> = ({ currentView, setView, user, onLogout,
           })}
         </nav>
 
-        {/* Base da Sidebar - Área do Usuário e Logout */}
+        {/* Base da Sidebar - Área do Usuário e Logout (Fixo no Rodapé) */}
         <div className="px-3 pb-4 pt-2 mt-auto shrink-0 border-t border-theme-border/20 bg-theme-card/5">
-          <div className="space-y-1.5">
+          <div className="space-y-1">
             <button 
               onClick={() => handleNavClick('settings')}
               className={`w-full flex items-center gap-3 p-2 rounded-2xl transition-all group/profile border border-transparent ${currentView === 'settings' ? 'bg-theme-accent text-theme-card shadow-glow' : 'hover:bg-theme-accent-soft'}`}
@@ -96,11 +96,11 @@ const Sidebar: React.FC<SidebarProps> = ({ currentView, setView, user, onLogout,
                 <img src={user.avatar} alt={user.name} className="w-full h-full object-cover" />
               </div>
               <div className="text-left min-w-0">
-                <p className={`text-sm font-black truncate leading-none ${currentView === 'settings' ? 'text-theme-card' : 'text-theme-text'}`}>
+                <p className={`text-[13px] font-black truncate leading-none ${currentView === 'settings' ? 'text-theme-card' : 'text-theme-text'}`}>
                   {user.name.split(' ')[0]}
                 </p>
                 <p className={`text-[8px] font-black uppercase tracking-[0.25em] mt-1 opacity-50 ${currentView === 'settings' ? 'text-theme-card' : 'text-theme-muted'}`}>
-                  Conta Premium
+                  CONTA PREMIUM
                 </p>
               </div>
             </button>
@@ -110,7 +110,7 @@ const Sidebar: React.FC<SidebarProps> = ({ currentView, setView, user, onLogout,
               className="w-full flex items-center gap-4 px-5 h-[3rem] rounded-xl text-rose-500 hover:bg-rose-500/10 transition-all group active:scale-[0.98]"
             >
               <span className="material-symbols-outlined !text-[20px] group-hover:translate-x-1 transition-transform">logout</span>
-              <span className="text-[10px] font-black uppercase tracking-[0.3em]">Sair da Conta</span>
+              <span className="text-[10px] font-black uppercase tracking-[0.3em]">Sair</span>
             </button>
           </div>
         </div>
