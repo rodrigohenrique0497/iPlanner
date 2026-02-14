@@ -10,11 +10,13 @@ interface AuthProps {
 
 const Auth: React.FC<AuthProps> = ({ onLogin }) => {
   const [isRegistering, setIsRegistering] = useState(false);
+  const [isForgotPassword, setIsForgotPassword] = useState(false);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [selectedTheme, setSelectedTheme] = useState<ThemeType>(db.getGlobalTheme());
   const [isLoading, setIsLoading] = useState(false);
+  const [feedback, setFeedback] = useState<{ type: 'error' | 'success'; text: string } | null>(null);
 
   useEffect(() => {
     document.body.className = `theme-${isRegistering ? selectedTheme : db.getGlobalTheme()}`;
@@ -30,11 +32,18 @@ const Auth: React.FC<AuthProps> = ({ onLogin }) => {
   const handleAction = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
+    setFeedback(null);
+
     try {
-      if (isRegistering) {
+      if (isForgotPassword) {
+        const { error } = await supabase.auth.resetPasswordForEmail(email, {
+          redirectTo: `${window.location.origin}/reset-password`,
+        });
+        if (error) throw error;
+        setFeedback({ type: 'success', text: 'Email de recuperação enviado!' });
+      } else if (isRegistering) {
         const authUser = await db.signUp(email, password, name);
         if (authUser) {
-          // Fix: Removed xp and level properties as they are not present in the User type definition in types.ts
           const newUser: User = {
             id: authUser.id,
             name: name.trim(),
@@ -57,7 +66,6 @@ const Auth: React.FC<AuthProps> = ({ onLogin }) => {
             db.setSession(profile);
             onLogin(profile);
           } else {
-            // Fix: Removed xp and level properties as they are not present in the User type definition in types.ts
             const defaultUser: User = { 
               id: authUser.id, 
               name: authUser.user_metadata?.full_name || 'Usuário', 
@@ -73,7 +81,7 @@ const Auth: React.FC<AuthProps> = ({ onLogin }) => {
         }
       }
     } catch (err: any) {
-      alert(err.message || 'Erro ao processar sua solicitação.');
+      setFeedback({ type: 'error', text: err.message || 'Erro ao processar sua solicitação.' });
     } finally {
       setIsLoading(false);
     }
@@ -85,7 +93,6 @@ const Auth: React.FC<AuthProps> = ({ onLogin }) => {
     <div className={`min-h-screen transition-all duration-700 flex items-center justify-center p-4 md:p-6 theme-${currentThemeClass} bg-theme-bg`}>
       <div className="max-w-xl w-full space-y-6 md:space-y-10 animate-in fade-in slide-in-from-bottom-6 duration-700">
         
-        {/* Header Compacto no Mobile */}
         <div className="text-center space-y-3">
           <div className="w-16 h-16 md:w-20 md:h-20 bg-theme-accent rounded-[2rem] mx-auto flex items-center justify-center shadow-premium transform hover:rotate-3 transition-all">
              <span className="material-symbols-outlined !text-3xl md:!text-4xl text-theme-card">menu_book</span>
@@ -96,7 +103,6 @@ const Auth: React.FC<AuthProps> = ({ onLogin }) => {
           </div>
         </div>
 
-        {/* Card Otimizado para Mobile */}
         <div className="bg-theme-card p-6 md:p-12 rounded-[2.5rem] md:rounded-[4rem] border border-theme-border shadow-premium relative overflow-hidden transition-all">
           {isLoading && (
             <div className="absolute inset-0 bg-theme-card/90 backdrop-blur-md z-50 flex flex-col items-center justify-center space-y-4">
@@ -106,7 +112,22 @@ const Auth: React.FC<AuthProps> = ({ onLogin }) => {
           )}
 
           <form onSubmit={handleAction} className="space-y-4 md:space-y-6">
-            {isRegistering && (
+            {isForgotPassword ? (
+              <div className="space-y-6">
+                <h3 className="text-xl font-black text-theme-text text-center uppercase tracking-tighter">Recuperar Senha</h3>
+                <div className="space-y-1.5">
+                  <label className="text-[9px] font-black uppercase text-theme-muted ml-4 tracking-widest opacity-80">Seu e-mail de cadastro</label>
+                  <input
+                    required
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="exemplo@email.com"
+                    className="input-premium"
+                  />
+                </div>
+              </div>
+            ) : isRegistering ? (
               <>
                 <div className="space-y-1.5">
                   <label className="text-[9px] font-black uppercase text-theme-muted ml-4 tracking-widest opacity-80">Como quer ser chamado(a)?</label>
@@ -116,7 +137,7 @@ const Auth: React.FC<AuthProps> = ({ onLogin }) => {
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     placeholder="Ex: Maria Silva"
-                    className="w-full p-4 md:p-5 bg-theme-bg border border-theme-border rounded-[1.5rem] outline-none focus:ring-4 focus:ring-theme-accent-soft focus:border-theme-accent text-sm font-bold transition-all text-theme-text placeholder:opacity-30"
+                    className="input-premium"
                   />
                 </div>
 
@@ -147,49 +168,80 @@ const Auth: React.FC<AuthProps> = ({ onLogin }) => {
                   </div>
                 </div>
               </>
-            )}
+            ) : null}
             
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div className="space-y-1.5">
-                <label className="text-[9px] font-black uppercase text-theme-muted ml-4 tracking-widest opacity-80">E-mail</label>
-                <input
-                  required
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="exemplo@email.com"
-                  className="w-full p-4 md:p-5 bg-theme-bg border border-theme-border rounded-[1.5rem] outline-none focus:ring-4 focus:ring-theme-accent-soft focus:border-theme-accent text-sm font-bold transition-all text-theme-text placeholder:opacity-30"
-                />
-              </div>
+            {!isForgotPassword && (
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="space-y-1.5">
+                  <label className="text-[9px] font-black uppercase text-theme-muted ml-4 tracking-widest opacity-80">E-mail</label>
+                  <input
+                    required
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="exemplo@email.com"
+                    className="input-premium"
+                  />
+                </div>
 
-              <div className="space-y-1.5">
-                <label className="text-[9px] font-black uppercase text-theme-muted ml-4 tracking-widest opacity-80">Senha</label>
-                <input
-                  required
-                  type="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  placeholder="••••••••"
-                  className="w-full p-4 md:p-5 bg-theme-bg border border-theme-border rounded-[1.5rem] outline-none focus:ring-4 focus:ring-theme-accent-soft focus:border-theme-accent text-sm font-bold transition-all text-theme-text placeholder:opacity-30"
-                />
+                <div className="space-y-1.5">
+                  <label className="text-[9px] font-black uppercase text-theme-muted ml-4 tracking-widest opacity-80">Senha</label>
+                  <input
+                    required
+                    type="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    placeholder="••••••••"
+                    className="input-premium"
+                  />
+                </div>
               </div>
-            </div>
+            )}
+
+            {feedback && (
+              <div className={`p-4 rounded-2xl text-[10px] font-black uppercase tracking-widest text-center ${feedback.type === 'success' ? 'bg-emerald-500/10 text-emerald-600 border border-emerald-500/20' : 'bg-rose-500/10 text-rose-600 border border-rose-500/20'}`}>
+                {feedback.text}
+              </div>
+            )}
 
             <button
               type="submit"
-              className="w-full py-5 md:py-6 rounded-[1.75rem] font-black text-base md:text-lg shadow-premium transition-all active:scale-[0.98] mt-4 bg-theme-accent text-theme-card hover:opacity-95 uppercase tracking-[0.2em]"
+              className="btn-action-primary"
             >
-              {isRegistering ? 'Criar minha Conta' : 'Entrar no iPlanner'}
+              {isForgotPassword ? 'Enviar Recuperação' : isRegistering ? 'Criar minha Conta' : 'Entrar no iPlanner'}
             </button>
+            
+            {!isRegistering && !isForgotPassword && (
+              <button 
+                type="button"
+                onClick={() => setIsForgotPassword(true)}
+                className="w-full text-[10px] font-black uppercase tracking-widest text-theme-muted hover:text-theme-accent transition-all text-center opacity-60"
+              >
+                Esqueceu sua senha?
+              </button>
+            )}
+
+            {isForgotPassword && (
+              <button 
+                type="button"
+                onClick={() => setIsForgotPassword(false)}
+                className="w-full text-[10px] font-black uppercase tracking-widest text-theme-muted hover:text-theme-accent transition-all text-center opacity-60"
+              >
+                Voltar para Login
+              </button>
+            )}
           </form>
 
-          {/* Rodapé com Quebra de Linha e Botões Reais */}
           <div className="mt-8 md:mt-12 text-center border-t border-theme-border pt-6 md:pt-10 flex flex-col items-center space-y-3">
             <p className="text-[10px] font-black text-theme-muted uppercase tracking-widest opacity-70">
               {isRegistering ? 'Já possui conta?' : 'Novo por aqui?'}
             </p>
             <button
-              onClick={() => setIsRegistering(!isRegistering)}
+              onClick={() => {
+                setIsRegistering(!isRegistering);
+                setIsForgotPassword(false);
+                setFeedback(null);
+              }}
               className="px-8 py-3 bg-theme-bg border border-theme-border rounded-full text-[10px] font-black text-theme-text uppercase tracking-widest transition-all hover:bg-theme-accent hover:text-theme-card hover:shadow-premium active:scale-95"
             >
               {isRegistering ? 'Clique para entrar' : 'Crie sua conta grátis'}

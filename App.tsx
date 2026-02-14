@@ -1,5 +1,6 @@
 
 import React, { useState, useEffect, useCallback } from 'react';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { Task, ViewState, User, Habit, Goal, Note, FinanceTransaction } from './types';
 import Sidebar from './components/Sidebar';
 import MobileNav from './components/MobileNav';
@@ -7,6 +8,7 @@ import Dashboard from './components/Dashboard';
 import DailyView from './components/DailyView';
 import TaskList from './components/TaskList';
 import Auth from './components/Auth';
+import ResetPassword from './components/ResetPassword';
 import HabitTracker from './components/HabitTracker';
 import NotesView from './components/NotesView';
 import FinanceView from './components/FinanceView';
@@ -20,7 +22,7 @@ import { db } from './services/databaseService';
 import { supabase } from './lib/supabase';
 import { notificationService } from './services/notificationService';
 
-const App: React.FC = () => {
+const AppContent: React.FC = () => {
   const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [view, setView] = useState<ViewState>('dashboard');
   const [selectedDate, setSelectedDate] = useState<string>(new Date().toISOString().split('T')[0]);
@@ -33,29 +35,12 @@ const App: React.FC = () => {
   const [isReady, setIsReady] = useState(false);
   const [activeTimer, setActiveTimer] = useState<boolean>(false);
 
-  // Efeito para aplicação do TEMA EM TEMPO REAL
   useEffect(() => {
     if (currentUser?.theme) {
       document.body.className = `theme-${currentUser.theme}`;
-      // Sincroniza o tema no localStorage para persistência rápida
       db.setGlobalTheme(currentUser.theme);
     }
   }, [currentUser?.theme]);
-
-  // Monitora tarefas para agendar notificações
-  useEffect(() => {
-    tasks.forEach(task => {
-      if (task.reminder && !task.completed && !task.notified) {
-        const [hours, minutes] = task.reminder.split(':').map(Number);
-        const reminderDate = new Date(task.dueDate);
-        reminderDate.setHours(hours, minutes, 0, 0);
-        
-        if (reminderDate > new Date()) {
-          notificationService.scheduleNotification(task.title, reminderDate, task.id);
-        }
-      }
-    });
-  }, [tasks]);
 
   const loadUserContent = useCallback(async (userId: string) => {
     try {
@@ -88,7 +73,6 @@ const App: React.FC = () => {
     return () => subscription.unsubscribe();
   }, [loadUserContent]);
 
-  // Sincronização Automática com Supabase
   useEffect(() => {
     if (!currentUser || !isReady) return;
     const sync = async () => {
@@ -100,9 +84,8 @@ const App: React.FC = () => {
         db.saveData('finance', transactions),
         db.saveUser(currentUser)
       ]);
-      console.log('Dados sincronizados com sucesso.');
     };
-    const timeout = setTimeout(sync, 2000); // Debounce de 2 segundos para não sobrecarregar
+    const timeout = setTimeout(sync, 2000);
     return () => clearTimeout(timeout);
   }, [tasks, habits, goals, notes, transactions, currentUser, isReady]);
 
@@ -131,29 +114,41 @@ const App: React.FC = () => {
   };
 
   if (!isReady) return <div className="min-h-screen bg-theme-bg flex items-center justify-center"><div className="w-12 h-12 border-4 border-theme-accent border-t-transparent rounded-full animate-spin"></div></div>;
-  if (!currentUser) return <Auth onLogin={setCurrentUser} />;
 
   return (
-    <div className="flex min-h-screen bg-theme-bg relative">
-      <Sidebar currentView={view} setView={setView} user={currentUser} onLogout={() => db.signOut()} isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
-      <main className="flex-1 overflow-y-auto relative pb-32">
-        <div className="md:hidden px-6 py-4 flex justify-between items-center sticky top-0 z-50 glass-header-mobile">
-          <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-lg bg-theme-accent flex items-center justify-center">
-              <span className="material-symbols-outlined !text-lg text-theme-card">menu_book</span>
-            </div>
-            <h1 className="text-xl font-black text-theme-text tracking-tighter">iPlanner</h1>
+    <Routes>
+      <Route path="/reset-password" element={<ResetPassword />} />
+      <Route path="/*" element={
+        !currentUser ? <Auth onLogin={setCurrentUser} /> : (
+          <div className="flex min-h-screen bg-theme-bg relative">
+            <Sidebar currentView={view} setView={setView} user={currentUser} onLogout={() => db.signOut()} isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
+            <main className="flex-1 overflow-y-auto relative pb-32">
+              <div className="md:hidden px-6 py-4 flex justify-between items-center sticky top-0 z-50 glass-header-mobile bg-theme-bg/80 backdrop-blur-md">
+                <div className="flex items-center gap-3">
+                  <div className="w-8 h-8 rounded-lg bg-theme-accent flex items-center justify-center">
+                    <span className="material-symbols-outlined !text-lg text-theme-card">menu_book</span>
+                  </div>
+                  <h1 className="text-xl font-black text-theme-text tracking-tighter">iPlanner</h1>
+                </div>
+                <button onClick={() => setIsSidebarOpen(true)} className="w-10 h-10 flex items-center justify-center rounded-xl bg-theme-card/40 border border-theme-border/20">
+                  <span className="material-symbols-outlined">menu</span>
+                </button>
+              </div>
+              {renderView()}
+            </main>
+            <MobileNav currentView={view} setView={setView} />
+            {activeTimer && <FocusTimer onClose={() => setActiveTimer(false)} onComplete={() => setActiveTimer(false)} />}
           </div>
-          <button onClick={() => setIsSidebarOpen(true)} className="w-10 h-10 flex items-center justify-center rounded-xl bg-theme-card/40 border border-theme-border/20">
-            <span className="material-symbols-outlined">menu</span>
-          </button>
-        </div>
-        {renderView()}
-      </main>
-      <MobileNav currentView={view} setView={setView} />
-      {activeTimer && <FocusTimer onClose={() => setActiveTimer(false)} onComplete={() => setActiveTimer(false)} />}
-    </div>
+        )
+      } />
+    </Routes>
   );
 };
+
+const App: React.FC = () => (
+  <BrowserRouter>
+    <AppContent />
+  </BrowserRouter>
+);
 
 export default App;
