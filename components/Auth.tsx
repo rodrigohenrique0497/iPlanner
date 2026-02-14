@@ -36,11 +36,12 @@ const Auth: React.FC<AuthProps> = ({ onLogin }) => {
 
     try {
       if (isForgotPassword) {
+        // Envio do e-mail de recuperação com redirectTo oficial da Vercel
         const { error } = await supabase.auth.resetPasswordForEmail(email, {
-          redirectTo: `${window.location.origin}/reset-password`,
+          redirectTo: 'https://iplanner-online.vercel.app/reset-password',
         });
         if (error) throw error;
-        setFeedback({ type: 'success', text: 'Email de recuperação enviado!' });
+        setFeedback({ type: 'success', text: 'Email de recuperação enviado! Verifique sua caixa de entrada.' });
       } else if (isRegistering) {
         const authUser = await db.signUp(email, password, name);
         if (authUser) {
